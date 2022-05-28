@@ -1,17 +1,15 @@
 package com.choimory.itemvaluechecker.api.userapi.common.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Builder
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CommonResponseDto<T> {
     @Builder.Default
-    private int status = 0;
-    private String message;
-    private T data;
+    private final int status = 0;
+    private final String message;
+    private final T data;
 }
