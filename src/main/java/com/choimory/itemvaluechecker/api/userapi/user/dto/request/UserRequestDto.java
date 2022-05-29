@@ -9,8 +9,6 @@ import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@RequiredArgsConstructor
-@Getter
 public class UserRequestDto {
     @RequiredArgsConstructor
     @Getter
