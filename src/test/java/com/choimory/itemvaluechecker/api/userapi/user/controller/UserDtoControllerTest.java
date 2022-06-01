@@ -49,7 +49,8 @@ class UserDtoControllerTest {
         final String id = "choimory";
 
         /*when*/
-        ResultActions when = mockMvc.perform(RestDocumentationRequestBuilders.get("/user/{id}", id)
+        // ResultActions when = mockMvc.perform(RestDocumentationRequestBuilders.get("/user/{id}", id) - MockMvcRequestBuilder.get()이 pathRequest 지원 안하는 버전일시 사용
+        ResultActions when = mockMvc.perform(MockMvcRequestBuilders.get("/user/{id}", id)
                 .accept(MediaType.APPLICATION_JSON_UTF8)
                 .contentType(MediaType.APPLICATION_JSON_UTF8));
 
@@ -67,7 +68,8 @@ class UserDtoControllerTest {
     @DisplayName("회원조회 성공실패 동적 테스트")
     void viewDynamicTest(final boolean isSuccess, final String id, final HttpStatus httpStatus) throws Exception {
         /*when*/
-        ResultActions when = mockMvc.perform(RestDocumentationRequestBuilders.get("/user/{id}", id)
+        // ResultActions when = mockMvc.perform(RestDocumentationRequestBuilders.get("/user/{id}", id) - MockMvcRequestBuilder.get()이 pathRequest 지원 안하는 버전일시 사용
+        ResultActions when = mockMvc.perform(MockMvcRequestBuilders.get("/user/{id}", id)
                 .accept(MediaType.APPLICATION_JSON_UTF8)
                 .contentType(MediaType.APPLICATION_JSON_UTF8));
 
