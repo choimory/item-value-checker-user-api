@@ -100,4 +100,16 @@ class UserDtoControllerTest {
     @Test
     void join() {
     }
+
+    void login() {
+    }
+
+    void logout() {
+    }
+
+    void update(){
+    }
+
+    void ban(){
+    }
 }
