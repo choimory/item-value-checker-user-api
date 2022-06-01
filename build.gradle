@@ -41,8 +41,15 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.amqp:spring-rabbit-test'
     testImplementation 'org.springframework.kafka:spring-kafka-test'
-    testImplementation 'org.springframework.restdocs:spring-restdocs-webtestclient'
+    //testImplementation 'org.springframework.restdocs:spring-restdocs-webtestclient'
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
     testImplementation 'org.springframework.security:spring-security-test'
+    //asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor' //for REST Docs
+}
+
+//BuildProperties 객체를 활용한 버전 정보 출력을 위한 설정
+springBoot {
+    buildInfo()
 }
 
 tasks.named('test') {
@@ -52,5 +59,14 @@ tasks.named('test') {
 
 tasks.named('asciidoctor') {
     inputs.dir snippetsDir
+    //configurations 'asciidoctorExt' //for REST Docs
     dependsOn test
+}
+
+//for REST Docs
+bootJar {
+    dependsOn asciidoctor
+    from ("${asciidoctor.outputDir}/html5") {
+        into 'static/docs'
+    }
 }
