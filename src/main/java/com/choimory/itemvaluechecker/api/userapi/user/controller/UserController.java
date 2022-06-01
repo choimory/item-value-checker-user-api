@@ -25,7 +25,7 @@ public class UserController {
     }
 
     @PutMapping("/join")
-    public ResponseEntity<UserJoinResponseDto> join(@RequestBody(required = false) final UserJoinRequestDto param){
+    public ResponseEntity<UserJoinResponseDto> join(@RequestBody(required = false) final UserJoinRequestDto param) throws Exception {
         return new ResponseEntity<>(userService.join(param), HttpStatus.CREATED);
     }
 
