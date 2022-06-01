@@ -1,6 +1,6 @@
 package com.choimory.itemvaluechecker.api.userapi.user.controller;
 
-import com.choimory.itemvaluechecker.api.userapi.user.dto.request.UserRequestDto;
+import com.choimory.itemvaluechecker.api.userapi.user.dto.request.UserJoinRequestDto;
 import com.choimory.itemvaluechecker.api.userapi.user.dto.response.UserBanResponseDto;
 import com.choimory.itemvaluechecker.api.userapi.user.dto.response.UserJoinResponseDto;
 import com.choimory.itemvaluechecker.api.userapi.user.dto.response.UserLoginResponseDto;
@@ -25,7 +25,7 @@ public class UserController {
     }
 
     @PutMapping("/join")
-    public ResponseEntity<UserJoinResponseDto> join(@RequestBody(required = false) final UserRequestDto.Join param){
+    public ResponseEntity<UserJoinResponseDto> join(@RequestBody(required = false) final UserJoinRequestDto param){
         return new ResponseEntity<>(userService.join(param), HttpStatus.CREATED);
     }
 

@@ -1,7 +1,7 @@
 package com.choimory.itemvaluechecker.api.userapi.user.service;
 
 import com.choimory.itemvaluechecker.api.userapi.common.exception.CommonException;
-import com.choimory.itemvaluechecker.api.userapi.user.dto.request.UserRequestDto;
+import com.choimory.itemvaluechecker.api.userapi.user.dto.request.UserJoinRequestDto;
 import com.choimory.itemvaluechecker.api.userapi.user.dto.response.UserJoinResponseDto;
 import com.choimory.itemvaluechecker.api.userapi.user.dto.response.UserViewResponseDto;
 import com.choimory.itemvaluechecker.api.userapi.user.entity.User;
@@ -24,8 +24,16 @@ public class UserService {
                 .build();
     }
 
-    public UserJoinResponseDto join(final UserRequestDto.Join param){
+    public UserJoinResponseDto join(final UserJoinRequestDto param){
+        /*요청값 검증*/
+        param.isIdValidate();
+        param.isPasswordValidate();
+        param.isEmailValidate();
+
+        /*저장*/
         User user = userRepository.save(param.toEntity());
+        /*응답값 검증*/
+        /*반환*/
         return UserJoinResponseDto.builder()
                 .status(HttpStatus.CREATED.value())
                 .message(HttpStatus.CREATED.getReasonPhrase())
