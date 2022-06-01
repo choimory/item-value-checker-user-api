@@ -32,7 +32,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @AutoConfigureRestDocs
 @Import({SpringRestDocsConfig.class})
 @ActiveProfiles({"dev", "local"})
-class UserDtoControllerTest {
+class UserControllerTest {
     @Autowired
     MockMvc mockMvc;
     @Autowired
