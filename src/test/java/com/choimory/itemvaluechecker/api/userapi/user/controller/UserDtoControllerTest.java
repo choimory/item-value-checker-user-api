@@ -15,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -48,7 +49,7 @@ class UserDtoControllerTest {
         final String id = "choimory";
 
         /*when*/
-        ResultActions when = mockMvc.perform(MockMvcRequestBuilders.get("/user/" + id)
+        ResultActions when = mockMvc.perform(RestDocumentationRequestBuilders.get("/user/{id}", id)
                 .accept(MediaType.APPLICATION_JSON_UTF8)
                 .contentType(MediaType.APPLICATION_JSON_UTF8));
 
@@ -66,7 +67,7 @@ class UserDtoControllerTest {
     @DisplayName("회원조회 성공실패 동적 테스트")
     void viewDynamicTest(final boolean isSuccess, final String id, final HttpStatus httpStatus) throws Exception {
         /*when*/
-        ResultActions when = mockMvc.perform(MockMvcRequestBuilders.get("/user/" + id)
+        ResultActions when = mockMvc.perform(RestDocumentationRequestBuilders.get("/user/{id}", id)
                 .accept(MediaType.APPLICATION_JSON_UTF8)
                 .contentType(MediaType.APPLICATION_JSON_UTF8));
 
