@@ -10,8 +10,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
+import java.util.regex.Pattern;
 
 @Builder
 @RequiredArgsConstructor
@@ -26,7 +28,10 @@ public class UserJoinRequest {
         PASSWORD_NOT_CONTAINS_SPECIAL_CHARACTER(4, "비밀번호에 특문이 포함되지 않았습니다"),
         PASSWORD_NOT_CONTAINS_UPPER_AND_LOWER_CASE(5, "비밀번호에 대소문자가 포함되지 않았습니다"),
         EMAIL_PATTERN_NOT_VALID(5, "이메일 형식이 부적합합니다"),
-        ID_DUPLICATE(6, "이미 가입된 아이디입니다");
+        ID_DUPLICATE(6, "이미 가입된 아이디입니다"),
+        ID_MISSING(7, "아이디를 입력해주세요"),
+        PASSWORD_MISSING(8, "비밀번호를 입력해주세요"),
+        NAME_MISSING(9, "이름을 입력해주세요");
 
         private final int code;
         private final String message;
@@ -60,12 +65,30 @@ public class UserJoinRequest {
                 .build();
     }
 
-    // TODO
-    public void requiredArgsValidate() throws Exception {
+    public void requiredArgsValidate() throws CommonException{
+        /*아이디*/
+        if(!StringUtils.hasText(id)){
+            throw new CommonException(HttpStatus.BAD_REQUEST,
+                    UserJoinRequestValidate.ID_MISSING.getCode(),
+                    UserJoinRequestValidate.ID_MISSING.getMessage());
+        }
 
+        /*비밀번호*/
+        if(!StringUtils.hasText(password)){
+            throw new CommonException(HttpStatus.BAD_REQUEST,
+                    UserJoinRequestValidate.PASSWORD_MISSING.getCode(),
+                    UserJoinRequestValidate.PASSWORD_MISSING.getMessage());
+        }
+
+        /*이름*/
+        if(!StringUtils.hasText(name)){
+            throw new CommonException(HttpStatus.BAD_REQUEST,
+                    UserJoinRequestValidate.NAME_MISSING.getCode(),
+                    UserJoinRequestValidate.NAME_MISSING.getMessage());
+        }
     }
 
-    public void isIdValidate() throws Exception {
+    public void isIdValidate() throws CommonException{
         /*영문, 숫자 외 문자 포함 여부*/
         if(!isIdContainsEnglishAndNumberOnly()){
             throw new CommonException(HttpStatus.BAD_REQUEST,
@@ -73,15 +96,15 @@ public class UserJoinRequest {
                     UserJoinRequestValidate.ID_NOT_ENGLISH_AND_NUMBERS_CONTAINED.getMessage());
         }
 
-        /*10글자 초과 여부*/
-        if(!isIdLengthValidate(10)){
+        /*아이디 길이 확인*/
+        if(!isIdLengthValidate(5, 15)){
             throw new CommonException(HttpStatus.BAD_REQUEST,
                     UserJoinRequestValidate.ID_LENGTH_NOT_VALID.getCode(),
                     UserJoinRequestValidate.ID_LENGTH_NOT_VALID.getMessage());
         }
     }
 
-    public void isPasswordValidate() throws Exception {
+    public void isPasswordValidate() throws CommonException{
         /*비밀번호 길이 확인*/
         if(!isPasswordLengthValidate(8, 20)){
             throw new CommonException(HttpStatus.BAD_REQUEST,
@@ -104,7 +127,7 @@ public class UserJoinRequest {
         }
     }
 
-    public void isEmailValidate() throws Exception {
+    public void isEmailValidate() throws CommonException {
         /*이메일 형식 준수 여부*/
         if(!isEmailPatternValidate()){
             throw new CommonException(HttpStatus.BAD_REQUEST,
@@ -113,14 +136,13 @@ public class UserJoinRequest {
         }
     }
 
-    // TODO
     private boolean isIdContainsEnglishAndNumberOnly(){
-        return true;
+        String pattern = "[a-zA-Z0-9]*$";
+        return Pattern.matches(pattern, id);
     }
 
-    // TODO
-    private boolean isIdLengthValidate(int length){
-        return true;
+    private boolean isIdLengthValidate(int min, int max){
+        return min < id.length() && id.length() < max;
     }
 
     // TODO
@@ -138,8 +160,8 @@ public class UserJoinRequest {
         return true;
     }
 
-    // TODO
     private boolean isEmailPatternValidate(){
-        return true;
+        String pattern = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$";
+        return Pattern.matches(pattern, email);
     }
 }
