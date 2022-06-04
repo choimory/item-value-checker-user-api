@@ -47,8 +47,8 @@ class UserControllerTest {
         /*when*/
         // ResultActions when = mockMvc.perform(RestDocumentationRequestBuilders.get("/user/{id}", id) - MockMvcRequestBuilder.get()이 pathRequest 지원 안하는 버전일시 사용
         ResultActions when = mockMvc.perform(MockMvcRequestBuilders.get("/user/{id}", id)
-                .accept(MediaType.APPLICATION_JSON_UTF8)
-                .contentType(MediaType.APPLICATION_JSON_UTF8));
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON));
 
         /*then*/
         when.andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()))
@@ -66,8 +66,8 @@ class UserControllerTest {
         /*when*/
         // ResultActions when = mockMvc.perform(RestDocumentationRequestBuilders.get("/user/{id}", id) - MockMvcRequestBuilder.get()이 pathRequest 지원 안하는 버전일시 사용
         ResultActions when = mockMvc.perform(MockMvcRequestBuilders.get("/user/{id}", id)
-                .accept(MediaType.APPLICATION_JSON_UTF8)
-                .contentType(MediaType.APPLICATION_JSON_UTF8));
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON));
 
         /*then*/
         if(isSuccess) {

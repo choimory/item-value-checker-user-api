@@ -16,14 +16,14 @@ import java.time.LocalDateTime;
 public class UserViewResponse extends RepresentationModel {
     private int status;
     private String message;
-    private UserViewResponseUser userViewResponseUser;
+    private UserViewResponseUser user;
 
-    public UserViewResponse(int status, String message, UserViewResponseUser userViewResponseUser) {
+    public UserViewResponse(int status, String message, UserViewResponseUser user) {
         this.status = status;
         this.message = message;
-        this.userViewResponseUser = userViewResponseUser;
+        this.user = user;
         add(WebMvcLinkBuilder.linkTo(UserController.class)
-                .slash(userViewResponseUser.getId())
+                .slash(user.getId())
                 .withSelfRel());
     }
 
