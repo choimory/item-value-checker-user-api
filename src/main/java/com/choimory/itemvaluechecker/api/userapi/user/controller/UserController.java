@@ -1,12 +1,12 @@
 package com.choimory.itemvaluechecker.api.userapi.user.controller;
 
-import com.choimory.itemvaluechecker.api.userapi.user.dto.request.UserJoinRequestDto;
-import com.choimory.itemvaluechecker.api.userapi.user.dto.response.UserBanResponseDto;
-import com.choimory.itemvaluechecker.api.userapi.user.dto.response.UserJoinResponseDto;
-import com.choimory.itemvaluechecker.api.userapi.user.dto.response.UserLoginResponseDto;
-import com.choimory.itemvaluechecker.api.userapi.user.dto.response.UserLogoutResponseDto;
-import com.choimory.itemvaluechecker.api.userapi.user.dto.response.UserUpdateResponseDto;
-import com.choimory.itemvaluechecker.api.userapi.user.dto.response.UserViewResponseDto;
+import com.choimory.itemvaluechecker.api.userapi.user.dto.request.UserJoinRequest;
+import com.choimory.itemvaluechecker.api.userapi.user.dto.response.UserBanResponse;
+import com.choimory.itemvaluechecker.api.userapi.user.dto.response.UserJoinResponse;
+import com.choimory.itemvaluechecker.api.userapi.user.dto.response.UserLoginResponse;
+import com.choimory.itemvaluechecker.api.userapi.user.dto.response.UserLogoutResponse;
+import com.choimory.itemvaluechecker.api.userapi.user.dto.response.UserUpdateResponse;
+import com.choimory.itemvaluechecker.api.userapi.user.dto.response.UserViewResponse;
 import com.choimory.itemvaluechecker.api.userapi.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,28 +20,28 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserViewResponseDto> view(@PathVariable final String id){
+    public ResponseEntity<UserViewResponse> view(@PathVariable final String id){
         return new ResponseEntity<>(userService.view(id), HttpStatus.OK);
     }
 
     @PutMapping("/join")
-    public ResponseEntity<UserJoinResponseDto> join(@RequestBody(required = false) final UserJoinRequestDto param) throws Exception {
+    public ResponseEntity<UserJoinResponse> join(@RequestBody(required = false) final UserJoinRequest param) throws Exception {
         return new ResponseEntity<>(userService.join(param), HttpStatus.CREATED);
     }
 
-    public ResponseEntity<UserLoginResponseDto> login(){
+    public ResponseEntity<UserLoginResponse> login(){
         return null;
     }
 
-    public ResponseEntity<UserLogoutResponseDto> logout(){
+    public ResponseEntity<UserLogoutResponse> logout(){
         return null;
     }
 
-    public ResponseEntity<UserUpdateResponseDto> update(){
+    public ResponseEntity<UserUpdateResponse> update(){
         return null;
     }
 
-    public ResponseEntity<UserBanResponseDto> ban(){
+    public ResponseEntity<UserBanResponse> ban(){
         return null;
     }
 }

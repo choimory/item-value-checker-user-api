@@ -6,19 +6,20 @@ import com.choimory.itemvaluechecker.api.userapi.user.entity.User;
 import com.choimory.itemvaluechecker.api.userapi.user.entity.UserAuthority;
 import com.choimory.itemvaluechecker.api.userapi.user.entity.UserSuspension;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
+@Builder
 @RequiredArgsConstructor
 @Getter
-public class UserJoinRequestDto {
+public class UserJoinRequest {
     @AllArgsConstructor
     @Getter
-    public enum JoinValidate {
+    public enum UserJoinRequestValidate {
         ID_NOT_ENGLISH_AND_NUMBERS_CONTAINED(1, "ID에 영문, 숫자 외 문자가 포함되어 있습니다"),
         ID_LENGTH_NOT_VALID(2, "ID 글자수가 5글자 미만이거나 10글자를 초과하였습니다"),
         PASSWORD_LENGTH_NOT_VALID(3, "비밀번호 글자수가 8글자 미만이거나 20글자를 초과하였습니다"),
@@ -68,15 +69,15 @@ public class UserJoinRequestDto {
         /*영문, 숫자 외 문자 포함 여부*/
         if(!isIdContainsEnglishAndNumberOnly()){
             throw new CommonException(HttpStatus.BAD_REQUEST,
-                    JoinValidate.ID_NOT_ENGLISH_AND_NUMBERS_CONTAINED.getCode(),
-                    JoinValidate.ID_NOT_ENGLISH_AND_NUMBERS_CONTAINED.getMessage());
+                    UserJoinRequestValidate.ID_NOT_ENGLISH_AND_NUMBERS_CONTAINED.getCode(),
+                    UserJoinRequestValidate.ID_NOT_ENGLISH_AND_NUMBERS_CONTAINED.getMessage());
         }
 
         /*10글자 초과 여부*/
         if(!isIdLengthValidate(10)){
             throw new CommonException(HttpStatus.BAD_REQUEST,
-                    JoinValidate.ID_LENGTH_NOT_VALID.getCode(),
-                    JoinValidate.ID_LENGTH_NOT_VALID.getMessage());
+                    UserJoinRequestValidate.ID_LENGTH_NOT_VALID.getCode(),
+                    UserJoinRequestValidate.ID_LENGTH_NOT_VALID.getMessage());
         }
     }
 
@@ -84,22 +85,22 @@ public class UserJoinRequestDto {
         /*비밀번호 길이 확인*/
         if(!isPasswordLengthValidate(8, 20)){
             throw new CommonException(HttpStatus.BAD_REQUEST,
-                    JoinValidate.PASSWORD_LENGTH_NOT_VALID.getCode(),
-                    JoinValidate.PASSWORD_LENGTH_NOT_VALID.getMessage());
+                    UserJoinRequestValidate.PASSWORD_LENGTH_NOT_VALID.getCode(),
+                    UserJoinRequestValidate.PASSWORD_LENGTH_NOT_VALID.getMessage());
         }
 
         /*특문 포함 여부*/
         if(!isPasswordContainsSpecialCharacter()){
             throw new CommonException(HttpStatus.BAD_REQUEST,
-                    JoinValidate.PASSWORD_NOT_CONTAINS_SPECIAL_CHARACTER.getCode(),
-                    JoinValidate.PASSWORD_NOT_CONTAINS_SPECIAL_CHARACTER.getMessage());
+                    UserJoinRequestValidate.PASSWORD_NOT_CONTAINS_SPECIAL_CHARACTER.getCode(),
+                    UserJoinRequestValidate.PASSWORD_NOT_CONTAINS_SPECIAL_CHARACTER.getMessage());
         }
 
         /*대소문자 포함 여부*/
         if(!isPasswordContainsUpperAndLowerCase()){
             throw new CommonException(HttpStatus.BAD_REQUEST,
-                    JoinValidate.PASSWORD_NOT_CONTAINS_UPPER_AND_LOWER_CASE.getCode(),
-                    JoinValidate.PASSWORD_NOT_CONTAINS_UPPER_AND_LOWER_CASE.getMessage());
+                    UserJoinRequestValidate.PASSWORD_NOT_CONTAINS_UPPER_AND_LOWER_CASE.getCode(),
+                    UserJoinRequestValidate.PASSWORD_NOT_CONTAINS_UPPER_AND_LOWER_CASE.getMessage());
         }
     }
 
@@ -107,8 +108,8 @@ public class UserJoinRequestDto {
         /*이메일 형식 준수 여부*/
         if(!isEmailPatternValidate()){
             throw new CommonException(HttpStatus.BAD_REQUEST,
-                    JoinValidate.EMAIL_PATTERN_NOT_VALID.getCode(),
-                    JoinValidate.EMAIL_PATTERN_NOT_VALID.getMessage());
+                    UserJoinRequestValidate.EMAIL_PATTERN_NOT_VALID.getCode(),
+                    UserJoinRequestValidate.EMAIL_PATTERN_NOT_VALID.getMessage());
         }
     }
 
