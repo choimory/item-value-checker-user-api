@@ -86,7 +86,7 @@ public class UserJoinRequest {
                     UserJoinRequestValidate.ID_NOT_ENGLISH_AND_NUMBERS_CONTAINED.getMessage());
         }
 
-        /*5~15 글자 준수 여부*/
+        /*아이디 길이 확인*/
         if(!isIdLengthValidate(5, 15)){
             throw new CommonException(HttpStatus.BAD_REQUEST,
                     UserJoinRequestValidate.ID_LENGTH_NOT_VALID.getCode(),
