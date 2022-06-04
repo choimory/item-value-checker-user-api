@@ -126,6 +126,7 @@ class UserJoinRequestTest {
         return Stream.<Arguments>builder()
                 /*성공*/
                 .add(Arguments.arguments(true, null, "choimory99", null))
+                .add(Arguments.arguments(true, null, "choimory", null))
                 /*영문, 숫자 외 문자 포함*/
                 .add(Arguments.arguments(false, HttpStatus.BAD_REQUEST, "sdfsdf@#$@#$%%#@", UserJoinRequest.UserJoinRequestValidate.ID_NOT_ENGLISH_AND_NUMBERS_CONTAINED)) // 특문
                 .add(Arguments.arguments(false, HttpStatus.BAD_REQUEST, "sdweff한글한글한글", UserJoinRequest.UserJoinRequestValidate.ID_NOT_ENGLISH_AND_NUMBERS_CONTAINED)) // 한글
@@ -141,16 +142,24 @@ class UserJoinRequestTest {
                 /*성공*/
                 .add(Arguments.arguments(true, null, null, null))
                 /*비밀번호 길이 확인*/
+                .add(Arguments.arguments()) // 8글자 미만
+                .add(Arguments.arguments()) // 15글자 초과
                 /*특문 포함 여부*/
+                .add(Arguments.arguments())
                 /*대소문자 포함 여부*/
+                .add(Arguments.arguments()) // 대문자 미포함
+                .add(Arguments.arguments()) // 소문자 미포함
                 .build();
     }
 
     static Stream<Arguments> isEmailValidateMethodSource() {
         return Stream.<Arguments>builder()
                 /*성공*/
-                .add(Arguments.arguments(true, null, null, null))
+                .add(Arguments.arguments(true, null, "choimory@naver.com", null))
                 /*이메일 형식 준수 여부*/
+                .add(Arguments.arguments(false, HttpStatus.BAD_REQUEST, "addfgdfg", UserJoinRequest.UserJoinRequestValidate.EMAIL_PATTERN_NOT_VALID))
+                .add(Arguments.arguments(false, HttpStatus.BAD_REQUEST, "addfgdfg@@sdf", UserJoinRequest.UserJoinRequestValidate.EMAIL_PATTERN_NOT_VALID))
+                .add(Arguments.arguments(false, HttpStatus.BAD_REQUEST, "addfgdfg@aas!#$sdf.wef", UserJoinRequest.UserJoinRequestValidate.EMAIL_PATTERN_NOT_VALID))
                 .build();
     }
 }
