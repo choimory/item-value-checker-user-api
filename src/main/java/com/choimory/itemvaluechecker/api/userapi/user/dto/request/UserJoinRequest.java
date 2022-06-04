@@ -10,6 +10,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 
@@ -60,12 +61,24 @@ public class UserJoinRequest {
                 .build();
     }
 
-    // TODO
-    public void requiredArgsValidate() throws Exception {
+    public void requiredArgsValidate() throws CommonException{
+        /*아이디*/
+        if(!StringUtils.hasText(id)){
 
+        }
+
+        /*비밀번호*/
+        if(!StringUtils.hasText(password)){
+
+        }
+
+        /*이름*/
+        if(!StringUtils.hasText(name)){
+
+        }
     }
 
-    public void isIdValidate() throws Exception {
+    public void isIdValidate() throws CommonException{
         /*영문, 숫자 외 문자 포함 여부*/
         if(!isIdContainsEnglishAndNumberOnly()){
             throw new CommonException(HttpStatus.BAD_REQUEST,
@@ -74,14 +87,14 @@ public class UserJoinRequest {
         }
 
         /*10글자 초과 여부*/
-        if(!isIdLengthValidate(10)){
+        if(!isIdLengthValidate(5, 15)){
             throw new CommonException(HttpStatus.BAD_REQUEST,
                     UserJoinRequestValidate.ID_LENGTH_NOT_VALID.getCode(),
                     UserJoinRequestValidate.ID_LENGTH_NOT_VALID.getMessage());
         }
     }
 
-    public void isPasswordValidate() throws Exception {
+    public void isPasswordValidate() throws CommonException{
         /*비밀번호 길이 확인*/
         if(!isPasswordLengthValidate(8, 20)){
             throw new CommonException(HttpStatus.BAD_REQUEST,
@@ -104,7 +117,7 @@ public class UserJoinRequest {
         }
     }
 
-    public void isEmailValidate() throws Exception {
+    public void isEmailValidate() throws CommonException {
         /*이메일 형식 준수 여부*/
         if(!isEmailPatternValidate()){
             throw new CommonException(HttpStatus.BAD_REQUEST,
@@ -119,7 +132,7 @@ public class UserJoinRequest {
     }
 
     // TODO
-    private boolean isIdLengthValidate(int length){
+    private boolean isIdLengthValidate(int min, int max){
         return true;
     }
 
