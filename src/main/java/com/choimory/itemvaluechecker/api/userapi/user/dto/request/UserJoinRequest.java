@@ -136,13 +136,11 @@ public class UserJoinRequest {
         }
     }
 
-    // TODO
     private boolean isIdContainsEnglishAndNumberOnly(){
         String pattern = "[a-zA-Z0-9]*$";
         return Pattern.matches(pattern, id);
     }
 
-    // TODO
     private boolean isIdLengthValidate(int min, int max){
         return min < id.length() && id.length() < max;
     }
