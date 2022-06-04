@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
+import java.util.regex.Pattern;
 
 @Builder
 @RequiredArgsConstructor
@@ -137,12 +138,13 @@ public class UserJoinRequest {
 
     // TODO
     private boolean isIdContainsEnglishAndNumberOnly(){
-        return true;
+        String pattern = "[a-zA-Z0-9]*$";
+        return Pattern.matches(pattern, id);
     }
 
     // TODO
     private boolean isIdLengthValidate(int min, int max){
-        return true;
+        return min < id.length() && id.length() < max;
     }
 
     // TODO
