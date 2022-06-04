@@ -27,7 +27,10 @@ public class UserJoinRequest {
         PASSWORD_NOT_CONTAINS_SPECIAL_CHARACTER(4, "비밀번호에 특문이 포함되지 않았습니다"),
         PASSWORD_NOT_CONTAINS_UPPER_AND_LOWER_CASE(5, "비밀번호에 대소문자가 포함되지 않았습니다"),
         EMAIL_PATTERN_NOT_VALID(5, "이메일 형식이 부적합합니다"),
-        ID_DUPLICATE(6, "이미 가입된 아이디입니다");
+        ID_DUPLICATE(6, "이미 가입된 아이디입니다"),
+        ID_MISSING(7, "아이디를 입력해주세요"),
+        PASSWORD_MISSING(8, "비밀번호를 입력해주세요"),
+        NAME_MISSING(9, "이름을 입력해주세요");
 
         private final int code;
         private final String message;
@@ -64,17 +67,23 @@ public class UserJoinRequest {
     public void requiredArgsValidate() throws CommonException{
         /*아이디*/
         if(!StringUtils.hasText(id)){
-
+            throw new CommonException(HttpStatus.BAD_REQUEST,
+                    UserJoinRequestValidate.ID_MISSING.getCode(),
+                    UserJoinRequestValidate.ID_MISSING.getMessage());
         }
 
         /*비밀번호*/
         if(!StringUtils.hasText(password)){
-
+            throw new CommonException(HttpStatus.BAD_REQUEST,
+                    UserJoinRequestValidate.PASSWORD_MISSING.getCode(),
+                    UserJoinRequestValidate.PASSWORD_MISSING.getMessage());
         }
 
         /*이름*/
         if(!StringUtils.hasText(name)){
-
+            throw new CommonException(HttpStatus.BAD_REQUEST,
+                    UserJoinRequestValidate.NAME_MISSING.getCode(),
+                    UserJoinRequestValidate.NAME_MISSING.getMessage());
         }
     }
 
