@@ -1,12 +1,14 @@
 package com.choimory.itemvaluechecker.api.userapi.user.service;
 
 import com.choimory.itemvaluechecker.api.userapi.common.exception.CommonException;
+import com.choimory.itemvaluechecker.api.userapi.user.controller.UserController;
 import com.choimory.itemvaluechecker.api.userapi.user.dto.request.UserJoinRequest;
 import com.choimory.itemvaluechecker.api.userapi.user.dto.response.UserJoinResponse;
 import com.choimory.itemvaluechecker.api.userapi.user.dto.response.UserViewResponse;
 import com.choimory.itemvaluechecker.api.userapi.user.entity.User;
 import com.choimory.itemvaluechecker.api.userapi.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -25,10 +27,10 @@ public class UserService {
     }
 
     public UserJoinResponse join(final UserJoinRequest param) throws Exception {
-        /*TODO 필수값 검증*/
+        /*필수값 검증*/
         param.requiredArgsValidate();
 
-        /*TODO 요청값 검증*/
+        /*요청값 검증*/
         param.isIdValidate();
         param.isPasswordValidate();
         param.isEmailValidate();
@@ -43,13 +45,13 @@ public class UserService {
         /*저장*/
         User user = userRepository.save(param.toEntity());
 
-        /*TODO 토큰 변환*/
-
         /*반환*/
-        return UserJoinResponse.builder()
+        UserJoinResponse response = UserJoinResponse.builder()
                 .status(HttpStatus.CREATED.value())
                 .message(HttpStatus.CREATED.getReasonPhrase())
-                .token("Bearer ")
                 .build();
+        response.add(WebMvcLinkBuilder.linkTo(UserController.class).slash(user.getId()).withRel("view-id"));
+
+        return response;
     }
 }
