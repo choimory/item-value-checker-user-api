@@ -140,15 +140,17 @@ class UserJoinRequestTest {
     static Stream<Arguments> isPasswordValidateMethodSource() {
         return Stream.<Arguments>builder()
                 /*성공*/
-                .add(Arguments.arguments(true, null, null, null))
+                .add(Arguments.arguments(true, null, "Password123!", null))
                 /*비밀번호 길이 확인*/
-                .add(Arguments.arguments()) // 8글자 미만
-                .add(Arguments.arguments()) // 15글자 초과
+                .add(Arguments.arguments(false, HttpStatus.BAD_REQUEST, "pW1!", UserJoinRequest.UserJoinRequestValidate.PASSWORD_LENGTH_NOT_VALID)) // 8글자 미만
+                .add(Arguments.arguments(false, HttpStatus.BAD_REQUEST, "PassWord!!!!111@@@@@!", UserJoinRequest.UserJoinRequestValidate.PASSWORD_LENGTH_NOT_VALID)) // 15글자 초과
+                /*숫자 포함 여부*/
+                .add(Arguments.arguments(false, HttpStatus.BAD_REQUEST, "PassWord!@#", UserJoinRequest.UserJoinRequestValidate.PASSWORD_NOT_CONTAINS_NUMBER))
                 /*특문 포함 여부*/
-                .add(Arguments.arguments())
+                .add(Arguments.arguments(false, HttpStatus.BAD_REQUEST, "Password123", UserJoinRequest.UserJoinRequestValidate.PASSWORD_NOT_CONTAINS_SPECIAL_CHARACTER))
                 /*대소문자 포함 여부*/
-                .add(Arguments.arguments()) // 대문자 미포함
-                .add(Arguments.arguments()) // 소문자 미포함
+                .add(Arguments.arguments(false, HttpStatus.BAD_REQUEST, "password123!@#", UserJoinRequest.UserJoinRequestValidate.PASSWORD_NOT_CONTAINS_UPPER_AND_LOWER_CASE)) // 대문자 미포함
+                .add(Arguments.arguments(false, HttpStatus.BAD_REQUEST, "PASSWORD123!@#", UserJoinRequest.UserJoinRequestValidate.PASSWORD_NOT_CONTAINS_UPPER_AND_LOWER_CASE)) // 소문자 미포함
                 .build();
     }
 
