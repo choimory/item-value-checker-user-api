@@ -21,7 +21,7 @@ public class UserService {
         return UserViewResponse.builder()
                 .status(HttpStatus.OK.value())
                 .message(HttpStatus.OK.getReasonPhrase())
-                .userViewResponseUser(UserViewResponse.UserViewResponseUser.toDto(userRepository.findById(id)
+                .user(UserViewResponse.UserViewResponseUser.toDto(userRepository.findById(id)
                         .orElseThrow(() -> new CommonException(HttpStatus.NOT_FOUND, HttpStatus.NOT_FOUND.value(), HttpStatus.NOT_FOUND.getReasonPhrase()))))
                 .build();
     }

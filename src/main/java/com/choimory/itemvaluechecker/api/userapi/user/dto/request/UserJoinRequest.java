@@ -31,7 +31,8 @@ public class UserJoinRequest {
         ID_DUPLICATE(6, "이미 가입된 아이디입니다"),
         ID_MISSING(7, "아이디를 입력해주세요"),
         PASSWORD_MISSING(8, "비밀번호를 입력해주세요"),
-        NAME_MISSING(9, "이름을 입력해주세요");
+        NAME_MISSING(9, "이름을 입력해주세요"),
+        PASSWORD_NOT_CONTAINS_NUMBER(10, "비밀번호에 숫자가 포함되지 않았습니다");
 
         private final int code;
         private final String message;
@@ -112,6 +113,13 @@ public class UserJoinRequest {
                     UserJoinRequestValidate.PASSWORD_LENGTH_NOT_VALID.getMessage());
         }
 
+        /*숫자 포함 여부*/
+        if(!isPasswordContainsNumber()){
+            throw new CommonException(HttpStatus.BAD_REQUEST,
+                    UserJoinRequestValidate.PASSWORD_NOT_CONTAINS_NUMBER.getCode(),
+                    UserJoinRequestValidate.PASSWORD_NOT_CONTAINS_NUMBER.getMessage());
+        }
+
         /*특문 포함 여부*/
         if(!isPasswordContainsSpecialCharacter()){
             throw new CommonException(HttpStatus.BAD_REQUEST,
@@ -138,6 +146,7 @@ public class UserJoinRequest {
 
     private boolean isIdContainsEnglishAndNumberOnly(){
         String pattern = "[a-zA-Z0-9]*$";
+
         return Pattern.matches(pattern, id);
     }
 
@@ -145,19 +154,33 @@ public class UserJoinRequest {
         return min < id.length() && id.length() < max;
     }
 
-    // TODO
     private boolean isPasswordLengthValidate(int min, int max){
-        return true;
+        return min < password.length() && password.length( ) < max;
+    }
+
+    // TODO
+    private boolean isPasswordContainsNumber(){
+        String pattern = "";
+
+        return Pattern.matches(pattern, password);
     }
 
     // TODO
     private boolean isPasswordContainsUpperAndLowerCase(){
-        return true;
+        String upperCasePattern = "";
+        String lowerCasePattern = "";
+        String bothCasePattern = "";
+
+        return Pattern.matches(upperCasePattern, password)
+                && Pattern.matches(lowerCasePattern, password)
+                && Pattern.matches(bothCasePattern, password);
     }
 
     // TODO
     private boolean isPasswordContainsSpecialCharacter(){
-        return true;
+        String pattern = "";
+
+        return Pattern.matches(pattern, password);
     }
 
     private boolean isEmailPatternValidate(){
