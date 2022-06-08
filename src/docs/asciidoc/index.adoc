@@ -1,0 +1,134 @@
+= Item-value-checker 회원 API
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+:operation-curl-request-title: Example request
+:operation-http-response-title: Example response
+
+[[overview]]
+== 개요
+
+Item-value-checker 회원 API.
+
+[[overview-http-verbs]]
+== HTTP Method
+
+본 REST API에서 사용하는 HTTP Method
+
+|===
+| 동사 | 용례
+
+| `GET`
+| Request Param을 이용한 간단한 목록 조회에 사용
+
+| `POST`
+| Payload를 이용한 요청시 사용
+
+| `PUT`
+| 새 리소스를 등록 할 시 사용
+
+| `PATCH`
+| 기존 리소스를 수정할 때 사용
+
+| `DELETE`
+| 기존 리소스를 삭제할 떄 사용
+|===
+
+[[overview-common-status-codes]]
+== HTTP 상태 코드
+
+본 REST API에서 사용하는 공통 응답값 입니다
+
+|===
+| 필드명 | 설명
+
+| `status`
+| 결과 코드. 정상 수행시엔 HTTP Status 코드와 동일한 값을, 오류시엔 별도의 코드값을 제공합니다.
+
+| `message`
+| 결과 메시지. 정상 수행시엔 HTTP Status 코드와 동일한 값을, 오류시엔 별도의 메시지를 제공합니다.
+|===
+
+[[overview-errors]]
+== 오류
+
+제대로된 처리가 이루어지지 않았을땐 다음과 같은 오류에 대한 응답을 받을 수 있습니다.
+
+=== Response
+
+//include::{snippets}/error-response/response-body.adoc[]
+
+=== Response Payload
+
+//include::{snippets}/error-response/response-fields.adoc[]
+
+[[api]]
+== API
+
+[[user-api]]
+=== 회원
+
+[[api-get-vietnam-company-id]]
+==== `GET` 회원 상세조회
+
+`GET` `/user/{id}`
+
+회원 아이디를 이용한 상세조회 API
+
+===== Request
+
+include::{snippets}/get-user-view/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/get-user-view/request-headers.adoc[]
+
+===== Path Parameters
+
+include::{snippets}/get-user-view/path-parameters.adoc[]
+
+===== Response
+
+include::{snippets}/get-user-view/response-body.adoc[]
+
+===== Response Header
+
+include::{snippets}/get-user-view/response-headers.adoc[]
+
+===== Response Payload
+
+include::{snippets}/get-user-view/response-fields.adoc[]
+
+[[api-put-user-join]]
+==== `PUT` 회원가입
+
+`PUT` `/user`
+
+회원가입 API
+
+===== Request
+
+include::{snippets}/put-user-join/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/put-user-join/request-headers.adoc[]
+
+===== Request Payload
+
+include::{snippets}/put-user-join/request-fields.adoc[]
+
+===== Response
+
+include::{snippets}/put-user-join/response-body.adoc[]
+
+===== Response Header
+
+include::{snippets}/put-user-join/response-headers.adoc[]
+
+===== Response Payload
+
+include::{snippets}/put-user-join/response-fields.adoc[]
