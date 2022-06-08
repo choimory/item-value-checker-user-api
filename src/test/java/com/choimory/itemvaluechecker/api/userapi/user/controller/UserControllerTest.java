@@ -1,6 +1,8 @@
 package com.choimory.itemvaluechecker.api.userapi.user.controller;
 
 import com.choimory.itemvaluechecker.api.userapi.config.SpringRestDocsConfig;
+import com.choimory.itemvaluechecker.api.userapi.user.code.AuthLevel;
+import com.choimory.itemvaluechecker.api.userapi.user.dto.request.UserJoinRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,8 +14,14 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.headers.HeaderDocumentation;
+import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
+import org.springframework.restdocs.payload.PayloadDocumentation;
+import org.springframework.restdocs.request.RequestDocumentation;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -45,8 +53,8 @@ class UserControllerTest {
         final String id = "choimory";
 
         /*when*/
-        // ResultActions when = mockMvc.perform(RestDocumentationRequestBuilders.get("/user/{id}", id) - MockMvcRequestBuilder.get()이 pathRequest 지원 안하는 버전일시 사용
-        ResultActions when = mockMvc.perform(MockMvcRequestBuilders.get("/user/{id}", id)
+        ResultActions when = mockMvc.perform(RestDocumentationRequestBuilders.get("/user/{id}", id)
+        //ResultActions when = mockMvc.perform(MockMvcRequestBuilders.get("/user/{id}", id) // -> MockMvcRequestBuilder.get()이 pathRequest 지원하는 버전일시 사용
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON));
 
@@ -56,11 +64,40 @@ class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("message").value(HttpStatus.OK.getReasonPhrase()))
                 .andExpect(MockMvcResultMatchers.jsonPath("user.id").value(id))
                 .andExpect(MockMvcResultMatchers.jsonPath("user.password").doesNotExist())
-                .andDo(MockMvcResultHandlers.print());
+                .andDo(MockMvcResultHandlers.print())
+                .andDo(MockMvcRestDocumentation.document("get-user-view",
+                        HeaderDocumentation.requestHeaders(
+                                HeaderDocumentation.headerWithName(HttpHeaders.ACCEPT).description("요청 헤더"),
+                                HeaderDocumentation.headerWithName(HttpHeaders.CONTENT_TYPE).description("요청 형식")
+                        ),
+                        RequestDocumentation.relaxedPathParameters(
+                                RequestDocumentation.parameterWithName("id").description("회원 아이디")
+                        ),
+                        HeaderDocumentation.responseHeaders(
+                                HeaderDocumentation.headerWithName(HttpHeaders.CONTENT_TYPE).description("응답 형식")
+                        ),
+                        PayloadDocumentation.relaxedResponseFields(
+                                PayloadDocumentation.fieldWithPath("status").description("API 결과"),
+                                PayloadDocumentation.fieldWithPath("message").description("API 결과 메시지"),
+                                PayloadDocumentation.fieldWithPath("user").description("유저 정보"),
+                                PayloadDocumentation.fieldWithPath("user.id").description("ID"),
+                                PayloadDocumentation.fieldWithPath("user.name").description("이름"),
+                                PayloadDocumentation.fieldWithPath("user.email").description("이메일"),
+                                PayloadDocumentation.fieldWithPath("user.createdTime").description("가입일"),
+                                PayloadDocumentation.fieldWithPath("user.modifiedTime").description("수정일"),
+                                PayloadDocumentation.fieldWithPath("user.deletedTime").description("탈퇴일"),
+                                PayloadDocumentation.fieldWithPath("user.authLevel").description("권한"),
+                                PayloadDocumentation.fieldWithPath("user.isSuspended").description("정지여부"),
+                                PayloadDocumentation.fieldWithPath("user.reason").description("정지사유"),
+                                PayloadDocumentation.fieldWithPath("_links").description("HATEOAS"),
+                                PayloadDocumentation.fieldWithPath("_links.self").description("해당 API 요청정보"),
+                                PayloadDocumentation.fieldWithPath("_links.self.href").description("해당 API 요청주소")
+                        )
+                ));
     }
 
     @ParameterizedTest
-    @MethodSource({"argsForViewDynamicTest"})
+    @MethodSource({"viewMethodSource"})
     @DisplayName("회원조회 성공실패 동적 테스트")
     void viewDynamicTest(final boolean isSuccess, final String id, final HttpStatus httpStatus) throws Exception {
         /*when*/
@@ -86,15 +123,61 @@ class UserControllerTest {
         when.andDo(MockMvcResultHandlers.print());
     }
 
-    static Stream<Arguments> argsForViewDynamicTest(){
-        return Stream.<Arguments>builder()
-                .add(Arguments.arguments(true, "choimory", HttpStatus.OK))
-                .add(Arguments.arguments(false, "choimoryy", HttpStatus.NOT_FOUND))
+    @Test
+    @DisplayName("회원가입 성공 테스트")
+    void join() throws Exception {
+        /*given*/
+        UserJoinRequest request = UserJoinRequest.builder()
+                .id("choimory")
+                .password("asdqwe123")
+                .name("중윤최")
+                .email("choimory@naver.com")
+                .authLevel(AuthLevel.USER)
                 .build();
+
+        /*when*/
+        ResultActions when = mockMvc.perform(MockMvcRequestBuilders.put("/user/join")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)));
+
+        /*then*/
+        when.andExpect(MockMvcResultMatchers.status().isCreated())
+                .andExpect(MockMvcResultMatchers.jsonPath("status").value(HttpStatus.CREATED.value()))
+                .andExpect(MockMvcResultMatchers.jsonPath("message").value(HttpStatus.CREATED.getReasonPhrase()))
+                .andExpect(MockMvcResultMatchers.jsonPath("_links").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("_links.self.href").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath("_links.view-id").isNotEmpty())
+                .andDo(MockMvcResultHandlers.print())
+                .andDo(MockMvcRestDocumentation.document("put-user-join",
+                        HeaderDocumentation.requestHeaders(
+                                HeaderDocumentation.headerWithName(HttpHeaders.ACCEPT).description("요청 헤더"),
+                                HeaderDocumentation.headerWithName(HttpHeaders.CONTENT_TYPE).description("요청 형식")
+                        ),
+                        PayloadDocumentation.relaxedRequestFields(
+                                PayloadDocumentation.fieldWithPath("id").description("아이디"),
+                                PayloadDocumentation.fieldWithPath("password").description("비밀번호"),
+                                PayloadDocumentation.fieldWithPath("name").description("이름"),
+                                PayloadDocumentation.fieldWithPath("email").description("이메일"),
+                                PayloadDocumentation.fieldWithPath("authLevel").description("권한")
+                        ),
+                        HeaderDocumentation.responseHeaders(
+                                HeaderDocumentation.headerWithName(HttpHeaders.CONTENT_TYPE).description("응답 형식")
+                        ),
+                        PayloadDocumentation.relaxedResponseFields(
+                                PayloadDocumentation.fieldWithPath("status").description("결과 코드"),
+                                PayloadDocumentation.fieldWithPath("message").description("결과 메시지"),
+                                PayloadDocumentation.fieldWithPath("_links").description("HATEOAS"),
+                                PayloadDocumentation.fieldWithPath("_links.self").description("요청 API 정보"),
+                                PayloadDocumentation.fieldWithPath("_links.self.href").description("요청 API 주소"),
+                                PayloadDocumentation.fieldWithPath("_links.view-id").description("회원 조회 API 정보"),
+                                PayloadDocumentation.fieldWithPath("_links.view-id.href").description("현재 가입한 아이디의 조회 API 주소")
+                        )
+                ));
     }
 
-    @Test
-    void join() {
+    void joinDynamicTest(){
+
     }
 
     void login() {
@@ -107,5 +190,12 @@ class UserControllerTest {
     }
 
     void ban(){
+    }
+
+    static Stream<Arguments> viewMethodSource(){
+        return Stream.<Arguments>builder()
+                .add(Arguments.arguments(true, "choimory", HttpStatus.OK))
+                .add(Arguments.arguments(false, "choimoryy", HttpStatus.NOT_FOUND))
+                .build();
     }
 }

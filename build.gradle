@@ -1,7 +1,8 @@
 plugins {
-    id 'org.springframework.boot' version '2.5.11'
+    id 'org.springframework.boot' version '2.5.12'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id 'org.asciidoctor.convert' version '1.5.8'
+    //id 'org.asciidoctor.convert' version '1.5.8' // for REST Docs gradle 7 미만
+    id 'org.asciidoctor.jvm.convert' version '3.3.2' // for REST Docs gradle 7 이상
     id 'java'
 }
 
@@ -13,6 +14,7 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+    asciidoctorExt // for REST Docs
 }
 
 repositories {
@@ -41,10 +43,10 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.amqp:spring-rabbit-test'
     testImplementation 'org.springframework.kafka:spring-kafka-test'
-    //testImplementation 'org.springframework.restdocs:spring-restdocs-webtestclient'
+    //testImplementation 'org.springframework.restdocs:spring-restdocs-webtestclient' // spring-restdocs-mockmvc로 대체
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
     testImplementation 'org.springframework.security:spring-security-test'
-    //asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor' //for REST Docs
+    asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor' // for REST Docs
 }
 
 //BuildProperties 객체를 활용한 버전 정보 출력을 위한 설정
@@ -59,7 +61,7 @@ tasks.named('test') {
 
 tasks.named('asciidoctor') {
     inputs.dir snippetsDir
-    //configurations 'asciidoctorExt' //for REST Docs
+    configurations 'asciidoctorExt' //for REST Docs
     dependsOn test
 }
 
