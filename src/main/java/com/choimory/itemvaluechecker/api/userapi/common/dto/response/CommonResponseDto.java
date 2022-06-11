@@ -1,4 +1,4 @@
-package com.choimory.itemvaluechecker.api.userapi.common.dto;
+package com.choimory.itemvaluechecker.api.userapi.common.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;

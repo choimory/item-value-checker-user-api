@@ -3,11 +3,14 @@ package com.choimory.itemvaluechecker.api.userapi.user.service;
 import com.choimory.itemvaluechecker.api.userapi.common.exception.CommonException;
 import com.choimory.itemvaluechecker.api.userapi.user.controller.UserController;
 import com.choimory.itemvaluechecker.api.userapi.user.dto.request.UserJoinRequest;
+import com.choimory.itemvaluechecker.api.userapi.user.dto.request.UserListRequest;
 import com.choimory.itemvaluechecker.api.userapi.user.dto.response.UserJoinResponse;
+import com.choimory.itemvaluechecker.api.userapi.user.dto.response.UserListResponse;
 import com.choimory.itemvaluechecker.api.userapi.user.dto.response.UserViewResponse;
 import com.choimory.itemvaluechecker.api.userapi.user.entity.User;
 import com.choimory.itemvaluechecker.api.userapi.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -24,6 +27,10 @@ public class UserService {
                 .user(UserViewResponse.UserViewResponseUser.toDto(userRepository.findById(id)
                         .orElseThrow(() -> new CommonException(HttpStatus.NOT_FOUND, HttpStatus.NOT_FOUND.value(), HttpStatus.NOT_FOUND.getReasonPhrase()))))
                 .build();
+    }
+
+    public UserListResponse views(final UserListRequest param, Pageable pageable){
+        return null;
     }
 
     public UserJoinResponse join(final UserJoinRequest param) throws Exception {

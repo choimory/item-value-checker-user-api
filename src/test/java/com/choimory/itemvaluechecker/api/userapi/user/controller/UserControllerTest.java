@@ -123,6 +123,9 @@ class UserControllerTest {
         when.andDo(MockMvcResultHandlers.print());
     }
 
+    void views() {
+    }
+
     @Test
     @DisplayName("회원가입 성공 테스트")
     void join() throws Exception {
@@ -198,4 +201,5 @@ class UserControllerTest {
                 .add(Arguments.arguments(false, "choimoryy", HttpStatus.NOT_FOUND))
                 .build();
     }
+
 }
