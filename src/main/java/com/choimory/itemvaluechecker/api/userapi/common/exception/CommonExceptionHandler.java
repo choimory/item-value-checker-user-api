@@ -1,6 +1,6 @@
 package com.choimory.itemvaluechecker.api.userapi.common.exception;
 
-import com.choimory.itemvaluechecker.api.userapi.common.dto.CommonResponseDto;
+import com.choimory.itemvaluechecker.api.userapi.common.dto.response.CommonResponseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
