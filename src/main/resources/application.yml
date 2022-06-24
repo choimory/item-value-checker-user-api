@@ -3,3 +3,11 @@ spring:
     host: ${redis-host}
     port: ${redis-port}
     password: ${redis-password}
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://${mariadb-host}:${mariadb-port}/${mariadb-schema}
+    username: ${mariadb-user}
+    password: ${mariadb-password}
+    hikari:
+      maximum-pool-size: 10
+      max-lifetime: 28500000 #DB WAIT_TIMEOUT -> 28800 (28800000)
