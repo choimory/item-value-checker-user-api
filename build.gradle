@@ -1,8 +1,8 @@
 plugins {
     id 'org.springframework.boot' version '2.5.12'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    //id 'org.asciidoctor.convert' version '1.5.8' // for REST Docs gradle 7 미만
-    id 'org.asciidoctor.jvm.convert' version '3.3.2' // for REST Docs gradle 7 이상
+    //id 'org.asciidoctor.convert' version '1.5.8' // for REST Docs, gradle 7 미만
+    id 'org.asciidoctor.jvm.convert' version '3.3.2' // for REST Docs, gradle 7 이상
     id 'java'
 }
 
@@ -27,6 +27,7 @@ ext {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'org.springframework.boot:spring-boot-starter-hateoas'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
@@ -34,12 +35,17 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.kafka:spring-kafka'
-    implementation 'org.mapstruct:mapstruct:1.3.1.Final'
+    implementation 'com.querydsl:querydsl-jpa:4.2.2'
+    implementation 'com.querydsl:querydsl-core:4.2.2'
+    implementation 'com.querydsl:querydsl-apt:4.2.2'
     compileOnly 'org.projectlombok:lombok'
     //compileOnly group: 'it.ozimov', name: 'embedded-redis', version: '0.7.2' // embedded-redis
+    implementation 'org.mariadb.jdbc:mariadb-java-client'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'
-    annotationProcessor 'org.mapstruct:mapstruct-processor:1.3.1.Final'
+    annotationProcessor 'com.querydsl:querydsl-apt:4.2.2:jpa'
+    annotationProcessor 'jakarta.persistence:jakarta.persistence-api'
+    annotationProcessor 'jakarta.annotation:jakarta.annotation-api'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.amqp:spring-rabbit-test'
     testImplementation 'org.springframework.kafka:spring-kafka-test'
