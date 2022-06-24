@@ -68,67 +68,67 @@ Item-value-checker 회원 API.
 [[api]]
 == API
 
-[[user-api]]
+[[member-api]]
 === 회원
 
-[[api-get-vietnam-company-id]]
+[[api-get-member-id]]
 ==== `GET` 회원 상세조회
 
-`GET` `/user/{id}`
+`GET` `/member/{id}`
 
 회원 아이디를 이용한 상세조회 API
 
 ===== Request
 
-include::{snippets}/get-user-view/http-request.adoc[]
+include::{snippets}/get-member-id/http-request.adoc[]
 
 ===== Request Header
 
-include::{snippets}/get-user-view/request-headers.adoc[]
+include::{snippets}/get-member-id/request-headers.adoc[]
 
 ===== Path Parameters
 
-include::{snippets}/get-user-view/path-parameters.adoc[]
+include::{snippets}/get-member-id/path-parameters.adoc[]
 
 ===== Response
 
-include::{snippets}/get-user-view/response-body.adoc[]
+include::{snippets}/get-member-id/response-body.adoc[]
 
 ===== Response Header
 
-include::{snippets}/get-user-view/response-headers.adoc[]
+include::{snippets}/get-member-id/response-headers.adoc[]
 
 ===== Response Payload
 
-include::{snippets}/get-user-view/response-fields.adoc[]
+include::{snippets}/get-member-id/response-fields.adoc[]
 
-[[api-put-user-join]]
+[[api-put-member-join]]
 ==== `PUT` 회원가입
 
-`PUT` `/user`
+`PUT` `/member`
 
 회원가입 API
 
 ===== Request
 
-include::{snippets}/put-user-join/http-request.adoc[]
+include::{snippets}/put-member-join/http-request.adoc[]
 
 ===== Request Header
 
-include::{snippets}/put-user-join/request-headers.adoc[]
+include::{snippets}/put-member-join/request-headers.adoc[]
 
 ===== Request Payload
 
-include::{snippets}/put-user-join/request-fields.adoc[]
+include::{snippets}/put-member-join/request-fields.adoc[]
 
 ===== Response
 
-include::{snippets}/put-user-join/response-body.adoc[]
+include::{snippets}/put-member-join/response-body.adoc[]
 
 ===== Response Header
 
-include::{snippets}/put-user-join/response-headers.adoc[]
+include::{snippets}/put-member-join/response-headers.adoc[]
 
 ===== Response Payload
 
-include::{snippets}/put-user-join/response-fields.adoc[]
+include::{snippets}/put-member-join/response-fields.adoc[]
