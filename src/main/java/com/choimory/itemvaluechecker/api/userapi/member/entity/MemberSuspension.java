@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 public class MemberSuspension extends CommonDateTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

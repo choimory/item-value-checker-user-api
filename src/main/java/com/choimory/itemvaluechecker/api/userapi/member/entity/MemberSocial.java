@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 public class MemberSocial extends CommonDateTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

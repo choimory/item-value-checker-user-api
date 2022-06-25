@@ -43,15 +43,19 @@ public class MemberJoinRequest {
     private final AuthLevel authLevel;
 
     public Member toEntity(){
-        return Member.builder()
+        Member member = Member.builder()
                 .memberId(memberId)
                 .password(password)
                 .name(name)
                 .email(email)
-                .memberAuthority(MemberAuthority.builder()
-                        .authLevel(authLevel)
-                        .build())
                 .build();
+
+        member.setMemberAuthority(MemberAuthority.builder()
+                .member(member)
+                .authLevel(authLevel)
+                .build());
+
+        return member;
     }
 
     public void requiredArgsValidate() throws CommonException{

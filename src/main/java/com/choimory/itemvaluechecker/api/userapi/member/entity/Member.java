@@ -14,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 public class Member extends CommonDateTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,11 +24,11 @@ public class Member extends CommonDateTimeEntity {
     private String name;
     private String email;
     @Builder.Default
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", orphanRemoval = true)
     private List<MemberSocial> memberSocials = new ArrayList<>();
-    @OneToOne(mappedBy = "member")
+    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private MemberAuthority memberAuthority;
     @Builder.Default
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<MemberSuspension> memberSuspensions = new ArrayList<>();
 }
