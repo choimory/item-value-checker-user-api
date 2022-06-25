@@ -69,7 +69,7 @@ class MemberControllerTest {
         when.andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()))
                 .andExpect(MockMvcResultMatchers.jsonPath("status").value(HttpStatus.OK.value()))
                 .andExpect(MockMvcResultMatchers.jsonPath("message").value(HttpStatus.OK.getReasonPhrase()))
-                .andExpect(MockMvcResultMatchers.jsonPath("member.memberId").value(id))
+                .andExpect(MockMvcResultMatchers.jsonPath("member.id").value(id))
                 .andExpect(MockMvcResultMatchers.jsonPath("member.password").doesNotExist())
                 .andDo(MockMvcResultHandlers.print())
                 .andDo(MockMvcRestDocumentation.document("get-member-id",
@@ -87,7 +87,7 @@ class MemberControllerTest {
                                 PayloadDocumentation.fieldWithPath("status").description("API 결과"),
                                 PayloadDocumentation.fieldWithPath("message").description("API 결과 메시지"),
                                 PayloadDocumentation.fieldWithPath("member").description("유저 정보"),
-                                PayloadDocumentation.fieldWithPath("member.memberId").description("ID"),
+                                PayloadDocumentation.fieldWithPath("member.id").description("ID"),
                                 PayloadDocumentation.fieldWithPath("member.name").description("이름"),
                                 PayloadDocumentation.fieldWithPath("member.email").description("이메일"),
                                 PayloadDocumentation.fieldWithPath("member.createdAt").description("가입일"),
@@ -118,7 +118,7 @@ class MemberControllerTest {
             when.andExpect(MockMvcResultMatchers.status().is(httpStatus.value()))
                     .andExpect(MockMvcResultMatchers.jsonPath("status").value(httpStatus.value()))
                     .andExpect(MockMvcResultMatchers.jsonPath("message").value(httpStatus.getReasonPhrase()))
-                    .andExpect(MockMvcResultMatchers.jsonPath("member.memberId").value(id))
+                    .andExpect(MockMvcResultMatchers.jsonPath("member.id").value(id))
                     .andExpect(MockMvcResultMatchers.jsonPath("member.password").doesNotExist());
         } else {
             when.andExpect(MockMvcResultMatchers.status().is(httpStatus.value()))
@@ -138,7 +138,7 @@ class MemberControllerTest {
     void join() throws Exception {
         /*given*/
         MemberJoinRequest request = MemberJoinRequest.builder()
-                .memberId("morychoi")
+                .id("morychoi")
                 .password("asdqwe123")
                 .name("morychoi")
                 .email("morychoi@naver.com")
@@ -165,7 +165,7 @@ class MemberControllerTest {
                                 HeaderDocumentation.headerWithName(HttpHeaders.CONTENT_TYPE).description("요청 형식")
                         ),
                         PayloadDocumentation.relaxedRequestFields(
-                                PayloadDocumentation.fieldWithPath("memberId").description("아이디"),
+                                PayloadDocumentation.fieldWithPath("id").description("아이디"),
                                 PayloadDocumentation.fieldWithPath("password").description("비밀번호"),
                                 PayloadDocumentation.fieldWithPath("name").description("이름"),
                                 PayloadDocumentation.fieldWithPath("email").description("이메일"),
