@@ -6,7 +6,7 @@ spring:
     include: datasource
     group:
       dev: dev
-      local: local, init-db
+      local: local, sql-init
 
   datasource:
     hikari:
