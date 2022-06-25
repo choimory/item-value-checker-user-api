@@ -1,7 +1,7 @@
 spring:
   config:
     activate:
-      on-profile: db
+      on-profile: datasource
   redis:
     host: ${redis-host}
     port: ${redis-port}

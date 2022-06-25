@@ -3,14 +3,16 @@ server:
 
 spring:
   profiles:
-    include: db
+    include: datasource
     group:
-      dev: dev, db
-      local: local, db
+      dev: dev
+      local: local, basic-db
+
   datasource:
     hikari:
       maximum-pool-size: 10
       max-lifetime: 28500000 #DB WAIT_TIMEOUT -> 28800 (28800000)
+
   jpa:
     open-in-view: false
     show-sql: false
