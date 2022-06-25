@@ -16,13 +16,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Builder
 @Getter
 public class MemberViewResponse extends RepresentationModel {
-    private int status;
-    private String message;
-    private MemberViewResponseMember member;
+    private final int status;
+    private final String message;
+    private final MemberViewResponseMember member;
 
+    @Builder
     public MemberViewResponse(int status, String message, MemberViewResponseMember member) {
         this.status = status;
         this.message = message;
