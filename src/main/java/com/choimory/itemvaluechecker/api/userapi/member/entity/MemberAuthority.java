@@ -21,5 +21,6 @@ public class MemberAuthority extends CommonDateTimeEntity {
     @OneToOne
     @JoinColumn(name = "member_idx")
     private Member member;
+    @Enumerated(EnumType.STRING)
     private AuthLevel authLevel;
 }

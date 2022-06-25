@@ -21,6 +21,7 @@ public class MemberSocial extends CommonDateTimeEntity {
     @ManyToOne
     @JoinColumn(name = "member_idx")
     private Member member;
+    @Enumerated(EnumType.STRING)
     private SocialType socialType;
     private String socialId;
 }
