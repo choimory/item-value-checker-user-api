@@ -25,7 +25,7 @@ create or replace table member_authority
     created_at  datetime        null,
     modified_at datetime        null,
     deleted_at  datetime        null,
-    constraint member_authority_member_idx_uindex
+    constraint member_authority_member_id_uindex
         unique (member_id)
 );
 
@@ -39,7 +39,7 @@ create or replace table member_social
     created_at  datetime        null,
     modified_at datetime        null,
     deleted_at  datetime        null,
-    constraint member_social_member_idx_social_type_uindex
+    constraint member_social_member_id_social_type_uindex
         unique (member_id, social_type)
 );
 
