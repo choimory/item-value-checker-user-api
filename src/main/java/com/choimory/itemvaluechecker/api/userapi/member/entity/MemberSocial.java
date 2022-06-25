@@ -1,17 +1,19 @@
 package com.choimory.itemvaluechecker.api.userapi.member.entity;
 
+import com.choimory.itemvaluechecker.api.userapi.common.entity.CommonDateTimeEntity;
 import com.choimory.itemvaluechecker.api.userapi.member.code.SocialType;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Builder
+@SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class MemberSocial {
+public class MemberSocial extends CommonDateTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idx;
@@ -20,7 +22,4 @@ public class MemberSocial {
     private Member member;
     private SocialType socialType;
     private String socialId;
-    private LocalDateTime createdAt;
-    private LocalDateTime modifiedAt;
-    private LocalDateTime deletedAt;
 }
