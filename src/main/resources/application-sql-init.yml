@@ -1,7 +1,7 @@
 spring:
   config:
     activate:
-      on-profile: basic-db
+      on-profile: sql-init
   sql:
     init:
       mode: always
