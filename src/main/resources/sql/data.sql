@@ -1,0 +1,2 @@
+insert into member(idx, member_id, password, name, email, created_at, modified_at, deleted_at) values(1, 'choimory', 'asdqwe123', '중윤최', 'choimory@naver.com', '2000-01-01 00:00:00', '2000-01-01 00:00:00', null);
+insert into member_authority(idx, member_idx, auth_level, created_at, modified_at, deleted_at) values (1, 1, 'MEMBER', '2000-01-01 00:00:00', '2000-01-01 00:00:00', null);
