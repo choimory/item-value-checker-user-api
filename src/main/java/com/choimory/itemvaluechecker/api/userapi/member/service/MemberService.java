@@ -14,17 +14,18 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
 
-    public MemberViewResponse view(final String id){
+    public MemberViewResponse view(final String memberId){
         return MemberViewResponse.builder()
                 .status(HttpStatus.OK.value())
                 .message(HttpStatus.OK.getReasonPhrase())
-                .member(MemberViewResponse.MemberViewResponseMember.toDto(memberRepository.findById(id)
+                .member(MemberViewResponse.MemberViewResponseMember.toDto(memberRepository.findByMemberId(memberId)
                         .orElseThrow(() -> new CommonException(HttpStatus.NOT_FOUND, HttpStatus.NOT_FOUND.value(), HttpStatus.NOT_FOUND.getReasonPhrase()))))
                 .build();
     }
@@ -33,17 +34,18 @@ public class MemberService {
         return null;
     }
 
+    @Transactional
     public MemberJoinResponse join(final MemberJoinRequest param) throws Exception {
         /*필수값 검증*/
         param.requiredArgsValidate();
 
         /*요청값 검증*/
         param.isIdValidate();
-        param.isPasswordValidate();
+        //param.isPasswordValidate();
         param.isEmailValidate();
 
         /*중복여부 확인*/
-        if(memberRepository.existsById(param.getId())){
+        if(memberRepository.existsByMemberId(param.getMemberId())){
             throw new CommonException(HttpStatus.BAD_REQUEST,
                     MemberJoinRequest.MemberJoinRequestValidate.ID_DUPLICATE.getCode(),
                     MemberJoinRequest.MemberJoinRequestValidate.ID_DUPLICATE.getMessage());
@@ -58,7 +60,7 @@ public class MemberService {
                 .message(HttpStatus.CREATED.getReasonPhrase())
                 .build();
         response.add(WebMvcLinkBuilder.linkTo(MemberController.class)
-                .slash(member.getId())
+                .slash(member.getMemberId())
                 .withRel("view-id"));
 
         return response;

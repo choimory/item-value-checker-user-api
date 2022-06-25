@@ -23,9 +23,9 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
     private final MemberService memberService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<MemberViewResponse> view(@PathVariable final String id){
-        return new ResponseEntity<>(memberService.view(id), HttpStatus.OK);
+    @GetMapping("/{memberId}")
+    public ResponseEntity<MemberViewResponse> view(@PathVariable final String memberId){
+        return new ResponseEntity<>(memberService.view(memberId), HttpStatus.OK);
     }
 
     @GetMapping

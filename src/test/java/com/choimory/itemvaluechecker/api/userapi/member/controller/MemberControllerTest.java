@@ -138,7 +138,7 @@ class MemberControllerTest {
     void join() throws Exception {
         /*given*/
         MemberJoinRequest request = MemberJoinRequest.builder()
-                .id("choimory")
+                .memberId("choimory")
                 .password("asdqwe123")
                 .name("중윤최")
                 .email("choimory@naver.com")

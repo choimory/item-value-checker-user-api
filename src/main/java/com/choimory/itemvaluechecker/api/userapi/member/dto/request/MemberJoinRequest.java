@@ -4,7 +4,6 @@ import com.choimory.itemvaluechecker.api.userapi.common.exception.CommonExceptio
 import com.choimory.itemvaluechecker.api.userapi.member.code.AuthLevel;
 import com.choimory.itemvaluechecker.api.userapi.member.entity.Member;
 import com.choimory.itemvaluechecker.api.userapi.member.entity.MemberAuthority;
-import com.choimory.itemvaluechecker.api.userapi.member.entity.MemberSuspension;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
 
-import java.time.LocalDateTime;
 import java.util.regex.Pattern;
 
 @Builder
@@ -38,7 +36,7 @@ public class MemberJoinRequest {
         private final String message;
     }
 
-    private final String id;
+    private final String memberId;
     private final String password;
     private final String name;
     private final String email;
@@ -46,7 +44,7 @@ public class MemberJoinRequest {
 
     public Member toEntity(){
         return Member.builder()
-                .id(id)
+                .memberId(memberId)
                 .password(password)
                 .name(name)
                 .email(email)
@@ -58,7 +56,7 @@ public class MemberJoinRequest {
 
     public void requiredArgsValidate() throws CommonException{
         /*아이디*/
-        if(!StringUtils.hasText(id)){
+        if(!StringUtils.hasText(memberId)){
             throw new CommonException(HttpStatus.BAD_REQUEST,
                     MemberJoinRequestValidate.ID_MISSING.getCode(),
                     MemberJoinRequestValidate.ID_MISSING.getMessage());
@@ -137,11 +135,11 @@ public class MemberJoinRequest {
     private boolean isIdContainsEnglishAndNumberOnly(){
         String pattern = "[a-zA-Z0-9]*$";
 
-        return Pattern.matches(pattern, id);
+        return Pattern.matches(pattern, memberId);
     }
 
     private boolean isIdLengthValidate(int min, int max){
-        return min < id.length() && id.length() < max;
+        return min < memberId.length() && memberId.length() < max;
     }
 
     private boolean isPasswordLengthValidate(int min, int max){
