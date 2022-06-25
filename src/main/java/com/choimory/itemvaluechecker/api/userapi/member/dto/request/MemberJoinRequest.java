@@ -36,7 +36,7 @@ public class MemberJoinRequest {
         private final String message;
     }
 
-    private final String memberId;
+    private final String id;
     private final String password;
     private final String name;
     private final String email;
@@ -44,7 +44,7 @@ public class MemberJoinRequest {
 
     public Member toEntity(){
         Member member = Member.builder()
-                .memberId(memberId)
+                .id(id)
                 .password(password)
                 .name(name)
                 .email(email)
@@ -60,7 +60,7 @@ public class MemberJoinRequest {
 
     public void requiredArgsValidate() throws CommonException{
         /*아이디*/
-        if(!StringUtils.hasText(memberId)){
+        if(!StringUtils.hasText(id)){
             throw new CommonException(HttpStatus.BAD_REQUEST,
                     MemberJoinRequestValidate.ID_MISSING.getCode(),
                     MemberJoinRequestValidate.ID_MISSING.getMessage());
@@ -139,11 +139,11 @@ public class MemberJoinRequest {
     private boolean isIdContainsEnglishAndNumberOnly(){
         String pattern = "[a-zA-Z0-9]*$";
 
-        return Pattern.matches(pattern, memberId);
+        return Pattern.matches(pattern, id);
     }
 
     private boolean isIdLengthValidate(int min, int max){
-        return min < memberId.length() && memberId.length() < max;
+        return min < id.length() && id.length() < max;
     }
 
     private boolean isPasswordLengthValidate(int min, int max){

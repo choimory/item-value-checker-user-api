@@ -28,7 +28,7 @@ public class MemberViewResponse extends RepresentationModel {
         this.message = message;
         this.member = member;
         add(WebMvcLinkBuilder.linkTo(MemberController.class)
-                .slash(member.getMemberId())
+                .slash(member.getId())
                 .withSelfRel());
     }
 
@@ -36,7 +36,7 @@ public class MemberViewResponse extends RepresentationModel {
     @RequiredArgsConstructor
     @Getter
     public static class MemberViewResponseMember {
-        private final String memberId;
+        private final String id;
         private final String name;
         private final String email;
         private final LocalDateTime createdAt;
@@ -80,7 +80,7 @@ public class MemberViewResponse extends RepresentationModel {
 
         public static MemberViewResponseMember toDto(Member member) {
             return MemberViewResponseMember.builder()
-                    .memberId(member.getMemberId())
+                    .id(member.getId())
                     .name(member.getName())
                     .email(member.getEmail())
                     .createdAt(member.getCreatedAt())

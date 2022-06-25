@@ -17,9 +17,7 @@ import java.util.List;
 @Setter
 public class Member extends CommonDateTimeEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idx;
-    private String memberId;
+    private String id;
     private String password;
     private String name;
     private String email;

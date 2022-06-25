@@ -16,9 +16,9 @@ import java.time.LocalDateTime;
 public class MemberSuspension extends CommonDateTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idx;
+    private Long id;
     @ManyToOne
-    @JoinColumn(name = "member_idx")
+    @JoinColumn(name = "member_id")
     private Member member;
     private String reason;
     private LocalDateTime suspendedAt;

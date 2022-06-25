@@ -17,9 +17,9 @@ import java.time.LocalDateTime;
 public class MemberAuthority extends CommonDateTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idx;
+    private Long id;
     @OneToOne
-    @JoinColumn(name = "member_idx")
+    @JoinColumn(name = "member_id")
     private Member member;
     @Enumerated(EnumType.STRING)
     private AuthLevel authLevel;

@@ -7,7 +7,5 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface MemberRepository extends CrudRepository<Member, Long> {
-    Optional<Member> findByMemberId(String memberId);
-    boolean existsByMemberId(String memberId);
+public interface MemberRepository extends CrudRepository<Member, String> {
 }

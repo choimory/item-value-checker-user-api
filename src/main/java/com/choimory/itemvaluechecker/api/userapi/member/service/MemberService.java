@@ -26,7 +26,7 @@ public class MemberService {
         return MemberViewResponse.builder()
                 .status(HttpStatus.OK.value())
                 .message(HttpStatus.OK.getReasonPhrase())
-                .member(MemberViewResponse.MemberViewResponseMember.toDto(memberRepository.findByMemberId(memberId)
+                .member(MemberViewResponse.MemberViewResponseMember.toDto(memberRepository.findById(memberId)
                         .orElseThrow(() -> new CommonException(HttpStatus.NOT_FOUND, HttpStatus.NOT_FOUND.value(), HttpStatus.NOT_FOUND.getReasonPhrase()))))
                 .build();
     }
@@ -46,7 +46,7 @@ public class MemberService {
         param.isEmailValidate();
 
         /*중복여부 확인*/
-        if(memberRepository.existsByMemberId(param.getMemberId())){
+        if(memberRepository.existsById(param.getId())){
             throw new CommonException(HttpStatus.BAD_REQUEST,
                     MemberJoinRequest.MemberJoinRequestValidate.ID_DUPLICATE.getCode(),
                     MemberJoinRequest.MemberJoinRequestValidate.ID_DUPLICATE.getMessage());
@@ -61,7 +61,7 @@ public class MemberService {
                 .message(HttpStatus.CREATED.getReasonPhrase())
                 .build();
         response.add(WebMvcLinkBuilder.linkTo(MemberController.class)
-                .slash(member.getMemberId())
+                .slash(member.getId())
                 .withRel("view-id"));
 
         return response;
