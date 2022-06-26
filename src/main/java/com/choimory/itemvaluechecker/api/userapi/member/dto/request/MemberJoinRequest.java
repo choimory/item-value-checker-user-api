@@ -4,7 +4,6 @@ import com.choimory.itemvaluechecker.api.userapi.common.exception.CommonExceptio
 import com.choimory.itemvaluechecker.api.userapi.member.code.AuthLevel;
 import com.choimory.itemvaluechecker.api.userapi.member.entity.Member;
 import com.choimory.itemvaluechecker.api.userapi.member.entity.MemberAuthority;
-import com.choimory.itemvaluechecker.api.userapi.member.entity.MemberSuspension;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
 
-import java.time.LocalDateTime;
 import java.util.regex.Pattern;
 
 @Builder
@@ -45,18 +43,19 @@ public class MemberJoinRequest {
     private final AuthLevel authLevel;
 
     public Member toEntity(){
-        return Member.builder()
+        Member member = Member.builder()
                 .id(id)
                 .password(password)
                 .name(name)
                 .email(email)
-                .createdAt(LocalDateTime.now())
-                .modifiedAt(null)
-                .deletedAt(null)
-                .memberAuthority(MemberAuthority.builder()
-                        .authLevel(authLevel)
-                        .build())
                 .build();
+
+        member.setMemberAuthority(MemberAuthority.builder()
+                .member(member)
+                .authLevel(authLevel)
+                .build());
+
+        return member;
     }
 
     public void requiredArgsValidate() throws CommonException{

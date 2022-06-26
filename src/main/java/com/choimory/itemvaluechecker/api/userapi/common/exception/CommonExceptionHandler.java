@@ -14,6 +14,7 @@ import javax.naming.AuthenticationException;
 public class CommonExceptionHandler {
     @ExceptionHandler({Exception.class})
     public ResponseEntity<CommonResponseDto<?>> exception(Exception e) {
+        e.printStackTrace();
         return new ResponseEntity<>(CommonResponseDto.builder()
                 .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .message(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
@@ -23,6 +24,7 @@ public class CommonExceptionHandler {
 
     @ExceptionHandler({RuntimeException.class})
     public ResponseEntity<CommonResponseDto<?>> runtimeException(Exception e) {
+        e.printStackTrace();
         return new ResponseEntity<>(CommonResponseDto.builder()
                 .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .message(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())

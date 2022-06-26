@@ -138,10 +138,10 @@ class MemberControllerTest {
     void join() throws Exception {
         /*given*/
         MemberJoinRequest request = MemberJoinRequest.builder()
-                .id("choimory")
+                .id("morychoi")
                 .password("asdqwe123")
-                .name("중윤최")
-                .email("choimory@naver.com")
+                .name("morychoi")
+                .email("morychoi@naver.com")
                 .authLevel(AuthLevel.MEMBER)
                 .build();
 
