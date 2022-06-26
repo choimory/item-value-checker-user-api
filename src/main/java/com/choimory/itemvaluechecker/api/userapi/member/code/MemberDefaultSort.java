@@ -7,7 +7,7 @@ import org.springframework.data.domain.Sort;
 @AllArgsConstructor
 @Getter
 public enum MemberDefaultSort {
-    MEMBERS("created_at", Sort.Direction.DESC);
+    VIEWS("created_at", Sort.Direction.DESC);
 
     private final String property;
     private final Sort.Direction direction;

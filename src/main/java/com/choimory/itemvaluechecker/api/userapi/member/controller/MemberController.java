@@ -13,7 +13,6 @@ import com.choimory.itemvaluechecker.api.userapi.member.dto.response.MemberUpdat
 import com.choimory.itemvaluechecker.api.userapi.member.dto.response.MemberViewResponse;
 import com.choimory.itemvaluechecker.api.userapi.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +31,7 @@ public class MemberController {
     @GetMapping
     public ResponseEntity<MemberListResponse> views(final MemberListRequest param,
                                                     final CommonPageRequest commonPageRequest){
-        return new ResponseEntity<>(memberService.views(param, commonPageRequest.of(MemberDefaultSort.MEMBERS.getProperty(), MemberDefaultSort.MEMBERS.getDirection())),
+        return new ResponseEntity<>(memberService.views(param, commonPageRequest.of(MemberDefaultSort.VIEWS.getProperty(), MemberDefaultSort.VIEWS.getDirection())),
                 HttpStatus.OK);
     }
 
