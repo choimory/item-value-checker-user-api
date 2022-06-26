@@ -4,6 +4,7 @@ import com.choimory.itemvaluechecker.api.userapi.config.SpringRestDocsConfig;
 import com.choimory.itemvaluechecker.api.userapi.member.code.AuthLevel;
 import com.choimory.itemvaluechecker.api.userapi.member.dto.request.MemberJoinRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -28,7 +29,10 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
+import java.util.regex.Matcher;
 import java.util.stream.Stream;
 
 @SpringBootTest
@@ -54,7 +58,7 @@ class MemberControllerTest {
     }*/
 
     @Test
-    @DisplayName("회원조회 성공 테스트")
+    @DisplayName("회원 단일조회 테스트")
     void view() throws Exception {
         /*given*/
         final String id = "choimory";
@@ -103,8 +107,8 @@ class MemberControllerTest {
 
     @ParameterizedTest
     @MethodSource({"viewMethodSource"})
-    @DisplayName("회원조회 성공실패 동적 테스트")
-    void viewDynamicTest(final boolean isSuccess, final String id, final HttpStatus httpStatus) throws Exception {
+    @DisplayName("회원 단일조회 동적 테스트")
+    void viewParameterizedTest(final boolean isSuccess, final String id, final HttpStatus httpStatus) throws Exception {
         /*when*/
         // ResultActions when = mockMvc.perform(RestDocumentationRequestBuilders.get("/member/{id}", id) - MockMvcRequestBuilder.get()이 pathRequest 지원 안하는 버전일시 사용
         ResultActions when = mockMvc.perform(MockMvcRequestBuilders.get("/member/{id}", id)
@@ -128,7 +132,95 @@ class MemberControllerTest {
         when.andDo(MockMvcResultHandlers.print());
     }
 
-    void views() {
+    @Test
+    @DisplayName("회원 목록조회 테스트")
+    void views() throws Exception {
+        /*given*/
+        MultiValueMap<String, String> param = new LinkedMultiValueMap<>();
+        String page = "1";
+        String size = "20";
+        String sort = "createdAt:desc,id:asc";
+        String id = "choimory";
+        String name = "중윤최";
+        String email = "choimory";
+        String authLevel = "MEMBER";
+        String createdFrom = "1980-01-01 00:00:00";
+        String createdTo = "2020-01-01 00:00:00";
+        String modifiedFrom = "1980-01-01 00:00:00";
+        String modifiedTo = "2020-01-01 00:00:00";
+
+        param.add("page", page);
+        param.add("size", size);
+        param.add("sort", sort);
+        param.add("id", id);
+        param.add("name", name);
+        param.add("email", email);
+        param.add("authLevel", authLevel);
+        param.add("createdFrom", createdFrom);
+        param.add("createdTo", createdTo);
+        param.add("modifiedFrom", modifiedFrom);
+        param.add("modifiedTo", modifiedTo);
+
+        /*when*/
+        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.get("/member")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .params(param));
+
+        /*then*/
+        result.andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("page").isNumber())
+                .andExpect(MockMvcResultMatchers.jsonPath("size").isNumber())
+                .andExpect(MockMvcResultMatchers.jsonPath("sort").isString())
+                .andExpect(MockMvcResultMatchers.jsonPath("members[0].id").value(id))
+                .andExpect(MockMvcResultMatchers.jsonPath("members[0].name", Matchers.containsString(name)))
+                .andExpect(MockMvcResultMatchers.jsonPath("members[0].email", Matchers.containsString(email)))
+                .andExpect(MockMvcResultMatchers.jsonPath("members[0].memberAuthority.authLevel").value(authLevel))
+                //.andExpect(MockMvcResultMatchers.jsonPath("members[0].createdAt", Matchers.))
+                //.andExpect(MockMvcResultMatchers.jsonPath("members[0].modifiedAt", Matchers.))
+                .andDo(MockMvcResultHandlers.print())
+                .andDo(MockMvcRestDocumentation.document("get-member",
+                        HeaderDocumentation.requestHeaders(
+                                HeaderDocumentation.headerWithName(HttpHeaders.ACCEPT).description("요청 헤더"),
+                                HeaderDocumentation.headerWithName(HttpHeaders.CONTENT_TYPE).description("요청 형식")
+                        ),
+                        RequestDocumentation.relaxedRequestParameters(
+                                RequestDocumentation.parameterWithName("page").description("페이지"),
+                                RequestDocumentation.parameterWithName("size").description("사이즈"),
+                                RequestDocumentation.parameterWithName("sort").description("정렬정보(prop:direction)"),
+                                RequestDocumentation.parameterWithName("id").description("아이디"),
+                                RequestDocumentation.parameterWithName("name").description("닉네임"),
+                                RequestDocumentation.parameterWithName("email").description("이메일"),
+                                RequestDocumentation.parameterWithName("authLevel").description("권한"),
+                                RequestDocumentation.parameterWithName("createdFrom").description("가입일 시작범위"),
+                                RequestDocumentation.parameterWithName("createdTo").description("가입일 끝범위"),
+                                RequestDocumentation.parameterWithName("modifiedFrom").description("수정일 시작범위"),
+                                RequestDocumentation.parameterWithName("modifiedTo").description("수정일 끝범위")
+                        ),
+                        HeaderDocumentation.responseHeaders(
+                                HeaderDocumentation.headerWithName(HttpHeaders.CONTENT_TYPE).description("응답 형식")
+                        ),
+                        PayloadDocumentation.relaxedResponseFields(
+                                PayloadDocumentation.fieldWithPath("page").description("페이지"),
+                                PayloadDocumentation.fieldWithPath("size").description("사이즈"),
+                                PayloadDocumentation.fieldWithPath("sort").description("정렬정보"),
+                                PayloadDocumentation.fieldWithPath("totalCount").description("총 갯수"),
+                                PayloadDocumentation.fieldWithPath("totalPage").description("총 페이지"),
+                                PayloadDocumentation.fieldWithPath("members").description("회원목록"),
+                                PayloadDocumentation.fieldWithPath("members[].memberAuthority").description("권한"),
+                                PayloadDocumentation.fieldWithPath("members[].memberSocials[]").description("SNS 계정정보"),
+                                PayloadDocumentation.fieldWithPath("members[].memberSuspensions[]").description("정지이력"),
+                                PayloadDocumentation.fieldWithPath("_links").description("HATEOAS"),
+                                PayloadDocumentation.fieldWithPath("_links.self").description("요청 API 주소")
+                        )));
+    }
+
+    @ParameterizedTest
+    @MethodSource("viewsMethodSource")
+    void viewsDynamicTest() throws Exception{
+        /*given*/
+        /*when*/
+        /*then*/
     }
 
     @Test
@@ -184,7 +276,7 @@ class MemberControllerTest {
                 ));
     }
 
-    void joinDynamicTest(){
+    void joinParameterizedTest(){
 
     }
 
@@ -207,4 +299,7 @@ class MemberControllerTest {
                 .build();
     }
 
+    static Stream<Arguments> viewsMethodSource(){
+        return null;
+    }
 }
