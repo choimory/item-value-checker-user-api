@@ -41,7 +41,7 @@ public class CommonPageRequest {
     }
 
     private Integer adjustSize(Integer size){
-        return (size == null || size < 0)
+        return (size == null || size < 1)
                 ? DEFAULT_SIZE
                 : size;
     }
