@@ -1,6 +1,7 @@
 package com.choimory.itemvaluechecker.api.userapi.member.controller;
 
 import com.choimory.itemvaluechecker.api.userapi.common.dto.request.CommonPageRequest;
+import com.choimory.itemvaluechecker.api.userapi.member.code.MemberDefaultSort;
 import com.choimory.itemvaluechecker.api.userapi.member.dto.request.MemberJoinRequest;
 import com.choimory.itemvaluechecker.api.userapi.member.dto.request.MemberListRequest;
 import com.choimory.itemvaluechecker.api.userapi.member.dto.response.MemberBanResponse;
@@ -31,7 +32,8 @@ public class MemberController {
     @GetMapping
     public ResponseEntity<MemberListResponse> views(final MemberListRequest param,
                                                     final CommonPageRequest commonPageRequest){
-        return new ResponseEntity<>(memberService.views(param, Pageable.ofSize(10)), HttpStatus.OK);
+        return new ResponseEntity<>(memberService.views(param, commonPageRequest.of(MemberDefaultSort.MEMBERS.getProperty(), MemberDefaultSort.MEMBERS.getDirection())),
+                HttpStatus.OK);
     }
 
     @PutMapping("/join")

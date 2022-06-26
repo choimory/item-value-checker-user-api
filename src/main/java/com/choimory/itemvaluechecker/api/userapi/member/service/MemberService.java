@@ -2,6 +2,7 @@ package com.choimory.itemvaluechecker.api.userapi.member.service;
 
 import com.choimory.itemvaluechecker.api.userapi.common.exception.CommonException;
 import com.choimory.itemvaluechecker.api.userapi.member.controller.MemberController;
+import com.choimory.itemvaluechecker.api.userapi.member.dto.dto.MemberDto;
 import com.choimory.itemvaluechecker.api.userapi.member.dto.request.MemberJoinRequest;
 import com.choimory.itemvaluechecker.api.userapi.member.dto.request.MemberListRequest;
 import com.choimory.itemvaluechecker.api.userapi.member.dto.response.MemberJoinResponse;
@@ -10,11 +11,15 @@ import com.choimory.itemvaluechecker.api.userapi.member.dto.response.MemberViewR
 import com.choimory.itemvaluechecker.api.userapi.member.entity.Member;
 import com.choimory.itemvaluechecker.api.userapi.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,13 +31,23 @@ public class MemberService {
         return MemberViewResponse.builder()
                 .status(HttpStatus.OK.value())
                 .message(HttpStatus.OK.getReasonPhrase())
-                .member(MemberViewResponse.MemberViewResponseMember.toDto(memberRepository.findById(memberId)
+                .member(MemberDto.toDto(memberRepository.findById(memberId)
                         .orElseThrow(() -> new CommonException(HttpStatus.NOT_FOUND, HttpStatus.NOT_FOUND.value(), HttpStatus.NOT_FOUND.getReasonPhrase()))))
                 .build();
     }
 
     public MemberListResponse views(final MemberListRequest param, final Pageable pageable){
-        return null;
+        Page<Member> members = memberRepository.getMembers(param, pageable);
+
+        return MemberListResponse.builder()
+                .page(members.getNumber()+1)
+                .size(members.getSize())
+                .totalPage(members.getTotalPages())
+                .totalCount(members.getTotalElements())
+                .members(members.getContent().stream()
+                        .map(MemberDto::toDto)
+                        .collect(Collectors.toUnmodifiableList()))
+                .build();
     }
 
     @Transactional
