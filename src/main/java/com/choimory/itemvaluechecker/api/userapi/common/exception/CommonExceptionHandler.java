@@ -1,6 +1,6 @@
 package com.choimory.itemvaluechecker.api.userapi.common.exception;
 
-import com.choimory.itemvaluechecker.api.userapi.common.dto.response.CommonResponseDto;
+import com.choimory.itemvaluechecker.api.userapi.common.dto.response.CommonResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,9 +13,9 @@ import javax.naming.AuthenticationException;
 @Slf4j
 public class CommonExceptionHandler {
     @ExceptionHandler({Exception.class})
-    public ResponseEntity<CommonResponseDto<?>> exception(Exception e) {
+    public ResponseEntity<CommonResponse<?>> exception(Exception e) {
         e.printStackTrace();
-        return new ResponseEntity<>(CommonResponseDto.builder()
+        return new ResponseEntity<>(CommonResponse.builder()
                 .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .message(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
                 .data(e.getMessage())
@@ -23,9 +23,9 @@ public class CommonExceptionHandler {
     }
 
     @ExceptionHandler({RuntimeException.class})
-    public ResponseEntity<CommonResponseDto<?>> runtimeException(Exception e) {
+    public ResponseEntity<CommonResponse<?>> runtimeException(Exception e) {
         e.printStackTrace();
-        return new ResponseEntity<>(CommonResponseDto.builder()
+        return new ResponseEntity<>(CommonResponse.builder()
                 .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .message(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
                 .data(e.getMessage())
@@ -33,8 +33,8 @@ public class CommonExceptionHandler {
     }
 
     @ExceptionHandler({CommonException.class})
-    public ResponseEntity<CommonResponseDto<?>> commonException(CommonException e) {
-        return new ResponseEntity<>(CommonResponseDto.builder()
+    public ResponseEntity<CommonResponse<?>> commonException(CommonException e) {
+        return new ResponseEntity<>(CommonResponse.builder()
                 .status(e.getCode())
                 .message(e.getMessage())
                 .data(e.getMessage())
@@ -42,8 +42,8 @@ public class CommonExceptionHandler {
     }
 
     @ExceptionHandler({AuthenticationException.class})
-    public ResponseEntity<CommonResponseDto<?>> authenticateException(Exception e) {
-        return new ResponseEntity<>(CommonResponseDto.builder()
+    public ResponseEntity<CommonResponse<?>> authenticateException(Exception e) {
+        return new ResponseEntity<>(CommonResponse.builder()
                 .status(HttpStatus.UNAUTHORIZED.value())
                 .message(HttpStatus.UNAUTHORIZED.getReasonPhrase())
                 .data(e.getMessage())
