@@ -15,10 +15,10 @@ class MemberJoinRequestTest {
     @ParameterizedTest
     @MethodSource("requiredArgsValidateMethodSource")
     @DisplayName("필수값 검증 테스트")
-    void requiredArgsValidate(boolean isSuccess, HttpStatus status, String id, String password, String name, MemberJoinRequest.MemberJoinRequestValidate validate) {
+    void requiredArgsValidate(boolean isSuccess, HttpStatus status, String idName, String password, String name, MemberJoinRequest.MemberJoinRequestValidate validate) {
         /*given*/
         MemberJoinRequest request = MemberJoinRequest.builder()
-                .memberId(id)
+                .idName(idName)
                 .password(password)
                 .nickname(name)
                 .build();
@@ -41,10 +41,10 @@ class MemberJoinRequestTest {
     @ParameterizedTest
     @MethodSource("isIdValidateMethodSource")
     @DisplayName("아이디 검증 테스트")
-    void isIdValidate(boolean isSuccess, HttpStatus status, String id, MemberJoinRequest.MemberJoinRequestValidate validate) {
+    void isIdValidate(boolean isSuccess, HttpStatus status, String idName, MemberJoinRequest.MemberJoinRequestValidate validate) {
         /*given*/
         MemberJoinRequest request = MemberJoinRequest.builder()
-                .memberId(id)
+                .idName(idName)
                 .build();
         try {
             /*when*/

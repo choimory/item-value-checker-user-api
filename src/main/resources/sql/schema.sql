@@ -8,15 +8,13 @@ create or replace table item_value_checker_user.member
 (
     id          bigint unsigned auto_increment
         primary key,
-    member_id   varchar(255) not null,
+    id_name     varchar(255) not null,
     password    varchar(255) not null,
     nickname    varchar(255) not null,
     email       varchar(255) null,
     created_at  datetime     null,
     modified_at datetime     null,
-    deleted_at  datetime     null,
-    constraint member_member_id_uindex
-        unique (member_id)
+    deleted_at  datetime     null
 );
 
 create or replace table item_value_checker_user.member_authority
@@ -27,9 +25,7 @@ create or replace table item_value_checker_user.member_authority
     auth_level  varchar(255)    not null,
     created_at  datetime        null,
     modified_at datetime        null,
-    deleted_at  datetime        null,
-    constraint member_authority_member_id_uindex
-        unique (member_id)
+    deleted_at  datetime        null
 );
 
 create or replace table item_value_checker_user.member_social
@@ -41,9 +37,7 @@ create or replace table item_value_checker_user.member_social
     social_id   varchar(255)    null,
     created_at  datetime        null,
     modified_at datetime        null,
-    deleted_at  datetime        null,
-    constraint member_social_member_id_social_type_uindex
-        unique (member_id, social_type)
+    deleted_at  datetime        null
 );
 
 create or replace table item_value_checker_user.member_suspension

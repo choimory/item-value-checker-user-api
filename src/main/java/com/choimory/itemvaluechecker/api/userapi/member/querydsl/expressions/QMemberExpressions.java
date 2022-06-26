@@ -7,9 +7,9 @@ import org.springframework.util.StringUtils;
 import static com.choimory.itemvaluechecker.api.userapi.member.entity.QMember.member;
 
 public class QMemberExpressions {
-    public static BooleanExpression eqMemberId(final MemberListRequest param){
-        return param != null && StringUtils.hasText(param.getMemberId())
-                ? member.memberId.eq(param.getMemberId())
+    public static BooleanExpression eqIdName(final MemberListRequest param){
+        return param != null && StringUtils.hasText(param.getIdName())
+                ? member.idName.eq(param.getIdName())
                 : null;
     }
 

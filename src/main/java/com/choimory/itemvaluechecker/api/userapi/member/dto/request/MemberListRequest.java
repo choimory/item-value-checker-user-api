@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 @Getter
 public class MemberListRequest {
-    private final String memberId;
+    private final String idName;
     private final String nickname;
     private final String email;
     private final AuthLevel authLevel;

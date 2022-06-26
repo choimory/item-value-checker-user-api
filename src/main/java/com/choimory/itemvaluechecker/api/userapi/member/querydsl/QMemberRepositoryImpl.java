@@ -28,7 +28,7 @@ public class QMemberRepositoryImpl extends Querydsl4RepositorySupport implements
         QueryResults<Member> result = getQuerydsl().applyPagination(pageable,
                 query.select(member)
                         .from(member)
-                        .where(eqMemberId(param),
+                        .where(eqIdName(param),
                             containsNickname(param),
                             containsEmail(param),
                             eqAuthLevel(param),

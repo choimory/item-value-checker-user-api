@@ -19,7 +19,7 @@ public class Member extends CommonDateTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String memberId;
+    private String idName;
     private String password;
     private String nickname;
     private String email;
