@@ -29,8 +29,8 @@ public class MemberDto {
     private final LocalDateTime modifiedAt;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     private final LocalDateTime deletedAt;
-    private final List<MemberSocialDto> memberSocials;
     private final MemberAuthorityDto memberAuthority;
+    private final List<MemberSocialDto> memberSocials;
     private final List<MemberSuspensionDto> memberSuspensions;
 
     public static MemberDto toDto(Member member){

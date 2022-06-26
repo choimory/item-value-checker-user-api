@@ -84,8 +84,6 @@ class MemberControllerTest {
                                 HeaderDocumentation.headerWithName(HttpHeaders.CONTENT_TYPE).description("응답 형식")
                         ),
                         PayloadDocumentation.relaxedResponseFields(
-                                PayloadDocumentation.fieldWithPath("status").description("API 결과"),
-                                PayloadDocumentation.fieldWithPath("message").description("API 결과 메시지"),
                                 PayloadDocumentation.fieldWithPath("member").description("유저 정보"),
                                 PayloadDocumentation.fieldWithPath("member.id").description("ID"),
                                 PayloadDocumentation.fieldWithPath("member.name").description("이름"),
@@ -93,9 +91,9 @@ class MemberControllerTest {
                                 PayloadDocumentation.fieldWithPath("member.createdAt").description("가입일"),
                                 PayloadDocumentation.fieldWithPath("member.modifiedAt").description("수정일"),
                                 PayloadDocumentation.fieldWithPath("member.deletedAt").description("탈퇴일"),
-                                PayloadDocumentation.fieldWithPath("member.authLevel").description("권한"),
-                                PayloadDocumentation.fieldWithPath("member.socials").description("소셜 아이디"),
-                                PayloadDocumentation.fieldWithPath("member.suspensions").description("정지 일자"),
+                                PayloadDocumentation.fieldWithPath("member.memberAuthority").description("권한"),
+                                PayloadDocumentation.fieldWithPath("member.memberSocials").description("소셜 아이디"),
+                                PayloadDocumentation.fieldWithPath("member.memberSuspensions").description("정지 일자"),
                                 PayloadDocumentation.fieldWithPath("_links").description("HATEOAS"),
                                 PayloadDocumentation.fieldWithPath("_links.self").description("해당 API 요청정보"),
                                 PayloadDocumentation.fieldWithPath("_links.self.href").description("해당 API 요청주소")
