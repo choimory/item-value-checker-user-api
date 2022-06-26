@@ -87,7 +87,7 @@ public class CommonPageRequest {
         //prop은 검증 제외, 엔티티마다 prop이 다르므로 요청별로 유효한 컬럼인지를 다 확인할 방법이 없음.
         if(StringUtils.pathEquals(upperCase, Sort.Direction.ASC.toString())
                 || StringUtils.pathEquals(upperCase, Sort.Direction.DESC.toString())){
-            return new Sort.Order(Sort.Direction.valueOf(value), splittedSort.get(0));
+            return new Sort.Order(Sort.Direction.valueOf(upperCase), splittedSort.get(0));
         } else {
             return new Sort.Order(defaultDirection, splittedSort.get(0));
         }
@@ -101,7 +101,7 @@ public class CommonPageRequest {
         //dir가 일치할시 dir만 보낸거고 아니면 prop만 보낸것
         if(StringUtils.pathEquals(upperCase, Sort.Direction.ASC.toString())
                 || StringUtils.pathEquals(upperCase, Sort.Direction.DESC.toString())){
-            return new Sort.Order(Sort.Direction.valueOf(value), defaultProperty);
+            return new Sort.Order(Sort.Direction.valueOf(upperCase), defaultProperty);
         } else {
             return new Sort.Order(defaultDirection, value);
         }

@@ -17,9 +17,11 @@ import java.util.List;
 @Setter
 public class Member extends CommonDateTimeEntity {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String idName;
     private String password;
-    private String name;
+    private String nickname;
     private String email;
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private MemberAuthority memberAuthority;

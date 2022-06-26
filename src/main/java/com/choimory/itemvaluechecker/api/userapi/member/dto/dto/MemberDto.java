@@ -7,7 +7,6 @@ import com.choimory.itemvaluechecker.api.userapi.member.entity.MemberAuthority;
 import com.choimory.itemvaluechecker.api.userapi.member.entity.MemberSocial;
 import com.choimory.itemvaluechecker.api.userapi.member.entity.MemberSuspension;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +19,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Getter
 public class MemberDto {
-    private final String id;
-    private final String name;
+    private final Long id;
+    private final String idName;
+    private final String nickname;
     private final String email;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     private final LocalDateTime createdAt;
@@ -29,14 +29,15 @@ public class MemberDto {
     private final LocalDateTime modifiedAt;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     private final LocalDateTime deletedAt;
-    private final List<MemberSocialDto> memberSocials;
     private final MemberAuthorityDto memberAuthority;
+    private final List<MemberSocialDto> memberSocials;
     private final List<MemberSuspensionDto> memberSuspensions;
 
     public static MemberDto toDto(Member member){
         return MemberDto.builder()
                 .id(member.getId())
-                .name(member.getName())
+                .idName(member.getIdName())
+                .nickname(member.getNickname())
                 .email(member.getEmail())
                 .createdAt(member.getCreatedAt())
                 .modifiedAt(member.getModifiedAt())

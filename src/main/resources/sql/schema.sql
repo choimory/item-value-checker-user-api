@@ -4,50 +4,47 @@ drop table if exists member_social;
 drop table if exists member_suspension;
 
 
-create or replace table member
+create or replace table item_value_checker_user.member
 (
-    id  varchar(255) not null
+    id          bigint unsigned auto_increment
         primary key,
+    id_name     varchar(255) not null,
     password    varchar(255) not null,
-    name        varchar(255) not null,
+    nickname    varchar(255) not null,
     email       varchar(255) null,
     created_at  datetime     null,
     modified_at datetime     null,
     deleted_at  datetime     null
 );
 
-create or replace table member_authority
+create or replace table item_value_checker_user.member_authority
 (
-    id         bigint unsigned auto_increment
+    id          bigint unsigned auto_increment
         primary key,
-    member_id  varchar(255) not null,
+    member_id   bigint unsigned not null,
     auth_level  varchar(255)    not null,
     created_at  datetime        null,
     modified_at datetime        null,
-    deleted_at  datetime        null,
-    constraint member_authority_member_id_uindex
-        unique (member_id)
+    deleted_at  datetime        null
 );
 
-create or replace table member_social
+create or replace table item_value_checker_user.member_social
 (
-    id         bigint unsigned auto_increment
+    id          bigint unsigned auto_increment
         primary key,
-    member_id  varchar(255) not null,
+    member_id   bigint unsigned not null,
     social_type varchar(255)    null,
     social_id   varchar(255)    null,
     created_at  datetime        null,
     modified_at datetime        null,
-    deleted_at  datetime        null,
-    constraint member_social_member_id_social_type_uindex
-        unique (member_id, social_type)
+    deleted_at  datetime        null
 );
 
-create or replace table member_suspension
+create or replace table item_value_checker_user.member_suspension
 (
-    id          bigint unsigned auto_increment
+    id           bigint unsigned auto_increment
         primary key,
-    member_id   varchar(255) not null,
+    member_id    bigint unsigned not null,
     reason       text            null,
     suspended_at datetime        null,
     suspended_to datetime        null,

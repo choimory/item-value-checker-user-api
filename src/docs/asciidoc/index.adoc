@@ -92,7 +92,7 @@ include::{snippets}/get-member-id/path-parameters.adoc[]
 
 ===== Response
 
-include::{snippets}/get-member-id/response-body.adoc[]
+include::{snippets}/get-member-id/http-response.adoc[]
 
 ===== Response Header
 
@@ -101,6 +101,38 @@ include::{snippets}/get-member-id/response-headers.adoc[]
 ===== Response Payload
 
 include::{snippets}/get-member-id/response-fields.adoc[]
+
+[[api-get-member]]
+==== `GET` 회원 목록조회
+
+`GET` `/member`
+
+여러 파라미터를 이용한 회원 목록조회
+
+===== Request
+
+include::{snippets}/get-member/http-request.adoc[]
+
+===== Request Header
+
+include::{snippets}/get-member/request-headers.adoc[]
+
+===== Request Parameter
+
+include::{snippets}/get-member/request-parameters.adoc[]
+
+===== Response
+
+include::{snippets}/get-member/http-response.adoc[]
+
+===== Response Header
+
+include::{snippets}/get-member/response-headers.adoc[]
+
+===== Response Payload
+
+include::{snippets}/get-member/response-fields.adoc[]
+
 
 [[api-put-member-join]]
 ==== `PUT` 회원가입
@@ -123,7 +155,7 @@ include::{snippets}/put-member-join/request-fields.adoc[]
 
 ===== Response
 
-include::{snippets}/put-member-join/response-body.adoc[]
+include::{snippets}/put-member-join/http-response.adoc[]
 
 ===== Response Header
 

@@ -18,7 +18,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,7 +30,7 @@ public class MemberService {
         return MemberViewResponse.builder()
                 .status(HttpStatus.OK.value())
                 .message(HttpStatus.OK.getReasonPhrase())
-                .member(MemberDto.toDto(memberRepository.findById(memberId)
+                .member(MemberDto.toDto(memberRepository.findMemberByIdNameEquals(memberId)
                         .orElseThrow(() -> new CommonException(HttpStatus.NOT_FOUND, HttpStatus.NOT_FOUND.value(), HttpStatus.NOT_FOUND.getReasonPhrase()))))
                 .build();
     }
@@ -42,6 +41,7 @@ public class MemberService {
         return MemberListResponse.builder()
                 .page(members.getNumber()+1)
                 .size(members.getSize())
+                .sort(members.getSort().toString())
                 .totalPage(members.getTotalPages())
                 .totalCount(members.getTotalElements())
                 .members(members.getContent().stream()
@@ -61,7 +61,7 @@ public class MemberService {
         param.isEmailValidate();
 
         /*중복여부 확인*/
-        if(memberRepository.existsById(param.getId())){
+        if(memberRepository.existsByIdName(param.getIdName())){
             throw new CommonException(HttpStatus.BAD_REQUEST,
                     MemberJoinRequest.MemberJoinRequestValidate.ID_DUPLICATE.getCode(),
                     MemberJoinRequest.MemberJoinRequestValidate.ID_DUPLICATE.getMessage());
