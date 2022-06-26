@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @Builder
 @Getter
 @RequiredArgsConstructor
-public class CommonResponseDto<T> {
+public class CommonResponse<T> {
     @Builder.Default
     private final int status = 0;
     private final String message;

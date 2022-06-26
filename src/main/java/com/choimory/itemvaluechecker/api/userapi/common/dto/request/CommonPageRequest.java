@@ -15,8 +15,8 @@ import java.util.*;
 public class CommonPageRequest {
     private static final Integer DEFAULT_PAGE = 1;
     private static final Integer DEFAULT_SIZE = 20;
-    private static final String SORT_SEPARATOR = "-";
-    private static final String SORT_PATTERN = "prop-direction";
+    private static final String SORT_SEPARATOR = ":";
+    private static final String SORT_PATTERN = "prop:direction";
     private final Integer page;
     private final Integer size;
     private final List<String> sort;
@@ -41,7 +41,7 @@ public class CommonPageRequest {
     }
 
     private Integer adjustSize(Integer size){
-        return (size == null || size < 0)
+        return (size == null || size < 1)
                 ? DEFAULT_SIZE
                 : size;
     }

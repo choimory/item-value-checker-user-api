@@ -6,6 +6,8 @@ import com.choimory.itemvaluechecker.api.userapi.member.entity.Member;
 import com.choimory.itemvaluechecker.api.userapi.member.entity.MemberAuthority;
 import com.choimory.itemvaluechecker.api.userapi.member.entity.MemberSocial;
 import com.choimory.itemvaluechecker.api.userapi.member.entity.MemberSuspension;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +23,11 @@ public class MemberDto {
     private final String id;
     private final String name;
     private final String email;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     private final LocalDateTime createdAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     private final LocalDateTime modifiedAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     private final LocalDateTime deletedAt;
     private final List<MemberSocialDto> memberSocials;
     private final MemberAuthorityDto memberAuthority;
@@ -52,8 +57,11 @@ public class MemberDto {
     public static class MemberSocialDto{
         private final SocialType socialType;
         private final String socialId;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
         private final LocalDateTime createdAt;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
         private final LocalDateTime modifiedAt;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
         private final LocalDateTime deletedAt;
 
         public static MemberSocialDto toDto(MemberSocial memberSocial){
@@ -72,8 +80,11 @@ public class MemberDto {
     @Getter
     public static class MemberAuthorityDto{
         private final AuthLevel authLevel;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
         private final LocalDateTime createdAt;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
         private final LocalDateTime modifiedAt;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
         private final LocalDateTime deletedAt;
 
         public static MemberAuthorityDto toDto(MemberAuthority memberAuthority){
@@ -91,10 +102,15 @@ public class MemberDto {
     @Getter
     public static class MemberSuspensionDto{
         private final String reason;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
         private final LocalDateTime suspendedAt;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
         private final LocalDateTime suspendedTo;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
         private final LocalDateTime createdAt;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
         private final LocalDateTime modifiedAt;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
         private final LocalDateTime deletedAt;
 
         public static MemberSuspensionDto toDto(MemberSuspension memberSuspension){
