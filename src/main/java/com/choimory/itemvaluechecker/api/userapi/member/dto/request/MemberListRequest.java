@@ -12,8 +12,8 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 @Getter
 public class MemberListRequest {
-    private final String id;
-    private final String name;
+    private final String memberId;
+    private final String nickname;
     private final String email;
     private final AuthLevel authLevel;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd HH:mm:ss")

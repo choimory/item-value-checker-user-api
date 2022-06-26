@@ -4,20 +4,18 @@ import com.choimory.itemvaluechecker.api.userapi.member.dto.request.MemberListRe
 import com.querydsl.core.types.dsl.BooleanExpression;
 import org.springframework.util.StringUtils;
 
-import java.time.LocalDateTime;
-
 import static com.choimory.itemvaluechecker.api.userapi.member.entity.QMember.member;
 
 public class QMemberExpressions {
-    public static BooleanExpression eqId(final MemberListRequest param){
-        return param != null && StringUtils.hasText(param.getId())
-                ? member.id.eq(param.getId())
+    public static BooleanExpression eqMemberId(final MemberListRequest param){
+        return param != null && StringUtils.hasText(param.getMemberId())
+                ? member.memberId.eq(param.getMemberId())
                 : null;
     }
 
-    public static BooleanExpression containsName(final MemberListRequest param){
-        return param != null && StringUtils.hasText(param.getName())
-                ? member.name.contains(param.getName())
+    public static BooleanExpression containsNickname(final MemberListRequest param){
+        return param != null && StringUtils.hasText(param.getNickname())
+                ? member.nickname.contains(param.getNickname())
                 : null;
     }
 

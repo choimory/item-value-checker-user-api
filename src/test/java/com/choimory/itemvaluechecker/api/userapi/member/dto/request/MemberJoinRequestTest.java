@@ -18,9 +18,9 @@ class MemberJoinRequestTest {
     void requiredArgsValidate(boolean isSuccess, HttpStatus status, String id, String password, String name, MemberJoinRequest.MemberJoinRequestValidate validate) {
         /*given*/
         MemberJoinRequest request = MemberJoinRequest.builder()
-                .id(id)
+                .memberId(id)
                 .password(password)
-                .name(name)
+                .nickname(name)
                 .build();
 
         try {
@@ -44,7 +44,7 @@ class MemberJoinRequestTest {
     void isIdValidate(boolean isSuccess, HttpStatus status, String id, MemberJoinRequest.MemberJoinRequestValidate validate) {
         /*given*/
         MemberJoinRequest request = MemberJoinRequest.builder()
-                .id(id)
+                .memberId(id)
                 .build();
         try {
             /*when*/
