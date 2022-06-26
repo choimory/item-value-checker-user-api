@@ -80,12 +80,13 @@ public class CommonPageRequest {
     }
 
     private Sort.Order whenSortNormal(List<String> splittedSort, Sort.Direction defaultDirection){
-        String value = splittedSort.get(1).toUpperCase(Locale.ROOT);
+        String value = splittedSort.get(1);
+        String upperCase = value.toUpperCase(Locale.ROOT);
 
         //dir 제대로 적었는지 확인하고 제대로 적었으면 해당 Dir 적용, 아니면 기본 dir 적용
         //prop은 검증 제외, 엔티티마다 prop이 다르므로 요청별로 유효한 컬럼인지를 다 확인할 방법이 없음.
-        if(StringUtils.pathEquals(value, Sort.Direction.ASC.toString())
-                || StringUtils.pathEquals(value, Sort.Direction.DESC.toString())){
+        if(StringUtils.pathEquals(upperCase, Sort.Direction.ASC.toString())
+                || StringUtils.pathEquals(upperCase, Sort.Direction.DESC.toString())){
             return new Sort.Order(Sort.Direction.valueOf(value), splittedSort.get(0));
         } else {
             return new Sort.Order(defaultDirection, splittedSort.get(0));
@@ -93,12 +94,13 @@ public class CommonPageRequest {
     }
 
     private Sort.Order whenSortAbnormal(List<String> splittedSort, Sort.Direction defaultDirection, String defaultProperty){
-        String value = splittedSort.get(0).toUpperCase(Locale.ROOT);
+        String value = splittedSort.get(0);
+        String upperCase = value.toUpperCase(Locale.ROOT);
 
         //dir만 보냈는지 prop만 보냈는지 확인 후 안보낸값을 기본값으로 적용
         //dir가 일치할시 dir만 보낸거고 아니면 prop만 보낸것
-        if(StringUtils.pathEquals(value, Sort.Direction.ASC.toString())
-                || StringUtils.pathEquals(value, Sort.Direction.DESC.toString())){
+        if(StringUtils.pathEquals(upperCase, Sort.Direction.ASC.toString())
+                || StringUtils.pathEquals(upperCase, Sort.Direction.DESC.toString())){
             return new Sort.Order(Sort.Direction.valueOf(value), defaultProperty);
         } else {
             return new Sort.Order(defaultDirection, value);
