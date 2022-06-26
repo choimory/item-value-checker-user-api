@@ -42,6 +42,7 @@ public class MemberService {
         return MemberListResponse.builder()
                 .page(members.getNumber()+1)
                 .size(members.getSize())
+                .sort(members.getSort().toString())
                 .totalPage(members.getTotalPages())
                 .totalCount(members.getTotalElements())
                 .members(members.getContent().stream()
