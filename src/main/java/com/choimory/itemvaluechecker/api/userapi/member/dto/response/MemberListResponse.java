@@ -12,7 +12,7 @@ import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import java.util.List;
 
 @Getter
-public class MemberListResponse extends RepresentationModel {
+public class MemberListResponse extends RepresentationModel<MemberListResponse> {
     private final int page;
     private final int size;
     private final String sort;
