@@ -57,7 +57,7 @@ public class MemberService {
 
         /*요청값 검증*/
         param.isIdValidate();
-        //param.isPasswordValidate();
+        param.isPasswordValidate();
         param.isEmailValidate();
 
         /*중복여부 확인*/

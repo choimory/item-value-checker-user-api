@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Builder
@@ -150,29 +151,36 @@ public class MemberJoinRequest {
         return min < password.length() && password.length( ) < max;
     }
 
-    // TODO
     private boolean isPasswordContainsNumber(){
-        String pattern = "";
+        for (char c : password.toCharArray()) {
+            if(Character.isDigit(c)){
+                return true;
+            }
+        }
 
-        return Pattern.matches(pattern, password);
+        return false;
     }
 
-    // TODO
     private boolean isPasswordContainsUpperAndLowerCase(){
-        String upperCasePattern = "";
-        String lowerCasePattern = "";
-        String bothCasePattern = "";
+        boolean isContainUpperCase = false;
+        boolean isContainLowerCase = false;
 
-        return Pattern.matches(upperCasePattern, password)
-                && Pattern.matches(lowerCasePattern, password)
-                && Pattern.matches(bothCasePattern, password);
+        for (char c : password.toCharArray()) {
+            if(Character.isUpperCase(c)){
+                isContainUpperCase = true;
+            }
+            if(Character.isLowerCase(c)){
+                isContainLowerCase = true;
+            }
+        }
+
+        return isContainUpperCase && isContainLowerCase;
     }
 
-    // TODO
     private boolean isPasswordContainsSpecialCharacter(){
-        String pattern = "";
-
-        return Pattern.matches(pattern, password);
+        Pattern p = Pattern.compile("[^a-z0-9 가-힣ㄱ-ㅋㅏ-ㅣ]", Pattern.CASE_INSENSITIVE);
+        Matcher m = p.matcher(password);
+        return m.find();
     }
 
     private boolean isEmailPatternValidate(){
