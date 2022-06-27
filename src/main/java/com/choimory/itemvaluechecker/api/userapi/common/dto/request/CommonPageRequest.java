@@ -35,7 +35,7 @@ public class CommonPageRequest {
     }
 
     private Integer adjustPage(Integer page){
-        return (page == null || page < 0)
+        return (page == null || page < 1)
                 ? DEFAULT_PAGE - 1
                 : page - 1;
     }
