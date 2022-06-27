@@ -35,7 +35,7 @@ public class MemberController {
                 HttpStatus.OK);
     }
 
-    @PutMapping("/join")
+    @PutMapping
     public ResponseEntity<MemberJoinResponse> join(@RequestBody(required = false) final MemberJoinRequest param) throws Exception {
         return new ResponseEntity<>(memberService.join(param), HttpStatus.CREATED);
     }

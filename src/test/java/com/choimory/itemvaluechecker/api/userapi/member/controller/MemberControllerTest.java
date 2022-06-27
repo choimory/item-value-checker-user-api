@@ -235,7 +235,7 @@ class MemberControllerTest {
                 .build();
 
         /*when*/
-        ResultActions when = mockMvc.perform(MockMvcRequestBuilders.put("/member/join")
+        ResultActions when = mockMvc.perform(MockMvcRequestBuilders.put("/member")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)));
