@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class MemberService {
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public MemberViewResponse view(final String memberId){
         return MemberViewResponse.builder()
@@ -68,7 +70,7 @@ public class MemberService {
         }
 
         /*저장*/
-        Member member = memberRepository.save(param.toEntity());
+        Member member = memberRepository.save(param.toEntity(passwordEncoder));
 
         /*반환*/
         MemberJoinResponse response = MemberJoinResponse.builder()
