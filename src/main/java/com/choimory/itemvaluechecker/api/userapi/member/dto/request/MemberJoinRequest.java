@@ -9,8 +9,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.StringUtils;
 
+import javax.validation.constraints.NotNull;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -47,6 +49,22 @@ public class MemberJoinRequest {
         Member member = Member.builder()
                 .idName(idName)
                 .password(password)
+                .nickname(nickname)
+                .email(email)
+                .build();
+
+        member.setMemberAuthority(MemberAuthority.builder()
+                .member(member)
+                .authLevel(authLevel)
+                .build());
+
+        return member;
+    }
+
+    public Member toEntity(@NotNull PasswordEncoder passwordEncoder){
+        Member member = Member.builder()
+                .idName(idName)
+                .password(passwordEncoder.encode(password))
                 .nickname(nickname)
                 .email(email)
                 .build();
