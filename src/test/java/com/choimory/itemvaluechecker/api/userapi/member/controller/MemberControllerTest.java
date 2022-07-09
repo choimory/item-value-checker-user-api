@@ -60,10 +60,10 @@ class MemberControllerTest {
     @DisplayName("회원 단일조회 테스트")
     void view() throws Exception {
         /*given*/
-        final String idName = "choimory";
+        final String identity = "choimory";
 
         /*when*/
-        ResultActions when = mockMvc.perform(RestDocumentationRequestBuilders.get("/member/{idName}", idName)
+        ResultActions when = mockMvc.perform(RestDocumentationRequestBuilders.get("/member/{identity}", identity)
         //ResultActions when = mockMvc.perform(MockMvcRequestBuilders.get("/member/{id}", id) // -> MockMvcRequestBuilder.get()이 pathRequest 지원하는 버전일시 사용
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON));
@@ -72,7 +72,7 @@ class MemberControllerTest {
         when.andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()))
                 .andExpect(MockMvcResultMatchers.jsonPath("status").value(HttpStatus.OK.value()))
                 .andExpect(MockMvcResultMatchers.jsonPath("message").value(HttpStatus.OK.getReasonPhrase()))
-                .andExpect(MockMvcResultMatchers.jsonPath("member.idName").value(idName))
+                .andExpect(MockMvcResultMatchers.jsonPath("member.identity").value(identity))
                 .andExpect(MockMvcResultMatchers.jsonPath("member.password").doesNotExist())
                 .andDo(MockMvcResultHandlers.print())
                 .andDo(MockMvcRestDocumentation.document("get-member-id",
@@ -81,14 +81,14 @@ class MemberControllerTest {
                                 HeaderDocumentation.headerWithName(HttpHeaders.CONTENT_TYPE).description("요청 형식")
                         ),
                         RequestDocumentation.relaxedPathParameters(
-                                RequestDocumentation.parameterWithName("idName").description("회원 아이디")
+                                RequestDocumentation.parameterWithName("identity").description("회원 아이디")
                         ),
                         HeaderDocumentation.responseHeaders(
                                 HeaderDocumentation.headerWithName(HttpHeaders.CONTENT_TYPE).description("응답 형식")
                         ),
                         PayloadDocumentation.relaxedResponseFields(
                                 PayloadDocumentation.fieldWithPath("member").description("유저 정보"),
-                                PayloadDocumentation.fieldWithPath("member.idName").description("ID"),
+                                PayloadDocumentation.fieldWithPath("member.identity").description("ID"),
                                 PayloadDocumentation.fieldWithPath("member.nickname").description("이름"),
                                 PayloadDocumentation.fieldWithPath("member.email").description("이메일"),
                                 PayloadDocumentation.fieldWithPath("member.createdAt").description("가입일"),
@@ -107,10 +107,10 @@ class MemberControllerTest {
     @ParameterizedTest
     @MethodSource({"viewMethodSource"})
     @DisplayName("회원 단일조회 동적 테스트")
-    void viewParameterizedTest(final boolean isSuccess, final String id, final HttpStatus httpStatus) throws Exception {
+    void viewParameterizedTest(final boolean isSuccess, final String identity, final HttpStatus httpStatus) throws Exception {
         /*when*/
-        // ResultActions when = mockMvc.perform(RestDocumentationRequestBuilders.get("/member/{id}", id) - MockMvcRequestBuilder.get()이 pathRequest 지원 안하는 버전일시 사용
-        ResultActions when = mockMvc.perform(MockMvcRequestBuilders.get("/member/{id}", id)
+        // ResultActions when = mockMvc.perform(RestDocumentationRequestBuilders.get("/member/{identity}", identity) - MockMvcRequestBuilder.get()이 pathRequest 지원 안하는 버전일시 사용
+        ResultActions when = mockMvc.perform(MockMvcRequestBuilders.get("/member/{identity}", identity)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON));
 
@@ -119,7 +119,7 @@ class MemberControllerTest {
             when.andExpect(MockMvcResultMatchers.status().is(httpStatus.value()))
                     .andExpect(MockMvcResultMatchers.jsonPath("status").value(httpStatus.value()))
                     .andExpect(MockMvcResultMatchers.jsonPath("message").value(httpStatus.getReasonPhrase()))
-                    .andExpect(MockMvcResultMatchers.jsonPath("member.idName").value(id))
+                    .andExpect(MockMvcResultMatchers.jsonPath("member.identity").value(identity))
                     .andExpect(MockMvcResultMatchers.jsonPath("member.password").doesNotExist());
         } else {
             when.andExpect(MockMvcResultMatchers.status().is(httpStatus.value()))
@@ -139,19 +139,19 @@ class MemberControllerTest {
         String page = "1";
         String size = "20";
         String sort = "createdAt:desc,id:asc";
-        String idName = "choimory";
+        String identity = "choimory";
         String nickname = "중윤최";
         String email = "choimory";
         String authLevel = "MEMBER";
-        String createdFrom = "1980-01-01 00:00:00";
-        String createdTo = "2020-01-01 00:00:00";
-        String modifiedFrom = "1980-01-01 00:00:00";
-        String modifiedTo = "2020-01-01 00:00:00";
+        String createdFrom = "1980-01-01T00:00:00";
+        String createdTo = "2020-01-01T00:00:00";
+        String modifiedFrom = "1980-01-01T00:00:00";
+        String modifiedTo = "2020-01-01T00:00:00";
 
         param.add("page", page);
         param.add("size", size);
         param.add("sort", sort);
-        param.add("idName", idName);
+        param.add("idName", identity);
         param.add("nickname", nickname);
         param.add("email", email);
         param.add("authLevel", authLevel);
@@ -171,7 +171,7 @@ class MemberControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("page").isNumber())
                 .andExpect(MockMvcResultMatchers.jsonPath("size").isNumber())
                 .andExpect(MockMvcResultMatchers.jsonPath("sort").isString())
-                .andExpect(MockMvcResultMatchers.jsonPath("members[0].idName").value(idName))
+                .andExpect(MockMvcResultMatchers.jsonPath("members[0].identity").value(identity))
                 .andExpect(MockMvcResultMatchers.jsonPath("members[0].nickname", Matchers.containsString(nickname)))
                 .andExpect(MockMvcResultMatchers.jsonPath("members[0].email", Matchers.containsString(email)))
                 .andExpect(MockMvcResultMatchers.jsonPath("members[0].memberAuthority.authLevel").value(authLevel))
@@ -227,8 +227,8 @@ class MemberControllerTest {
     void join() throws Exception {
         /*given*/
         MemberJoinRequest request = MemberJoinRequest.builder()
-                .idName("morychoi")
-                .password("asdqwe123")
+                .identity("morychoi")
+                .password("Asdqwe123!@#")
                 .nickname("morychoi")
                 .email("morychoi@naver.com")
                 .authLevel(AuthLevel.MEMBER)
@@ -254,7 +254,7 @@ class MemberControllerTest {
                                 HeaderDocumentation.headerWithName(HttpHeaders.CONTENT_TYPE).description("요청 형식")
                         ),
                         PayloadDocumentation.relaxedRequestFields(
-                                PayloadDocumentation.fieldWithPath("idName").description("아이디"),
+                                PayloadDocumentation.fieldWithPath("identity").description("아이디"),
                                 PayloadDocumentation.fieldWithPath("password").description("비밀번호"),
                                 PayloadDocumentation.fieldWithPath("nickname").description("이름"),
                                 PayloadDocumentation.fieldWithPath("email").description("이메일"),
