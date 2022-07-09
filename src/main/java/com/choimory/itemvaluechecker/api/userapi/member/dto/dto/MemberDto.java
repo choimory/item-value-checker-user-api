@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Getter
 public class MemberDto {
     private final Long id;
-    private final String idName;
+    private final String identity;
     private final String nickname;
     private final String email;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
@@ -36,7 +36,7 @@ public class MemberDto {
     public static MemberDto toDto(Member member){
         return MemberDto.builder()
                 .id(member.getId())
-                .idName(member.getIdName())
+                .identity(member.getIdentity())
                 .nickname(member.getNickname())
                 .email(member.getEmail())
                 .createdAt(member.getCreatedAt())

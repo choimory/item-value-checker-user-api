@@ -8,7 +8,7 @@ create or replace table item_value_checker_user.member
 (
     id          bigint unsigned auto_increment
         primary key,
-    id_name     varchar(255) not null,
+    identity     varchar(255) not null,
     password    varchar(255) not null,
     nickname    varchar(255) not null,
     email       varchar(255) null,

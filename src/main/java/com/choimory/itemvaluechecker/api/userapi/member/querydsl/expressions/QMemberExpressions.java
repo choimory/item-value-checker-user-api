@@ -8,8 +8,8 @@ import static com.choimory.itemvaluechecker.api.userapi.member.entity.QMember.me
 
 public class QMemberExpressions {
     public static BooleanExpression eqIdName(final MemberListRequest param){
-        return param != null && StringUtils.hasText(param.getIdName())
-                ? member.idName.eq(param.getIdName())
+        return param != null && StringUtils.hasText(param.getIdentity())
+                ? member.identity.eq(param.getIdentity())
                 : null;
     }
 

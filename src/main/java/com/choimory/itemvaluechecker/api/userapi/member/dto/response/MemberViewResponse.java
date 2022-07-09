@@ -19,7 +19,7 @@ public class MemberViewResponse extends RepresentationModel<MemberViewResponse> 
         this.message = message;
         this.member = member;
         add(WebMvcLinkBuilder.linkTo(MemberController.class)
-                .slash(member.getIdName())
+                .slash(member.getIdentity())
                 .withSelfRel());
     }
 }
