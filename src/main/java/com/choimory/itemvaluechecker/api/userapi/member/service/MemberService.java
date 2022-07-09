@@ -32,7 +32,7 @@ public class MemberService {
         return MemberViewResponse.builder()
                 .status(HttpStatus.OK.value())
                 .message(HttpStatus.OK.getReasonPhrase())
-                .member(MemberDto.toDto(memberRepository.findMemberByIdNameEquals(memberId)
+                .member(MemberDto.toDto(memberRepository.findMemberByIdentityEquals(memberId)
                         .orElseThrow(() -> new CommonException(HttpStatus.NOT_FOUND, HttpStatus.NOT_FOUND.value(), HttpStatus.NOT_FOUND.getReasonPhrase()))))
                 .build();
     }
@@ -63,7 +63,7 @@ public class MemberService {
         param.isEmailValidate();
 
         /*중복여부 확인*/
-        if(memberRepository.existsByIdName(param.getIdName())){
+        if(memberRepository.existsByIdentity(param.getIdentity())){
             throw new CommonException(HttpStatus.BAD_REQUEST,
                     MemberJoinRequest.MemberJoinRequestValidate.ID_DUPLICATE.getCode(),
                     MemberJoinRequest.MemberJoinRequestValidate.ID_DUPLICATE.getMessage());

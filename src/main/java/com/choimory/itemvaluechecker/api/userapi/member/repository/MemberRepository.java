@@ -10,6 +10,6 @@ import java.util.Optional;
 
 @Repository
 public interface MemberRepository extends CrudRepository<Member, String>, QMemberRepository {
-    Optional<Member> findMemberByIdNameEquals(final String idName);
-    boolean existsByIdName(final String idName);
+    Optional<Member> findMemberByIdentityEquals(final String identity);
+    boolean existsByIdentity(final String identity);
 }
