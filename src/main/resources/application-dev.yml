@@ -5,10 +5,7 @@ spring:
   config:
     activate:
       on-profile: dev
-  datasource:
-    hikari:
-      maximum-pool-size: 10
-      max-lifetime: 28500000 #DB WAIT_TIMEOUT -> 28800 (28800000)
+
   jpa:
     open-in-view: false
     show-sql: true
@@ -19,6 +16,11 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
+
+  datasource:
+    hikari:
+      maximum-pool-size: 10
+      max-lifetime: 28500000 #DB WAIT_TIMEOUT -> 28800 (28800000)
 
 logging:
   level:

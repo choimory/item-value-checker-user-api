@@ -2,12 +2,14 @@ spring:
   config:
     activate:
       on-profile: datasource
-  redis:
-    host: ${redis-host}
-    port: ${redis-port}
-    password: ${redis-password}
+
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://${mariadb-host}:${mariadb-port}/${mariadb-schema}
     username: ${mariadb-user}
     password: ${mariadb-password}
+
+  redis:
+    host: ${redis-host}
+    port: ${redis-port}
+    password: ${redis-password}
