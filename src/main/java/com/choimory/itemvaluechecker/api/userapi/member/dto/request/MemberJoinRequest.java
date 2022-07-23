@@ -22,10 +22,8 @@ public class MemberJoinRequest {
             message = MemberValid.MESSAGE_ID_LENGTH_NOT_VALID)
     private final String identity;
     @NotBlank
-    @Size(min = MemberValid.MIN_PASSWORD_LENGTH,
-            max = MemberValid.MAX_PASSWORD_LENGTH)
-    /*TODO @Pattern(regexp = MemberValid.PATTERN_PASSWORD,
-            message = MemberValid.MESSAGE_PASSWORD_PATTERN_NOT_VALID)*/
+    @Pattern(regexp = MemberValid.PATTERN_PASSWORD,
+            message = MemberValid.MESSAGE_PASSWORD_PATTERN_NOT_VALID)
     private final String password;
     @NotBlank
     private final String nickname;
