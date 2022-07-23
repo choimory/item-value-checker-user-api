@@ -10,6 +10,7 @@ import com.choimory.itemvaluechecker.api.userapi.member.dto.response.MemberListR
 import com.choimory.itemvaluechecker.api.userapi.member.dto.response.MemberViewResponse;
 import com.choimory.itemvaluechecker.api.userapi.member.entity.Member;
 import com.choimory.itemvaluechecker.api.userapi.member.repository.MemberRepository;
+import com.choimory.itemvaluechecker.api.userapi.member.valid.member.MemberIdentityValid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -54,19 +55,11 @@ public class MemberService {
 
     @Transactional
     public MemberJoinResponse join(final MemberJoinRequest param) throws Exception {
-        /*필수값 검증*/
-        param.requiredArgsValidate();
-
-        /*요청값 검증*/
-        param.isIdValidate();
-        param.isPasswordValidate();
-        param.isEmailValidate();
-
         /*중복여부 확인*/
         if(memberRepository.existsByIdentity(param.getIdentity())){
             throw new CommonException(HttpStatus.BAD_REQUEST,
-                    MemberJoinRequest.MemberJoinRequestValidate.ID_DUPLICATE.getCode(),
-                    MemberJoinRequest.MemberJoinRequestValidate.ID_DUPLICATE.getMessage());
+                    MemberIdentityValid.CODE_ID_DUPLICATE,
+                    MemberIdentityValid.MESSAGE_ID_DUPLICATE);
         }
 
         /*저장*/
