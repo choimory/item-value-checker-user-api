@@ -47,7 +47,8 @@ public class MemberService {
                 .sort(members.getSort().toString())
                 .totalPage(members.getTotalPages())
                 .totalCount(members.getTotalElements())
-                .members(members.getContent().stream()
+                .members(members.getContent()
+                        .stream()
                         .map(MemberDto::toDto)
                         .collect(Collectors.toUnmodifiableList()))
                 .build();
