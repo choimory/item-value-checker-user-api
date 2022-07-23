@@ -14,23 +14,22 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Getter
 public class MemberDto {
-    private Long id;
-    private String identity;
-    private String nickname;
-    private String email;
+    private final Long id;
+    private final String identity;
+    private final String nickname;
+    private final String email;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
-    private LocalDateTime createdAt;
+    private final LocalDateTime createdAt;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
-    private LocalDateTime modifiedAt;
+    private final LocalDateTime modifiedAt;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
-    private LocalDateTime deletedAt;
-    private MemberAuthorityDto memberAuthority;
-    private List<MemberSocialDto> memberSocials;
-    private List<MemberSuspensionDto> memberSuspensions;
+    private final LocalDateTime deletedAt;
+    private final MemberAuthorityDto memberAuthority;
+    private final List<MemberSocialDto> memberSocials;
+    private final List<MemberSuspensionDto> memberSuspensions;
 
     public static MemberDto toDto(Member member){
         return member == null
@@ -82,17 +81,16 @@ public class MemberDto {
     }
 
     @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
+    @RequiredArgsConstructor
     @Getter
     public static class MemberAuthorityDto{
-        private AuthLevel authLevel;
+        private final AuthLevel authLevel;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
-        private LocalDateTime createdAt;
+        private final LocalDateTime createdAt;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
-        private LocalDateTime modifiedAt;
+        private final LocalDateTime modifiedAt;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
-        private LocalDateTime deletedAt;
+        private final LocalDateTime deletedAt;
 
         public static MemberAuthorityDto toDto(MemberAuthority memberAuthority){
             return memberAuthority == null
