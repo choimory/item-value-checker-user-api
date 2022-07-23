@@ -4,43 +4,51 @@ import com.choimory.itemvaluechecker.api.userapi.common.dto.request.CommonPageRe
 import com.choimory.itemvaluechecker.api.userapi.member.code.MemberDefaultSort;
 import com.choimory.itemvaluechecker.api.userapi.member.dto.request.MemberJoinRequest;
 import com.choimory.itemvaluechecker.api.userapi.member.dto.request.MemberListRequest;
-import com.choimory.itemvaluechecker.api.userapi.member.dto.response.MemberBanResponse;
-import com.choimory.itemvaluechecker.api.userapi.member.dto.response.MemberJoinResponse;
-import com.choimory.itemvaluechecker.api.userapi.member.dto.response.MemberListResponse;
-import com.choimory.itemvaluechecker.api.userapi.member.dto.response.MemberLoginResponse;
-import com.choimory.itemvaluechecker.api.userapi.member.dto.response.MemberLogoutResponse;
-import com.choimory.itemvaluechecker.api.userapi.member.dto.response.MemberUpdateResponse;
-import com.choimory.itemvaluechecker.api.userapi.member.dto.response.MemberViewResponse;
+import com.choimory.itemvaluechecker.api.userapi.member.dto.response.*;
 import com.choimory.itemvaluechecker.api.userapi.member.service.MemberService;
+import com.choimory.itemvaluechecker.api.userapi.member.valid.MemberValid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import javax.validation.constraints.Size;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/member")
+@Validated
 public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/{identity}")
-    public ResponseEntity<MemberViewResponse> view(@PathVariable final String identity){
-        return new ResponseEntity<>(memberService.view(identity), HttpStatus.OK);
+    public MemberViewResponse view(@PathVariable
+                                       @Valid
+                                       @Size(min = MemberValid.MIN_ID_LENGTH,
+                                               max = MemberValid.MAX_ID_LENGTH)
+                                       final String identity){
+        return memberService.view(identity);
     }
 
     @GetMapping
-    public ResponseEntity<MemberListResponse> views(final MemberListRequest param,
-                                                    final CommonPageRequest commonPageRequest){
-        return new ResponseEntity<>(memberService.views(param, commonPageRequest.of(MemberDefaultSort.VIEWS.getProperty(), MemberDefaultSort.VIEWS.getDirection())),
-                HttpStatus.OK);
+    public MemberListResponse views(final MemberListRequest param,
+                                    final CommonPageRequest commonPageRequest){
+        return memberService.views(param, commonPageRequest.of(MemberDefaultSort.VIEWS.getProperty(), MemberDefaultSort.VIEWS.getDirection()));
     }
 
     @PutMapping
-    public ResponseEntity<MemberJoinResponse> join(@RequestBody(required = false) final MemberJoinRequest param) throws Exception {
-        return new ResponseEntity<>(memberService.join(param), HttpStatus.CREATED);
+    @ResponseStatus(HttpStatus.CREATED)
+    public MemberJoinResponse join(@RequestBody
+                                       @Valid
+                                       final MemberJoinRequest param) throws Exception {
+        return memberService.join(param);
     }
 
-    public ResponseEntity<MemberLoginResponse> login(){
+    @PostMapping("/login")
+    @ResponseStatus(HttpStatus.OK)
+    public MemberLoginResponse login(){
         return null;
     }
 

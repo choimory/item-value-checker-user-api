@@ -10,6 +10,7 @@ import com.choimory.itemvaluechecker.api.userapi.member.dto.response.MemberListR
 import com.choimory.itemvaluechecker.api.userapi.member.dto.response.MemberViewResponse;
 import com.choimory.itemvaluechecker.api.userapi.member.entity.Member;
 import com.choimory.itemvaluechecker.api.userapi.member.repository.MemberRepository;
+import com.choimory.itemvaluechecker.api.userapi.member.valid.MemberValid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -38,7 +39,11 @@ public class MemberService {
     }
 
     public MemberListResponse views(final MemberListRequest param, final Pageable pageable){
-        Page<Member> members = memberRepository.getMembers(param, pageable);
+        Page<Member> members = memberRepository.findAll(pageable, param.getIdentity(), param.getNickname(), param.getEmail(), param.getAuthLevel(), param.getCreatedFrom(), param.getCreatedTo(), param.getModifiedFrom(), param.getModifiedTo(), param.getDeletedFrom(), param.getDeletedTo());
+
+        if(members.isEmpty()){
+            throw new CommonException(HttpStatus.NO_CONTENT, HttpStatus.NO_CONTENT.value(), HttpStatus.NO_CONTENT.getReasonPhrase());
+        }
 
         return MemberListResponse.builder()
                 .page(members.getNumber()+1)
@@ -46,7 +51,8 @@ public class MemberService {
                 .sort(members.getSort().toString())
                 .totalPage(members.getTotalPages())
                 .totalCount(members.getTotalElements())
-                .members(members.getContent().stream()
+                .members(members.getContent()
+                        .stream()
                         .map(MemberDto::toDto)
                         .collect(Collectors.toUnmodifiableList()))
                 .build();
@@ -54,33 +60,21 @@ public class MemberService {
 
     @Transactional
     public MemberJoinResponse join(final MemberJoinRequest param) throws Exception {
-        /*필수값 검증*/
-        param.requiredArgsValidate();
-
-        /*요청값 검증*/
-        param.isIdValidate();
-        param.isPasswordValidate();
-        param.isEmailValidate();
-
         /*중복여부 확인*/
         if(memberRepository.existsByIdentity(param.getIdentity())){
             throw new CommonException(HttpStatus.BAD_REQUEST,
-                    MemberJoinRequest.MemberJoinRequestValidate.ID_DUPLICATE.getCode(),
-                    MemberJoinRequest.MemberJoinRequestValidate.ID_DUPLICATE.getMessage());
+                    MemberValid.CODE_ID_DUPLICATE,
+                    MemberValid.MESSAGE_ID_DUPLICATE);
         }
 
         /*저장*/
         Member member = memberRepository.save(param.toEntity(passwordEncoder));
 
         /*반환*/
-        MemberJoinResponse response = MemberJoinResponse.builder()
+        return MemberJoinResponse.builder()
                 .status(HttpStatus.CREATED.value())
                 .message(HttpStatus.CREATED.getReasonPhrase())
+                .identity(member.getIdentity())
                 .build();
-        response.add(WebMvcLinkBuilder.linkTo(MemberController.class)
-                .slash(member.getId())
-                .withRel("view-id"));
-
-        return response;
     }
 }

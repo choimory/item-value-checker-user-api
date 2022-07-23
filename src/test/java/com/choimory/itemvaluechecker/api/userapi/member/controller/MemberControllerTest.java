@@ -21,6 +21,7 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.headers.HeaderDocumentation;
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
+import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.restdocs.payload.PayloadDocumentation;
 import org.springframework.restdocs.request.RequestDocumentation;
 import org.springframework.test.context.ActiveProfiles;
@@ -56,6 +57,48 @@ class MemberControllerTest {
                 .build();
     }*/
 
+    void 공통_예외_응답_테스트() throws Exception {
+
+    }
+
+    @Test
+    @DisplayName("BAD_REQUEST 응답 테스트")
+    void BAD_REQUEST_응답_테스트() throws Exception {
+        /*given*/
+        final String payload = objectMapper.writeValueAsString(
+                MemberJoinRequest.builder()
+                        .identity("a")
+                        .password("a")
+                        .email("email")
+                        .authLevel(AuthLevel.MEMBER)
+                        .build());
+
+        /*when*/
+        ResultActions when = mockMvc.perform(RestDocumentationRequestBuilders.put("/member")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(payload))
+                .andDo(MockMvcResultHandlers.print());
+
+        /*then*/
+        when.andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.jsonPath("data").isArray())
+                .andExpect(MockMvcResultMatchers.jsonPath("data[0].field").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath("data[0].rejectedValue").hasJsonPath())
+                .andExpect(MockMvcResultMatchers.jsonPath("data[0].message").isNotEmpty())
+                .andDo(MockMvcRestDocumentation.document("bad-request",
+                        HeaderDocumentation.responseHeaders(
+                                HeaderDocumentation.headerWithName(HttpHeaders.CONTENT_TYPE).description("응답 형식")
+                        ),
+                        PayloadDocumentation.relaxedResponseFields(
+                                PayloadDocumentation.fieldWithPath("data[]").type(JsonFieldType.ARRAY).description("검증 실패 목록"),
+                                PayloadDocumentation.fieldWithPath("data[].field").type(JsonFieldType.STRING).description("요청 필드"),
+                                PayloadDocumentation.fieldWithPath("data[].rejectedValue").type(JsonFieldType.VARIES).description("요청 값").optional(),
+                                PayloadDocumentation.fieldWithPath("data[].message").type(JsonFieldType.STRING).description("사유")
+                        )
+                ));
+    }
+
     @Test
     @DisplayName("회원 단일조회 테스트")
     void view() throws Exception {
@@ -75,7 +118,7 @@ class MemberControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("member.identity").value(identity))
                 .andExpect(MockMvcResultMatchers.jsonPath("member.password").doesNotExist())
                 .andDo(MockMvcResultHandlers.print())
-                .andDo(MockMvcRestDocumentation.document("get-member-id",
+                .andDo(MockMvcRestDocumentation.document("get-member-identity",
                         HeaderDocumentation.requestHeaders(
                                 HeaderDocumentation.headerWithName(HttpHeaders.ACCEPT).description("요청 헤더"),
                                 HeaderDocumentation.headerWithName(HttpHeaders.CONTENT_TYPE).description("요청 형식")
@@ -87,19 +130,19 @@ class MemberControllerTest {
                                 HeaderDocumentation.headerWithName(HttpHeaders.CONTENT_TYPE).description("응답 형식")
                         ),
                         PayloadDocumentation.relaxedResponseFields(
-                                PayloadDocumentation.fieldWithPath("member").description("유저 정보"),
-                                PayloadDocumentation.fieldWithPath("member.identity").description("ID"),
-                                PayloadDocumentation.fieldWithPath("member.nickname").description("이름"),
-                                PayloadDocumentation.fieldWithPath("member.email").description("이메일"),
-                                PayloadDocumentation.fieldWithPath("member.createdAt").description("가입일"),
-                                PayloadDocumentation.fieldWithPath("member.modifiedAt").description("수정일"),
-                                PayloadDocumentation.fieldWithPath("member.deletedAt").description("탈퇴일"),
-                                PayloadDocumentation.fieldWithPath("member.memberAuthority").description("권한"),
-                                PayloadDocumentation.fieldWithPath("member.memberSocials").description("소셜 아이디"),
-                                PayloadDocumentation.fieldWithPath("member.memberSuspensions").description("정지 일자"),
-                                PayloadDocumentation.fieldWithPath("_links").description("HATEOAS"),
-                                PayloadDocumentation.fieldWithPath("_links.self").description("해당 API 요청정보"),
-                                PayloadDocumentation.fieldWithPath("_links.self.href").description("해당 API 요청주소")
+                                PayloadDocumentation.fieldWithPath("member").type(JsonFieldType.OBJECT).description("유저 정보").optional(),
+                                PayloadDocumentation.fieldWithPath("member.identity").type(JsonFieldType.STRING).description("ID").optional(),
+                                PayloadDocumentation.fieldWithPath("member.nickname").type(JsonFieldType.STRING).description("이름").optional(),
+                                PayloadDocumentation.fieldWithPath("member.email").type(JsonFieldType.STRING).description("이메일").optional(),
+                                PayloadDocumentation.fieldWithPath("member.createdAt").type(JsonFieldType.STRING).description("가입일").optional(),
+                                PayloadDocumentation.fieldWithPath("member.modifiedAt").type(JsonFieldType.STRING).description("수정일").optional(),
+                                PayloadDocumentation.fieldWithPath("member.deletedAt").type(JsonFieldType.STRING).description("탈퇴일").optional(),
+                                PayloadDocumentation.fieldWithPath("member.memberAuthority").type(JsonFieldType.OBJECT).description("권한").optional(),
+                                PayloadDocumentation.fieldWithPath("member.memberSocials[]").type(JsonFieldType.ARRAY).description("소셜 아이디").optional(),
+                                PayloadDocumentation.fieldWithPath("member.memberSuspensions[]").type(JsonFieldType.ARRAY).description("정지 일자").optional(),
+                                PayloadDocumentation.fieldWithPath("_links").type(JsonFieldType.OBJECT).description("HATEOAS").optional(),
+                                PayloadDocumentation.fieldWithPath("_links.self").type(JsonFieldType.OBJECT).description("해당 API 요청정보").optional(),
+                                PayloadDocumentation.fieldWithPath("_links.self.href").type(JsonFieldType.STRING).description("해당 API 요청주소").optional()
                         )
                 ));
     }
@@ -184,33 +227,33 @@ class MemberControllerTest {
                                 HeaderDocumentation.headerWithName(HttpHeaders.CONTENT_TYPE).description("요청 형식")
                         ),
                         RequestDocumentation.relaxedRequestParameters(
-                                RequestDocumentation.parameterWithName("page").description("페이지"),
-                                RequestDocumentation.parameterWithName("size").description("사이즈"),
-                                RequestDocumentation.parameterWithName("sort").description("정렬정보(prop:direction)"),
-                                RequestDocumentation.parameterWithName("idName").description("아이디"),
-                                RequestDocumentation.parameterWithName("nickname").description("닉네임"),
-                                RequestDocumentation.parameterWithName("email").description("이메일"),
-                                RequestDocumentation.parameterWithName("authLevel").description("권한"),
-                                RequestDocumentation.parameterWithName("createdFrom").description("가입일 시작범위"),
-                                RequestDocumentation.parameterWithName("createdTo").description("가입일 끝범위"),
-                                RequestDocumentation.parameterWithName("modifiedFrom").description("수정일 시작범위"),
-                                RequestDocumentation.parameterWithName("modifiedTo").description("수정일 끝범위")
+                                RequestDocumentation.parameterWithName("page").description("페이지").optional(),
+                                RequestDocumentation.parameterWithName("size").description("사이즈").optional(),
+                                RequestDocumentation.parameterWithName("sort").description("정렬정보(prop:direction,prop2:direction2...)").optional(),
+                                RequestDocumentation.parameterWithName("idName").description("아이디").optional(),
+                                RequestDocumentation.parameterWithName("nickname").description("닉네임").optional(),
+                                RequestDocumentation.parameterWithName("email").description("이메일").optional(),
+                                RequestDocumentation.parameterWithName("authLevel").description("권한").optional(),
+                                RequestDocumentation.parameterWithName("createdFrom").description("가입일 시작범위").optional(),
+                                RequestDocumentation.parameterWithName("createdTo").description("가입일 끝범위").optional(),
+                                RequestDocumentation.parameterWithName("modifiedFrom").description("수정일 시작범위").optional(),
+                                RequestDocumentation.parameterWithName("modifiedTo").description("수정일 끝범위").optional()
                         ),
                         HeaderDocumentation.responseHeaders(
                                 HeaderDocumentation.headerWithName(HttpHeaders.CONTENT_TYPE).description("응답 형식")
                         ),
                         PayloadDocumentation.relaxedResponseFields(
-                                PayloadDocumentation.fieldWithPath("page").description("페이지"),
-                                PayloadDocumentation.fieldWithPath("size").description("사이즈"),
-                                PayloadDocumentation.fieldWithPath("sort").description("정렬정보"),
-                                PayloadDocumentation.fieldWithPath("totalCount").description("총 갯수"),
-                                PayloadDocumentation.fieldWithPath("totalPage").description("총 페이지"),
-                                PayloadDocumentation.fieldWithPath("members").description("회원목록"),
-                                PayloadDocumentation.fieldWithPath("members[].memberAuthority").description("권한"),
-                                PayloadDocumentation.fieldWithPath("members[].memberSocials[]").description("SNS 계정정보"),
-                                PayloadDocumentation.fieldWithPath("members[].memberSuspensions[]").description("정지이력"),
-                                PayloadDocumentation.fieldWithPath("_links").description("HATEOAS"),
-                                PayloadDocumentation.fieldWithPath("_links.self").description("요청 API 주소")
+                                PayloadDocumentation.fieldWithPath("page").type(JsonFieldType.NUMBER).description("페이지").optional(),
+                                PayloadDocumentation.fieldWithPath("size").type(JsonFieldType.NUMBER).description("사이즈").optional(),
+                                PayloadDocumentation.fieldWithPath("sort").type(JsonFieldType.STRING).description("정렬정보").optional(),
+                                PayloadDocumentation.fieldWithPath("totalCount").type(JsonFieldType.NUMBER).description("총 갯수").optional(),
+                                PayloadDocumentation.fieldWithPath("totalPage").type(JsonFieldType.NUMBER).description("총 페이지").optional(),
+                                PayloadDocumentation.fieldWithPath("members").type(JsonFieldType.ARRAY).description("회원목록").optional(),
+                                PayloadDocumentation.fieldWithPath("members[].memberAuthority").type(JsonFieldType.OBJECT).description("권한").optional(),
+                                PayloadDocumentation.fieldWithPath("members[].memberSocials[]").type(JsonFieldType.ARRAY).description("SNS 계정정보").optional(),
+                                PayloadDocumentation.fieldWithPath("members[].memberSuspensions[]").type(JsonFieldType.ARRAY).description("정지이력").optional(),
+                                PayloadDocumentation.fieldWithPath("_links").type(JsonFieldType.OBJECT).description("HATEOAS").optional(),
+                                PayloadDocumentation.fieldWithPath("_links.self").type(JsonFieldType.OBJECT).description("요청 API 주소").optional()
                         )));
     }
 
@@ -246,31 +289,29 @@ class MemberControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("message").value(HttpStatus.CREATED.getReasonPhrase()))
                 .andExpect(MockMvcResultMatchers.jsonPath("_links").exists())
                 .andExpect(MockMvcResultMatchers.jsonPath("_links.self.href").isNotEmpty())
-                .andExpect(MockMvcResultMatchers.jsonPath("_links.view-id").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath("_links.view-identity.href").isNotEmpty())
                 .andDo(MockMvcResultHandlers.print())
-                .andDo(MockMvcRestDocumentation.document("put-member-join",
+                .andDo(MockMvcRestDocumentation.document("put-member",
                         HeaderDocumentation.requestHeaders(
                                 HeaderDocumentation.headerWithName(HttpHeaders.ACCEPT).description("요청 헤더"),
                                 HeaderDocumentation.headerWithName(HttpHeaders.CONTENT_TYPE).description("요청 형식")
                         ),
                         PayloadDocumentation.relaxedRequestFields(
-                                PayloadDocumentation.fieldWithPath("identity").description("아이디"),
-                                PayloadDocumentation.fieldWithPath("password").description("비밀번호"),
-                                PayloadDocumentation.fieldWithPath("nickname").description("이름"),
-                                PayloadDocumentation.fieldWithPath("email").description("이메일"),
-                                PayloadDocumentation.fieldWithPath("authLevel").description("권한")
+                                PayloadDocumentation.fieldWithPath("identity").type(JsonFieldType.STRING).description("아이디").optional(),
+                                PayloadDocumentation.fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호").optional(),
+                                PayloadDocumentation.fieldWithPath("nickname").type(JsonFieldType.STRING).description("이름").optional(),
+                                PayloadDocumentation.fieldWithPath("email").type(JsonFieldType.STRING).description("이메일").optional(),
+                                PayloadDocumentation.fieldWithPath("authLevel").type(JsonFieldType.STRING).description("권한 - MEMBER|ADMIN").optional()
                         ),
                         HeaderDocumentation.responseHeaders(
                                 HeaderDocumentation.headerWithName(HttpHeaders.CONTENT_TYPE).description("응답 형식")
                         ),
                         PayloadDocumentation.relaxedResponseFields(
-                                PayloadDocumentation.fieldWithPath("status").description("결과 코드"),
-                                PayloadDocumentation.fieldWithPath("message").description("결과 메시지"),
-                                PayloadDocumentation.fieldWithPath("_links").description("HATEOAS"),
-                                PayloadDocumentation.fieldWithPath("_links.self").description("요청 API 정보"),
-                                PayloadDocumentation.fieldWithPath("_links.self.href").description("요청 API 주소"),
-                                PayloadDocumentation.fieldWithPath("_links.view-id").description("회원 조회 API 정보"),
-                                PayloadDocumentation.fieldWithPath("_links.view-id.href").description("현재 가입한 아이디의 조회 API 주소")
+                                PayloadDocumentation.fieldWithPath("status").type(JsonFieldType.NUMBER).description("결과 코드").optional(),
+                                PayloadDocumentation.fieldWithPath("message").type(JsonFieldType.STRING).description("결과 메시지").optional(),
+                                PayloadDocumentation.fieldWithPath("_links").type(JsonFieldType.OBJECT).description("HATEOAS").optional(),
+                                PayloadDocumentation.fieldWithPath("_links.self.href").type(JsonFieldType.STRING).description("요청 API 주소").optional(),
+                                PayloadDocumentation.fieldWithPath("_links.view-identity.href").type(JsonFieldType.STRING).description("현재 가입한 아이디의 조회 API 주소").optional()
                         )
                 ));
     }

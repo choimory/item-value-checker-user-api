@@ -1,15 +1,16 @@
 package com.choimory.itemvaluechecker.api.userapi.member.querydsl;
 
 import com.choimory.itemvaluechecker.api.userapi.common.querydsl.Querydsl4RepositorySupport;
-import com.choimory.itemvaluechecker.api.userapi.member.dto.request.MemberListRequest;
+import com.choimory.itemvaluechecker.api.userapi.member.code.AuthLevel;
 import com.choimory.itemvaluechecker.api.userapi.member.entity.Member;
 import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
+
+import java.time.LocalDateTime;
 
 import static com.choimory.itemvaluechecker.api.userapi.member.entity.QMember.member;
 import static com.choimory.itemvaluechecker.api.userapi.member.querydsl.expressions.QMemberExpressions.*;
@@ -24,17 +25,17 @@ public class QMemberRepositoryImpl extends Querydsl4RepositorySupport implements
     }
 
     @Override
-    public Page<Member> getMembers(final MemberListRequest param, final Pageable pageable) {
+    public Page<Member> findAll(Pageable pageable, String identity, String nickname, String email, AuthLevel authLevel, LocalDateTime createdFrom, LocalDateTime createdTo, LocalDateTime modifiedFrom, LocalDateTime modifiedTo, LocalDateTime deletedFrom, LocalDateTime deletedTo) {
         QueryResults<Member> result = getQuerydsl().applyPagination(pageable,
                 query.select(member)
                         .from(member)
-                        .where(eqIdName(param),
-                            containsNickname(param),
-                            containsEmail(param),
-                            eqAuthLevel(param),
-                            betweenCreatedAt(param),
-                            betweenModifiedAt(param),
-                            betweenDeletedAt(param)))
+                        .where(eqIdentity(identity),
+                            containsNickname(nickname),
+                            containsEmail(email),
+                            eqAuthLevel(authLevel),
+                            betweenCreatedAt(createdFrom, createdTo),
+                            betweenModifiedAt(modifiedFrom, modifiedTo),
+                            betweenDeletedAt(deletedFrom, deletedTo)))
                 .fetchResults();
 
         return new PageImpl<>(result.getResults(), pageable, result.getTotal());
