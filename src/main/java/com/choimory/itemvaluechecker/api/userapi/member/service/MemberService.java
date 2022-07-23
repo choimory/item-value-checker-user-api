@@ -71,14 +71,10 @@ public class MemberService {
         Member member = memberRepository.save(param.toEntity(passwordEncoder));
 
         /*반환*/
-        MemberJoinResponse response = MemberJoinResponse.builder()
+        return MemberJoinResponse.builder()
                 .status(HttpStatus.CREATED.value())
                 .message(HttpStatus.CREATED.getReasonPhrase())
+                .identity(member.getIdentity())
                 .build();
-        response.add(WebMvcLinkBuilder.linkTo(MemberController.class)
-                .slash(member.getId())
-                .withRel("view-id"));
-
-        return response;
     }
 }
