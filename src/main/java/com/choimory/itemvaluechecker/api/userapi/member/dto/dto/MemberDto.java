@@ -7,34 +7,35 @@ import com.choimory.itemvaluechecker.api.userapi.member.entity.MemberAuthority;
 import com.choimory.itemvaluechecker.api.userapi.member.entity.MemberSocial;
 import com.choimory.itemvaluechecker.api.userapi.member.entity.MemberSuspension;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Builder
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 public class MemberDto {
-    private final Long id;
-    private final String identity;
-    private final String nickname;
-    private final String email;
+    private Long id;
+    private String identity;
+    private String nickname;
+    private String email;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
-    private final LocalDateTime createdAt;
+    private LocalDateTime createdAt;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
-    private final LocalDateTime modifiedAt;
+    private LocalDateTime modifiedAt;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
-    private final LocalDateTime deletedAt;
-    private final MemberAuthorityDto memberAuthority;
-    private final List<MemberSocialDto> memberSocials;
-    private final List<MemberSuspensionDto> memberSuspensions;
+    private LocalDateTime deletedAt;
+    private MemberAuthorityDto memberAuthority;
+    private List<MemberSocialDto> memberSocials;
+    private List<MemberSuspensionDto> memberSuspensions;
 
     public static MemberDto toDto(Member member){
-        return MemberDto.builder()
+        return member == null
+                ? null
+                : MemberDto.builder()
                 .id(member.getId())
                 .identity(member.getIdentity())
                 .nickname(member.getNickname())
@@ -68,7 +69,9 @@ public class MemberDto {
         private final LocalDateTime deletedAt;
 
         public static MemberSocialDto toDto(MemberSocial memberSocial){
-            return MemberSocialDto.builder()
+            return memberSocial == null
+                    ? null
+                    : MemberSocialDto.builder()
                     .socialType(memberSocial.getSocialType())
                     .socialId(memberSocial.getSocialId())
                     .createdAt(memberSocial.getCreatedAt())
@@ -79,19 +82,22 @@ public class MemberDto {
     }
 
     @Builder
-    @RequiredArgsConstructor
+    @NoArgsConstructor
+    @AllArgsConstructor
     @Getter
     public static class MemberAuthorityDto{
-        private final AuthLevel authLevel;
+        private AuthLevel authLevel;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
-        private final LocalDateTime createdAt;
+        private LocalDateTime createdAt;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
-        private final LocalDateTime modifiedAt;
+        private LocalDateTime modifiedAt;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
-        private final LocalDateTime deletedAt;
+        private LocalDateTime deletedAt;
 
         public static MemberAuthorityDto toDto(MemberAuthority memberAuthority){
-            return MemberAuthorityDto.builder()
+            return memberAuthority == null
+                    ? null
+                    : MemberAuthorityDto.builder()
                     .authLevel(memberAuthority.getAuthLevel())
                     .createdAt(memberAuthority.getCreatedAt())
                     .modifiedAt(memberAuthority.getModifiedAt())
@@ -117,7 +123,9 @@ public class MemberDto {
         private final LocalDateTime deletedAt;
 
         public static MemberSuspensionDto toDto(MemberSuspension memberSuspension){
-            return MemberSuspensionDto.builder()
+            return memberSuspension == null
+                    ? null
+                    : MemberSuspensionDto.builder()
                     .reason(memberSuspension.getReason())
                     .suspendedAt(memberSuspension.getSuspendedAt())
                     .suspendedTo(memberSuspension.getSuspendedTo())

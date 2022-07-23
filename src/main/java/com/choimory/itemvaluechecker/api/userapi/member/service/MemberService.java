@@ -39,7 +39,7 @@ public class MemberService {
     }
 
     public MemberListResponse views(final MemberListRequest param, final Pageable pageable){
-        Page<Member> members = memberRepository.getMembers(param, pageable);
+        Page<Member> members = memberRepository.findAll(pageable, param.getIdentity(), param.getNickname(), param.getEmail(), param.getAuthLevel(), param.getCreatedFrom(), param.getCreatedTo(), param.getModifiedFrom(), param.getModifiedTo(), param.getDeletedFrom(), param.getDeletedTo());
 
         return MemberListResponse.builder()
                 .page(members.getNumber()+1)
