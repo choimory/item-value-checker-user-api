@@ -41,6 +41,10 @@ public class MemberService {
     public MemberListResponse views(final MemberListRequest param, final Pageable pageable){
         Page<Member> members = memberRepository.findAll(pageable, param.getIdentity(), param.getNickname(), param.getEmail(), param.getAuthLevel(), param.getCreatedFrom(), param.getCreatedTo(), param.getModifiedFrom(), param.getModifiedTo(), param.getDeletedFrom(), param.getDeletedTo());
 
+        if(members.isEmpty()){
+            throw new CommonException(HttpStatus.NO_CONTENT, HttpStatus.NO_CONTENT.value(), HttpStatus.NO_CONTENT.getReasonPhrase());
+        }
+
         return MemberListResponse.builder()
                 .page(members.getNumber()+1)
                 .size(members.getSize())
