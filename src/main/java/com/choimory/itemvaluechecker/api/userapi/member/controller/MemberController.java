@@ -46,7 +46,9 @@ public class MemberController {
         return memberService.join(param);
     }
 
-    public ResponseEntity<MemberLoginResponse> login(){
+    @PostMapping("/login")
+    @ResponseStatus(HttpStatus.OK)
+    public MemberLoginResponse login(){
         return null;
     }
 
