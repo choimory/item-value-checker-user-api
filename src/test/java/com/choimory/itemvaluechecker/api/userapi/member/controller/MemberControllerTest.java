@@ -57,6 +57,48 @@ class MemberControllerTest {
                 .build();
     }*/
 
+    void 공통_예외_응답_테스트() throws Exception {
+
+    }
+
+    @Test
+    @DisplayName("BAD_REQUEST 응답 테스트")
+    void BAD_REQUEST_응답_테스트() throws Exception {
+        /*given*/
+        final String payload = objectMapper.writeValueAsString(
+                MemberJoinRequest.builder()
+                        .identity("a")
+                        .password("a")
+                        .email("email")
+                        .authLevel(AuthLevel.MEMBER)
+                        .build());
+
+        /*when*/
+        ResultActions when = mockMvc.perform(RestDocumentationRequestBuilders.put("/member")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(payload))
+                .andDo(MockMvcResultHandlers.print());
+
+        /*then*/
+        when.andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.jsonPath("data").isArray())
+                .andExpect(MockMvcResultMatchers.jsonPath("data[0].field").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath("data[0].rejectedValue").hasJsonPath())
+                .andExpect(MockMvcResultMatchers.jsonPath("data[0].message").isNotEmpty())
+                .andDo(MockMvcRestDocumentation.document("bad-request",
+                        HeaderDocumentation.responseHeaders(
+                                HeaderDocumentation.headerWithName(HttpHeaders.CONTENT_TYPE).description("응답 형식")
+                        ),
+                        PayloadDocumentation.relaxedResponseFields(
+                                PayloadDocumentation.fieldWithPath("data[]").type(JsonFieldType.ARRAY).description("검증 실패 목록"),
+                                PayloadDocumentation.fieldWithPath("data[].field").type(JsonFieldType.STRING).description("요청 필드"),
+                                PayloadDocumentation.fieldWithPath("data[].rejectedValue").type(JsonFieldType.VARIES).description("요청 값").optional(),
+                                PayloadDocumentation.fieldWithPath("data[].message").type(JsonFieldType.STRING).description("사유")
+                        )
+                ));
+    }
+
     @Test
     @DisplayName("회원 단일조회 테스트")
     void view() throws Exception {
@@ -249,7 +291,7 @@ class MemberControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("_links.self.href").isNotEmpty())
                 .andExpect(MockMvcResultMatchers.jsonPath("_links.view-id").isNotEmpty())
                 .andDo(MockMvcResultHandlers.print())
-                .andDo(MockMvcRestDocumentation.document("put-member-join",
+                .andDo(MockMvcRestDocumentation.document("put-member",
                         HeaderDocumentation.requestHeaders(
                                 HeaderDocumentation.headerWithName(HttpHeaders.ACCEPT).description("요청 헤더"),
                                 HeaderDocumentation.headerWithName(HttpHeaders.CONTENT_TYPE).description("요청 형식")
