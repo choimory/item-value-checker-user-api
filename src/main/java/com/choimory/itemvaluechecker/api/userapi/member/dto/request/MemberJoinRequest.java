@@ -3,8 +3,7 @@ package com.choimory.itemvaluechecker.api.userapi.member.dto.request;
 import com.choimory.itemvaluechecker.api.userapi.member.code.AuthLevel;
 import com.choimory.itemvaluechecker.api.userapi.member.entity.Member;
 import com.choimory.itemvaluechecker.api.userapi.member.entity.MemberAuthority;
-import com.choimory.itemvaluechecker.api.userapi.member.valid.member.MemberIdentityValid;
-import com.choimory.itemvaluechecker.api.userapi.member.valid.member.MemberPasswordValid;
+import com.choimory.itemvaluechecker.api.userapi.member.valid.MemberValid;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -20,16 +19,16 @@ import javax.validation.constraints.Size;
 @Getter
 public class MemberJoinRequest {
     @NotNull
-    @Size(min = MemberIdentityValid.MIN_ID_LENGTH,
-            max = MemberIdentityValid.MAX_ID_LENGTH)
-    @Pattern(regexp = MemberIdentityValid.ID_PATTERN,
-            message = MemberIdentityValid.MESSAGE_ID_LENGTH_NOT_VALID)
+    @Size(min = MemberValid.MIN_ID_LENGTH,
+            max = MemberValid.MAX_ID_LENGTH)
+    @Pattern(regexp = MemberValid.ID_PATTERN,
+            message = MemberValid.MESSAGE_ID_LENGTH_NOT_VALID)
     private final String identity;
     @NotNull
-    @Size(min = MemberPasswordValid.MIN_PASSWORD_LENGTH,
-            max = MemberPasswordValid.MAX_PASSWORD_LENGTH)
-    @Pattern(regexp = MemberPasswordValid.PATTERN_PASSWORD,
-            message = MemberPasswordValid.MESSAGE_PASSWORD_PATTERN_NOT_VALID)
+    @Size(min = MemberValid.MIN_PASSWORD_LENGTH,
+            max = MemberValid.MAX_PASSWORD_LENGTH)
+    /*TODO @Pattern(regexp = MemberValid.PATTERN_PASSWORD,
+            message = MemberValid.MESSAGE_PASSWORD_PATTERN_NOT_VALID)*/
     private final String password;
     @NotNull
     private final String nickname;

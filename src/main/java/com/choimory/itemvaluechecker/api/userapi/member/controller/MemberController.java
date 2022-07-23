@@ -6,7 +6,7 @@ import com.choimory.itemvaluechecker.api.userapi.member.dto.request.MemberJoinRe
 import com.choimory.itemvaluechecker.api.userapi.member.dto.request.MemberListRequest;
 import com.choimory.itemvaluechecker.api.userapi.member.dto.response.*;
 import com.choimory.itemvaluechecker.api.userapi.member.service.MemberService;
-import com.choimory.itemvaluechecker.api.userapi.member.valid.member.MemberIdentityValid;
+import com.choimory.itemvaluechecker.api.userapi.member.valid.MemberValid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +26,8 @@ public class MemberController {
     @GetMapping("/{identity}")
     public MemberViewResponse view(@PathVariable
                                        @Valid
-                                       @Size(min = MemberIdentityValid.MIN_ID_LENGTH,
-                                               max = MemberIdentityValid.MAX_ID_LENGTH)
+                                       @Size(min = MemberValid.MIN_ID_LENGTH,
+                                               max = MemberValid.MAX_ID_LENGTH)
                                        final String identity){
         return memberService.view(identity);
     }

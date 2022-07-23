@@ -10,7 +10,7 @@ import com.choimory.itemvaluechecker.api.userapi.member.dto.response.MemberListR
 import com.choimory.itemvaluechecker.api.userapi.member.dto.response.MemberViewResponse;
 import com.choimory.itemvaluechecker.api.userapi.member.entity.Member;
 import com.choimory.itemvaluechecker.api.userapi.member.repository.MemberRepository;
-import com.choimory.itemvaluechecker.api.userapi.member.valid.member.MemberIdentityValid;
+import com.choimory.itemvaluechecker.api.userapi.member.valid.MemberValid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -58,8 +58,8 @@ public class MemberService {
         /*중복여부 확인*/
         if(memberRepository.existsByIdentity(param.getIdentity())){
             throw new CommonException(HttpStatus.BAD_REQUEST,
-                    MemberIdentityValid.CODE_ID_DUPLICATE,
-                    MemberIdentityValid.MESSAGE_ID_DUPLICATE);
+                    MemberValid.CODE_ID_DUPLICATE,
+                    MemberValid.MESSAGE_ID_DUPLICATE);
         }
 
         /*저장*/
