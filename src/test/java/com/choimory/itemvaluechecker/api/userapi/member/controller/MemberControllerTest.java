@@ -229,7 +229,7 @@ class MemberControllerTest {
                         RequestDocumentation.relaxedRequestParameters(
                                 RequestDocumentation.parameterWithName("page").description("페이지").optional(),
                                 RequestDocumentation.parameterWithName("size").description("사이즈").optional(),
-                                RequestDocumentation.parameterWithName("sort").description("정렬정보(prop:direction)").optional(),
+                                RequestDocumentation.parameterWithName("sort").description("정렬정보(prop:direction,prop2:direction2...)").optional(),
                                 RequestDocumentation.parameterWithName("idName").description("아이디").optional(),
                                 RequestDocumentation.parameterWithName("nickname").description("닉네임").optional(),
                                 RequestDocumentation.parameterWithName("email").description("이메일").optional(),
@@ -289,7 +289,7 @@ class MemberControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("message").value(HttpStatus.CREATED.getReasonPhrase()))
                 .andExpect(MockMvcResultMatchers.jsonPath("_links").exists())
                 .andExpect(MockMvcResultMatchers.jsonPath("_links.self.href").isNotEmpty())
-                .andExpect(MockMvcResultMatchers.jsonPath("_links.view-id").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath("_links.view-identity.href").isNotEmpty())
                 .andDo(MockMvcResultHandlers.print())
                 .andDo(MockMvcRestDocumentation.document("put-member",
                         HeaderDocumentation.requestHeaders(
@@ -310,10 +310,8 @@ class MemberControllerTest {
                                 PayloadDocumentation.fieldWithPath("status").type(JsonFieldType.NUMBER).description("결과 코드").optional(),
                                 PayloadDocumentation.fieldWithPath("message").type(JsonFieldType.STRING).description("결과 메시지").optional(),
                                 PayloadDocumentation.fieldWithPath("_links").type(JsonFieldType.OBJECT).description("HATEOAS").optional(),
-                                PayloadDocumentation.fieldWithPath("_links.self").type(JsonFieldType.OBJECT).description("요청 API 정보").optional(),
                                 PayloadDocumentation.fieldWithPath("_links.self.href").type(JsonFieldType.STRING).description("요청 API 주소").optional(),
-                                PayloadDocumentation.fieldWithPath("_links.view-id").type(JsonFieldType.OBJECT).description("회원 조회 API 정보").optional(),
-                                PayloadDocumentation.fieldWithPath("_links.view-id.href").type(JsonFieldType.STRING).description("현재 가입한 아이디의 조회 API 주소").optional()
+                                PayloadDocumentation.fieldWithPath("_links.view-identity.href").type(JsonFieldType.STRING).description("현재 가입한 아이디의 조회 API 주소").optional()
                         )
                 ));
     }
