@@ -9,6 +9,5 @@ public interface MemberPasswordValid {
     int MIN_PASSWORD_LENGTH = 8;
     int MAX_PASSWORD_LENGTH = 20;
 
-    String PATTERN_PASSWORD = "[^a-zA-Z0-9 가-힣ㄱ-ㅋㅏ-ㅣ]";
-    String PATTERN_CONTAINS_SPECIAL_CHARACTER = "[^a-z0-9 가-힣ㄱ-ㅋㅏ-ㅣ]";
+    String PATTERN_PASSWORD = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*^#?&])[A-Za-z\\d@$#!^%*?&]{8,20}$";
 }

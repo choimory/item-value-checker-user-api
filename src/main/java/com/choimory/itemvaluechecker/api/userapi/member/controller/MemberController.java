@@ -47,7 +47,6 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    @ResponseStatus(HttpStatus.OK)
     public MemberLoginResponse login(){
         return null;
     }

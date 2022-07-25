@@ -11,13 +11,14 @@
 
 # 주요 사항
 
-- ~~Spring Validation~~
-- Spring HATEOAS를 이용한 REST API
-- Spring Security
+- Spring Validation: 요청값 검증
+- Spring Hateoas: Rest API
+- Spring Security: 암호화, JWT 로그인
 - Mariadb: 기본적인 기능
-- Redis: 인증관리 등 부가사항
-- Apache Kafka를 이용한 DB 동기화
-- TDD
+- Redis: 클러스터링
+- Apache Kafka: DB 동기화
+- JUnit5: TDD
+- Spring REST Docs: 문서 자동화
 
 # 스택
 
@@ -29,7 +30,7 @@
 - Spring Security
 - Apache Kafka
 - Spring Hateoas
-- ~~Spring Validation~~
+- Spring Validation
 - JUnit5
 - Hamcrest
 - Spring REST Docs
