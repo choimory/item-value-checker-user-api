@@ -91,11 +91,11 @@ public class QMemberRepositoryImpl extends Querydsl4RepositorySupport implements
                 .fetch();*/
 
         /*정답 찾음.*/
-        // 1. memberDto의 필드들과 1:1 객체들은 projections.fields()로 dto로 바로 변환, List<MemberSocialDto>는 Projections.list()로 dto 바깥으로 빼서 튜플 객체를 만든 뒤 (삽질1)
-        // 2. querydsl의 transform으로 result aggregation하여 하나의 dto로 최종 변환하여 반환
+        // 1. memberDto의 필드들과 1:1 객체들은 projections.fields()로 MeberDto로 바로 변환, List<MemberSocialDto>는 Projections.list()로 dto 바깥으로 빼서 별도의 튜플 객체를 만든 뒤 (삽질1)
+        // 2. querydsl의 .transform(GroupBy.groupBy().list(GroupBy.list()).as())로 result aggregation하여 1:N 객체도 Member dto에 최종 변환하여 반환
+        // 3. 페이징 처리는 힘듦
 
-        /*.transform(GroupBy.groupBy(entity.id)
-        .list(Projections.fields(DTO.class, parent.fields, dto2*/
+
         return query.select(Projections.fields(MemberDto.class,
                 member.id, member.identity, member.nickname,
                 Projections.fields(MemberDto.MemberAuthorityDto.class,
@@ -105,6 +105,14 @@ public class QMemberRepositoryImpl extends Querydsl4RepositorySupport implements
                         memberSocial.socialType, memberSocial.socialId)
                 )
                 .from(member)
+                .where(gtId(lastId),
+                        eqIdentity(identity),
+                        containsNickname(nickname),
+                        containsEmail(email),
+                        eqAuthLevel(authLevel),
+                        betweenCreatedAt(createdFrom, createdTo),
+                        betweenModifiedAt(modifiedFrom, modifiedTo),
+                        betweenDeletedAt(deletedFrom, deletedTo))
                 .innerJoin(member.memberAuthority, memberAuthority)
                 .leftJoin(member.memberSocials, memberSocial).fetchJoin()
                 .transform(GroupBy.groupBy(member.identity)
