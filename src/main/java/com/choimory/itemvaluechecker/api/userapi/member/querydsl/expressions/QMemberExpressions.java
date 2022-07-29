@@ -10,6 +10,11 @@ import java.time.LocalDateTime;
 import static com.choimory.itemvaluechecker.api.userapi.member.entity.QMember.member;
 
 public class QMemberExpressions {
+    public static BooleanExpression gtId(final Integer id){
+        return id == null || id < 0
+                ? null
+                : member.id.gt(id);
+    }
     public static BooleanExpression eqIdentity(final String identity){
         return StringUtils.hasText(identity)
                 ? member.identity.eq(identity)
