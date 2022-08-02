@@ -40,7 +40,6 @@ public class MemberService {
     }
 
     public MemberListResponse views(final MemberListRequest param, final Pageable pageable){
-        List<MemberDto> projectionsTest = memberRepository.findAllNoOffset(0, pageable.getPageSize(), param.getIdentity(), param.getNickname(), param.getEmail(), param.getAuthLevel(), param.getCreatedFrom(), param.getCreatedTo(), param.getModifiedFrom(), param.getModifiedTo(), param.getDeletedFrom(), param.getDeletedTo());
         Page<Member> members = memberRepository.findAll(pageable, param.getIdentity(), param.getNickname(), param.getEmail(), param.getAuthLevel(), param.getCreatedFrom(), param.getCreatedTo(), param.getModifiedFrom(), param.getModifiedTo(), param.getDeletedFrom(), param.getDeletedTo());
 
         if(members.isEmpty()){
@@ -53,7 +52,6 @@ public class MemberService {
                 .sort(members.getSort().toString())
                 .totalPage(members.getTotalPages())
                 .totalCount(members.getTotalElements())
-                //.members(projectionsTest)
                 .members(members.getContent()
                         .stream()
                         .map(MemberDto::toDto)
