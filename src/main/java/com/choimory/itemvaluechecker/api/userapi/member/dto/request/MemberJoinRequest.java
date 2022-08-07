@@ -33,22 +33,6 @@ public class MemberJoinRequest {
     @NotNull
     private final AuthLevel authLevel;
 
-    public Member toEntity(){
-        Member member = Member.builder()
-                .identity(identity)
-                .password(password)
-                .nickname(nickname)
-                .email(email)
-                .build();
-
-        member.setMemberAuthority(MemberAuthority.builder()
-                .member(member)
-                .authLevel(authLevel)
-                .build());
-
-        return member;
-    }
-
     public Member toEntity(@NotNull PasswordEncoder passwordEncoder){
         Member member = Member.builder()
                 .identity(identity)
@@ -57,11 +41,9 @@ public class MemberJoinRequest {
                 .email(email)
                 .build();
 
-        member.setMemberAuthority(MemberAuthority.builder()
+        return member.join(MemberAuthority.builder()
                 .member(member)
                 .authLevel(authLevel)
                 .build());
-
-        return member;
     }
 }
