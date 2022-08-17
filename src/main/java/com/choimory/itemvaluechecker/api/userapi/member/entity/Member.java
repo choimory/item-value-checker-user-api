@@ -10,11 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@SuperBuilder(toBuilder = true)
+@Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Setter
 public class Member extends CommonDateTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,4 +30,9 @@ public class Member extends CommonDateTimeEntity {
     @Builder.Default
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<MemberSuspension> memberSuspensions = new ArrayList<>();
+
+    public Member join(MemberAuthority memberAuthority){
+        this.memberAuthority = memberAuthority;
+        return this;
+    }
 }

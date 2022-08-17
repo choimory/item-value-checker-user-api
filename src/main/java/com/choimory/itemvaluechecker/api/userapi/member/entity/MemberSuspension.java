@@ -8,11 +8,10 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@SuperBuilder(toBuilder = true)
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Setter
 public class MemberSuspension extends CommonDateTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
