@@ -1,9 +1,3 @@
-drop table if exists member;
-drop table if exists member_authority;
-drop table if exists member_social;
-drop table if exists member_suspension;
-
-
 create or replace table item_value_checker_user.member
 (
     id          bigint unsigned auto_increment
