@@ -38,6 +38,7 @@ dependencies {
     implementation 'com.querydsl:querydsl-jpa:4.2.2'
     implementation 'com.querydsl:querydsl-core:4.2.2'
     implementation 'com.querydsl:querydsl-apt:4.2.2'
+    implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1' //jwt
     compileOnly 'org.projectlombok:lombok'
     //compileOnly group: 'it.ozimov', name: 'embedded-redis', version: '0.7.2' // embedded-redis
     implementation 'org.mariadb.jdbc:mariadb-java-client'
