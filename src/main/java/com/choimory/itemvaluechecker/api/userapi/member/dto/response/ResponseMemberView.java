@@ -8,13 +8,13 @@ import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 
 @Getter
-public class MemberViewResponse extends RepresentationModel<MemberViewResponse> {
+public class ResponseMemberView extends RepresentationModel<ResponseMemberView> {
     private final int status;
     private final String message;
     private final MemberDto member;
 
     @Builder
-    public MemberViewResponse(int status, String message, MemberDto member) {
+    public ResponseMemberView(int status, String message, MemberDto member) {
         this.status = status;
         this.message = message;
         this.member = member;

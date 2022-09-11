@@ -1,7 +1,6 @@
 package com.choimory.itemvaluechecker.api.userapi.member.querydsl.expressions;
 
 import com.choimory.itemvaluechecker.api.userapi.member.code.AuthLevel;
-import com.choimory.itemvaluechecker.api.userapi.member.dto.request.MemberListRequest;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import org.springframework.util.StringUtils;
 
