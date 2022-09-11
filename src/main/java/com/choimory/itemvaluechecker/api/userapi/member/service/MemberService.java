@@ -3,11 +3,14 @@ package com.choimory.itemvaluechecker.api.userapi.member.service;
 import com.choimory.itemvaluechecker.api.userapi.common.exception.CommonException;
 import com.choimory.itemvaluechecker.api.userapi.jwt.TokenManager;
 import com.choimory.itemvaluechecker.api.userapi.member.dto.dto.MemberDto;
+import com.choimory.itemvaluechecker.api.userapi.member.dto.dto.MemberSuspensionDto;
 import com.choimory.itemvaluechecker.api.userapi.member.dto.request.RequestMemberJoin;
 import com.choimory.itemvaluechecker.api.userapi.member.dto.request.RequestMemberFindAll;
+import com.choimory.itemvaluechecker.api.userapi.member.dto.request.RequestMemberLogin;
 import com.choimory.itemvaluechecker.api.userapi.member.dto.response.ResponseMemberJoin;
 import com.choimory.itemvaluechecker.api.userapi.member.dto.response.ResponseMemberFindAll;
 import com.choimory.itemvaluechecker.api.userapi.member.dto.response.ResponseMemberFind;
+import com.choimory.itemvaluechecker.api.userapi.member.dto.response.ResponseMemberLogin;
 import com.choimory.itemvaluechecker.api.userapi.member.entity.Member;
 import com.choimory.itemvaluechecker.api.userapi.member.repository.MemberRepository;
 import com.choimory.itemvaluechecker.api.userapi.member.valid.MemberValid;
@@ -19,6 +22,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -74,6 +80,39 @@ public class MemberService {
         return ResponseMemberJoin.builder()
                 .status(HttpStatus.CREATED.value())
                 .message(HttpStatus.CREATED.getReasonPhrase())
+                .identity(member.getIdentity())
+                .token(tokenManager.generateToken(member.getIdentity()))
+                .build();
+    }
+
+    public ResponseMemberLogin login(final RequestMemberLogin param){
+        Member member = memberRepository.findMemberByIdentityEqualsAndDeletedAtIsNull(param.getIdentity())
+                .orElseThrow(() -> new CommonException(HttpStatus.NO_CONTENT,
+                        HttpStatus.NO_CONTENT.value(),
+                        HttpStatus.NO_CONTENT.getReasonPhrase()));
+
+        /*비밀번호 체크*/
+        boolean isPasswordMatched = param.isPasswordMatched(passwordEncoder, member.getPassword());
+        if(!isPasswordMatched){
+            throw new CommonException(HttpStatus.NO_CONTENT,
+                    HttpStatus.NO_CONTENT.value(),
+                    HttpStatus.NO_CONTENT.getReasonPhrase());
+        }
+
+        /*정지여부 체크*/
+        List<MemberSuspensionDto> suspensions = member.getMemberSuspensions()
+                .stream()
+                .map(MemberSuspensionDto::toDto)
+                .collect(Collectors.toUnmodifiableList());
+        boolean isSuspended = ResponseMemberLogin.isSuspended(suspensions);
+
+        /*반환*/
+        return isSuspended
+                ? ResponseMemberLogin.builder()
+                .identity(member.getIdentity())
+                .suspensions(suspensions)
+                .build()
+                : ResponseMemberLogin.builder()
                 .identity(member.getIdentity())
                 .token(tokenManager.generateToken(member.getIdentity()))
                 .build();

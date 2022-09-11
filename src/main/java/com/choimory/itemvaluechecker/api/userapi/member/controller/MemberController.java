@@ -4,6 +4,7 @@ import com.choimory.itemvaluechecker.api.userapi.common.dto.request.CommonPageRe
 import com.choimory.itemvaluechecker.api.userapi.member.code.MemberDefaultSort;
 import com.choimory.itemvaluechecker.api.userapi.member.dto.request.RequestMemberJoin;
 import com.choimory.itemvaluechecker.api.userapi.member.dto.request.RequestMemberFindAll;
+import com.choimory.itemvaluechecker.api.userapi.member.dto.request.RequestMemberLogin;
 import com.choimory.itemvaluechecker.api.userapi.member.dto.response.*;
 import com.choimory.itemvaluechecker.api.userapi.member.service.MemberService;
 import com.choimory.itemvaluechecker.api.userapi.member.valid.MemberValid;
@@ -42,13 +43,13 @@ public class MemberController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseMemberJoin join(@RequestBody
                                        @Valid
-                                       final RequestMemberJoin param) throws Exception {
+                                       final RequestMemberJoin param) {
         return memberService.join(param);
     }
 
     @PostMapping("/login")
-    public ResponseMemberLogin login(){
-        return null;
+    public ResponseMemberLogin login(@RequestBody @Valid final RequestMemberLogin param){
+        return memberService.login(param);
     }
 
     public ResponseEntity<ResponseMemberLogout> logout(){

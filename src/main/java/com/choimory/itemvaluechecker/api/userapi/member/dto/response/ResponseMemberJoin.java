@@ -26,5 +26,8 @@ public class ResponseMemberJoin extends RepresentationModel<ResponseMemberJoin> 
         add(WebMvcLinkBuilder.linkTo(MemberController.class)
                 .slash(identity)
                 .withRel("view-identity"));
+        add(WebMvcLinkBuilder.linkTo(MemberController.class)
+                .slash("login")
+                .withRel("login"));
     }
 }
