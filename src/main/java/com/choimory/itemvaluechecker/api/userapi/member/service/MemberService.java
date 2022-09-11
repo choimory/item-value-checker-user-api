@@ -29,7 +29,7 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final TokenManager tokenManager;
 
-    public ResponseMemberView view(final String memberId){
+    public ResponseMemberView find(final String memberId){
         return ResponseMemberView.builder()
                 .status(HttpStatus.OK.value())
                 .message(HttpStatus.OK.getReasonPhrase())
@@ -38,7 +38,7 @@ public class MemberService {
                 .build();
     }
 
-    public ResponseMemberList views(final RequestMemberList param, final Pageable pageable){
+    public ResponseMemberList findAll(final RequestMemberList param, final Pageable pageable){
         Page<Member> members = memberRepository.findAll(pageable, param.getIdentity(), param.getNickname(), param.getEmail(), param.getAuthLevel(), param.getCreatedFrom(), param.getCreatedTo(), param.getModifiedFrom(), param.getModifiedTo(), param.getDeletedFrom(), param.getDeletedTo());
 
         if(members.isEmpty()){

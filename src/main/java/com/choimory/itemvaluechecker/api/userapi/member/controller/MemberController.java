@@ -24,18 +24,18 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/{identity}")
-    public ResponseMemberView view(@PathVariable
+    public ResponseMemberView find(@PathVariable
                                        @Valid
                                        @Size(min = MemberValid.MIN_ID_LENGTH,
                                                max = MemberValid.MAX_ID_LENGTH)
                                        final String identity){
-        return memberService.view(identity);
+        return memberService.find(identity);
     }
 
     @GetMapping
-    public ResponseMemberList views(final RequestMemberList param,
-                                    final CommonPageRequest commonPageRequest){
-        return memberService.views(param, commonPageRequest.of(MemberDefaultSort.VIEWS.getProperty(), MemberDefaultSort.VIEWS.getDirection()));
+    public ResponseMemberList findAll(final RequestMemberList param,
+                                      final CommonPageRequest commonPageRequest){
+        return memberService.findAll(param, commonPageRequest.of(MemberDefaultSort.VIEWS.getProperty(), MemberDefaultSort.VIEWS.getDirection()));
     }
 
     @PutMapping
