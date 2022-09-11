@@ -1,6 +1,7 @@
 package com.choimory.itemvaluechecker.api.userapi.member.service;
 
 import com.choimory.itemvaluechecker.api.userapi.common.exception.CommonException;
+import com.choimory.itemvaluechecker.api.userapi.jwt.TokenManager;
 import com.choimory.itemvaluechecker.api.userapi.member.controller.MemberController;
 import com.choimory.itemvaluechecker.api.userapi.member.dto.dto.MemberDto;
 import com.choimory.itemvaluechecker.api.userapi.member.dto.request.MemberJoinRequest;
@@ -29,6 +30,7 @@ import java.util.stream.Collectors;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+    private final TokenManager tokenManager;
 
     public MemberViewResponse view(final String memberId){
         return MemberViewResponse.builder()
@@ -60,7 +62,7 @@ public class MemberService {
     }
 
     @Transactional
-    public MemberJoinResponse join(final MemberJoinRequest param) throws Exception {
+    public MemberJoinResponse join(final MemberJoinRequest param) {
         /*중복여부 확인*/
         if(memberRepository.existsByIdentity(param.getIdentity())){
             throw new CommonException(HttpStatus.BAD_REQUEST,
@@ -76,6 +78,7 @@ public class MemberService {
                 .status(HttpStatus.CREATED.value())
                 .message(HttpStatus.CREATED.getReasonPhrase())
                 .identity(member.getIdentity())
+                .token(tokenManager.generateToken(member.getIdentity()))
                 .build();
     }
 }

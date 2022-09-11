@@ -14,11 +14,13 @@ public class MemberJoinResponse extends RepresentationModel<MemberJoinResponse> 
     private final String message;
     @JsonIgnore
     private final String identity;
+    private final String token;
 
-    public MemberJoinResponse(int status, String message, String identity) {
+    public MemberJoinResponse(int status, String message, String identity, String token) {
         this.status = status;
         this.message = message;
         this.identity = identity;
+        this.token = token;
         add(WebMvcLinkBuilder.linkTo(MemberController.class)
                 .withSelfRel());
         add(WebMvcLinkBuilder.linkTo(MemberController.class)
