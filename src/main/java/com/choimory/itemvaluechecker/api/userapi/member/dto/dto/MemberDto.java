@@ -7,6 +7,7 @@ import com.choimory.itemvaluechecker.api.userapi.member.entity.MemberAuthority;
 import com.choimory.itemvaluechecker.api.userapi.member.entity.MemberSocial;
 import com.choimory.itemvaluechecker.api.userapi.member.entity.MemberSuspension;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
@@ -22,6 +23,8 @@ import java.util.stream.Collectors;
 public class MemberDto {
     private Long id;
     private String identity;
+    @JsonIgnore
+    private String password;
     private String nickname;
     private String email;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
@@ -42,6 +45,7 @@ public class MemberDto {
                 : MemberDto.builder()
                 .id(member.getId())
                 .identity(member.getIdentity())
+                .password(member.getPassword())
                 .nickname(member.getNickname())
                 .email(member.getEmail())
                 .createdAt(member.getCreatedAt())

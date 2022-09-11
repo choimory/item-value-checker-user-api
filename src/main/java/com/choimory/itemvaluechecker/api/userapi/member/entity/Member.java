@@ -28,7 +28,7 @@ public class Member extends CommonDateTimeEntity {
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<MemberSocial> memberSocials = new ArrayList<>();
     @Builder.Default
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<MemberSuspension> memberSuspensions = new ArrayList<>();
 
     public Member join(MemberAuthority memberAuthority){

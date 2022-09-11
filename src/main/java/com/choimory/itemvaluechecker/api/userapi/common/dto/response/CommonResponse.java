@@ -1,5 +1,6 @@
 package com.choimory.itemvaluechecker.api.userapi.common.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 @Builder
 @Getter
 @RequiredArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class CommonResponse<T> {
     @Builder.Default
     private final int status = 0;

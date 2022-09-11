@@ -2,6 +2,7 @@ package com.choimory.itemvaluechecker.api.userapi.member.controller;
 
 import com.choimory.itemvaluechecker.api.userapi.common.dto.request.CommonPageRequest;
 import com.choimory.itemvaluechecker.api.userapi.member.code.MemberDefaultSort;
+import com.choimory.itemvaluechecker.api.userapi.member.dto.request.RequestMemberBan;
 import com.choimory.itemvaluechecker.api.userapi.member.dto.request.RequestMemberJoin;
 import com.choimory.itemvaluechecker.api.userapi.member.dto.request.RequestMemberFindAll;
 import com.choimory.itemvaluechecker.api.userapi.member.dto.request.RequestMemberLogin;
@@ -26,10 +27,10 @@ public class MemberController {
 
     @GetMapping("/{identity}")
     public ResponseMemberFind find(@PathVariable
-                                       @Valid
-                                       @Size(min = MemberValid.MIN_ID_LENGTH,
-                                               max = MemberValid.MAX_ID_LENGTH)
-                                       final String identity){
+                                   @Valid
+                                   @Size(min = MemberValid.MIN_ID_LENGTH,
+                                           max = MemberValid.MAX_ID_LENGTH)
+                                   final String identity){
         return memberService.find(identity);
     }
 
@@ -42,8 +43,8 @@ public class MemberController {
     @PutMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseMemberJoin join(@RequestBody
-                                       @Valid
-                                       final RequestMemberJoin param) {
+                                   @Valid
+                                   final RequestMemberJoin param) {
         return memberService.join(param);
     }
 
@@ -52,15 +53,23 @@ public class MemberController {
         return memberService.login(param);
     }
 
-    public ResponseEntity<ResponseMemberLogout> logout(){
+    public ResponseMemberLogout logout(){
         return null;
     }
 
-    public ResponseEntity<ResponseMemberUpdate> update(){
+    public ResponseMemberUpdate update(){
         return null;
     }
 
-    public ResponseEntity<ResponseMemberBan> ban(){
-        return null;
+    @PatchMapping("/ban/{identity}")
+    public ResponseMemberBan ban(@PathVariable
+                                 @Valid
+                                 @Size(min = MemberValid.MIN_ID_LENGTH,
+                                         max = MemberValid.MAX_ID_LENGTH)
+                                 final String identity,
+                                 @RequestBody
+                                 @Valid
+                                 final RequestMemberBan param){
+        return memberService.ban(identity, param);
     }
 }
