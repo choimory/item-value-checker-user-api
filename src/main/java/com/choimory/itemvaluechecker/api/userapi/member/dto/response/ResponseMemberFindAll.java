@@ -10,7 +10,7 @@ import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import java.util.List;
 
 @Getter
-public class ResponseMemberList extends RepresentationModel<ResponseMemberList> {
+public class ResponseMemberFindAll extends RepresentationModel<ResponseMemberFindAll> {
     private final int page;
     private final int size;
     private final String sort;
@@ -19,7 +19,7 @@ public class ResponseMemberList extends RepresentationModel<ResponseMemberList> 
     private final List<MemberDto> members;
 
     @Builder
-    public ResponseMemberList(int page, int size, String sort, long totalCount, int totalPage, List<MemberDto> members) {
+    public ResponseMemberFindAll(int page, int size, String sort, long totalCount, int totalPage, List<MemberDto> members) {
         this.page = page;
         this.size = size;
         this.sort = sort;

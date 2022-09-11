@@ -4,10 +4,10 @@ import com.choimory.itemvaluechecker.api.userapi.common.exception.CommonExceptio
 import com.choimory.itemvaluechecker.api.userapi.jwt.TokenManager;
 import com.choimory.itemvaluechecker.api.userapi.member.dto.dto.MemberDto;
 import com.choimory.itemvaluechecker.api.userapi.member.dto.request.RequestMemberJoin;
-import com.choimory.itemvaluechecker.api.userapi.member.dto.request.RequestMemberList;
+import com.choimory.itemvaluechecker.api.userapi.member.dto.request.RequestMemberFindAll;
 import com.choimory.itemvaluechecker.api.userapi.member.dto.response.ResponseMemberJoin;
-import com.choimory.itemvaluechecker.api.userapi.member.dto.response.ResponseMemberList;
-import com.choimory.itemvaluechecker.api.userapi.member.dto.response.ResponseMemberView;
+import com.choimory.itemvaluechecker.api.userapi.member.dto.response.ResponseMemberFindAll;
+import com.choimory.itemvaluechecker.api.userapi.member.dto.response.ResponseMemberFind;
 import com.choimory.itemvaluechecker.api.userapi.member.entity.Member;
 import com.choimory.itemvaluechecker.api.userapi.member.repository.MemberRepository;
 import com.choimory.itemvaluechecker.api.userapi.member.valid.MemberValid;
@@ -29,8 +29,8 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final TokenManager tokenManager;
 
-    public ResponseMemberView find(final String memberId){
-        return ResponseMemberView.builder()
+    public ResponseMemberFind find(final String memberId){
+        return ResponseMemberFind.builder()
                 .status(HttpStatus.OK.value())
                 .message(HttpStatus.OK.getReasonPhrase())
                 .member(MemberDto.toDto(memberRepository.findMemberByIdentityEquals(memberId)
@@ -38,14 +38,14 @@ public class MemberService {
                 .build();
     }
 
-    public ResponseMemberList findAll(final RequestMemberList param, final Pageable pageable){
+    public ResponseMemberFindAll findAll(final RequestMemberFindAll param, final Pageable pageable){
         Page<Member> members = memberRepository.findAll(pageable, param.getIdentity(), param.getNickname(), param.getEmail(), param.getAuthLevel(), param.getCreatedFrom(), param.getCreatedTo(), param.getModifiedFrom(), param.getModifiedTo(), param.getDeletedFrom(), param.getDeletedTo());
 
         if(members.isEmpty()){
             throw new CommonException(HttpStatus.NO_CONTENT, HttpStatus.NO_CONTENT.value(), HttpStatus.NO_CONTENT.getReasonPhrase());
         }
 
-        return ResponseMemberList.builder()
+        return ResponseMemberFindAll.builder()
                 .page(members.getNumber()+1)
                 .size(members.getSize())
                 .sort(members.getSort().toString())
