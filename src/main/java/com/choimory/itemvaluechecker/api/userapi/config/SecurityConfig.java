@@ -15,7 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @RequiredArgsConstructor
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+//@EnableGlobalMethodSecurity(prePostEnabled = true) // hasRole, hasAuthority를 컨트롤러에 어노테이션으로 명시하여 사용하고 싶을때. 어노테이션 안에 순수 문자열로 붙여야 하기 때문에 enum 사용 난감. API가 많아지면 사용 고려하거나 설정을 변경하는것을 고려
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
