@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- *
+ * 매 요청에 대한 토큰 관련 필터 처리
  */
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
