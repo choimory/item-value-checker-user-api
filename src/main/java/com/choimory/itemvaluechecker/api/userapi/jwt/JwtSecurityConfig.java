@@ -10,15 +10,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  * TODO SecurityConfig에서 인스턴스를 계속 생성하는지? 한번만 생성하는지?
  */
 public class JwtSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
-    private final JwtProvider jwtProvider;
+    private final JwtUtil jwtUtil;
 
-    public JwtSecurityConfig(JwtProvider jwtProvider) {
-        this.jwtProvider = jwtProvider;
+    public JwtSecurityConfig(JwtUtil jwtUtil) {
+        this.jwtUtil = jwtUtil;
     }
 
     @Override
     public void configure(HttpSecurity httpSecurity) {
-        JwtFilter jwtFilter = new JwtFilter(jwtProvider);
-        httpSecurity.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+        JwtRequestFilter jwtRequestFilter = new JwtRequestFilter(jwtUtil);
+        httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }

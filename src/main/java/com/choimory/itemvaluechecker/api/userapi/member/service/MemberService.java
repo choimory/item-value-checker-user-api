@@ -1,7 +1,7 @@
 package com.choimory.itemvaluechecker.api.userapi.member.service;
 
 import com.choimory.itemvaluechecker.api.userapi.common.exception.CommonException;
-import com.choimory.itemvaluechecker.api.userapi.jwt.JwtProvider;
+import com.choimory.itemvaluechecker.api.userapi.jwt.JwtUtil;
 import com.choimory.itemvaluechecker.api.userapi.member.dto.dto.MemberDto;
 import com.choimory.itemvaluechecker.api.userapi.member.dto.dto.MemberDto.MemberSuspensionDto;
 import com.choimory.itemvaluechecker.api.userapi.member.dto.request.RequestMemberBan;
@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtProvider jwtProvider;
+    private final JwtUtil jwtUtil;
 
     public ResponseMemberFind find(final String memberId){
         return ResponseMemberFind.builder()
@@ -80,7 +80,7 @@ public class MemberService {
                 .status(HttpStatus.CREATED.value())
                 .message(HttpStatus.CREATED.getReasonPhrase())
                 .identity(member.getIdentity())
-                .token(jwtProvider.generateToken(member.getIdentity()))
+                .token(jwtUtil.generateToken(member.getIdentity()))
                 .build();
     }
 
@@ -105,7 +105,7 @@ public class MemberService {
         return CollectionUtils.isEmpty(activateSuspensions)
                 ? ResponseMemberLogin.builder()
                 .identity(member.getIdentity())
-                .token(jwtProvider.generateToken(member.getIdentity()))
+                .token(jwtUtil.generateToken(member.getIdentity()))
                 .build()
                 : ResponseMemberLogin.builder()
                 .identity(member.getIdentity())

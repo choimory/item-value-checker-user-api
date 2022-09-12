@@ -22,14 +22,14 @@ import java.util.stream.Stream;
  */
 @Component
 @Slf4j
-public class JwtProvider {
+public class JwtUtil {
     private final String secretKey;
     private final int expiredTime;
     private final JwtMemberService jwtMemberService;
 
-    public JwtProvider(@Value("${jwt.secret-key}") String secretKey,
-                       @Value("${jwt.expire-time}") int expiredTime,
-                       JwtMemberService jwtMemberService) {
+    public JwtUtil(@Value("${jwt.secret-key}") String secretKey,
+                   @Value("${jwt.expire-time}") int expiredTime,
+                   JwtMemberService jwtMemberService) {
         this.secretKey = secretKey;
         this.expiredTime = expiredTime;
         this.jwtMemberService = jwtMemberService;
