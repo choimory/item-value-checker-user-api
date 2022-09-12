@@ -9,7 +9,9 @@ import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Builder
@@ -33,7 +35,9 @@ public class ResponseMemberLogin extends RepresentationModel<ResponseMemberLogin
     }
 
     public static List<MemberSuspensionDto> findActivateSuspensions(List<MemberSuspensionDto> suspensions){
-        return suspensions.stream()
+        return Optional.of(suspensions)
+                .orElseGet(Collections::emptyList)
+                .stream()
                 .filter(suspension -> suspension.getSuspendedTo().isAfter(LocalDateTime.now()))
                 .collect(Collectors.toUnmodifiableList());
     }

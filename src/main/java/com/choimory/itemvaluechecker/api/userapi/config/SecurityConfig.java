@@ -1,17 +1,28 @@
 package com.choimory.itemvaluechecker.api.userapi.config;
 
+import com.choimory.itemvaluechecker.api.userapi.jwt.*;
+import com.choimory.itemvaluechecker.api.userapi.member.code.AuthLevel;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
+@RequiredArgsConstructor
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+    private final JwtEntryPoint jwtEntryPoint;
+    private final JwtProvider jwtProvider;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         /*스프링 시큐리티 기본 로그인 비활성화*/
@@ -27,16 +38,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/member").permitAll()
                 .antMatchers(HttpMethod.PUT, "/member").permitAll()
-                .antMatchers(HttpMethod.PATCH, "/member/ban/{\\w+}").permitAll()
+                .antMatchers(HttpMethod.PATCH, "/member/ban/{\\w+}").hasAuthority(AuthLevel.ADMIN.name())
                 .antMatchers(HttpMethod.GET, "/member/{\\w+}").permitAll()
                 .antMatchers(HttpMethod.POST, "/member/login").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .cors()
-                /*.and()
-                .exceptionHandling().authenticationEntryPoint()*/
                 .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                /*Jwt*/
+                .and()
+                .exceptionHandling()
+                .accessDeniedHandler(jwtAccessDeniedHandler)
+                .authenticationEntryPoint(jwtEntryPoint)
+                .and()
+                .apply(new JwtSecurityConfig(jwtProvider));
     }
 
     @Bean

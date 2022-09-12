@@ -1,7 +1,7 @@
 package com.choimory.itemvaluechecker.api.userapi.member.service;
 
 import com.choimory.itemvaluechecker.api.userapi.common.exception.CommonException;
-import com.choimory.itemvaluechecker.api.userapi.jwt.TokenManager;
+import com.choimory.itemvaluechecker.api.userapi.jwt.JwtProvider;
 import com.choimory.itemvaluechecker.api.userapi.member.dto.dto.MemberDto;
 import com.choimory.itemvaluechecker.api.userapi.member.dto.dto.MemberDto.MemberSuspensionDto;
 import com.choimory.itemvaluechecker.api.userapi.member.dto.request.RequestMemberBan;
@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
-    private final TokenManager tokenManager;
+    private final JwtProvider jwtProvider;
 
     public ResponseMemberFind find(final String memberId){
         return ResponseMemberFind.builder()
@@ -80,7 +80,7 @@ public class MemberService {
                 .status(HttpStatus.CREATED.value())
                 .message(HttpStatus.CREATED.getReasonPhrase())
                 .identity(member.getIdentity())
-                .token(tokenManager.generateToken(member.getIdentity()))
+                .token(jwtProvider.generateToken(member.getIdentity()))
                 .build();
     }
 
@@ -105,7 +105,7 @@ public class MemberService {
         return CollectionUtils.isEmpty(activateSuspensions)
                 ? ResponseMemberLogin.builder()
                 .identity(member.getIdentity())
-                .token(tokenManager.generateToken(member.getIdentity()))
+                .token(jwtProvider.generateToken(member.getIdentity()))
                 .build()
                 : ResponseMemberLogin.builder()
                 .identity(member.getIdentity())
@@ -119,7 +119,6 @@ public class MemberService {
                 .orElseThrow(() -> new CommonException(HttpStatus.NO_CONTENT, HttpStatus.NO_CONTENT.value(), HttpStatus.NO_CONTENT.getReasonPhrase()));
 
         /*이미 정지된 회원여부인지 확인*/
-        boolean isSuspendActivated = RequestMemberBan.isSuspendActivated(member.getMemberSuspensions());
         if(RequestMemberBan.isSuspendActivated(member.getMemberSuspensions())){
             throw new CommonException(HttpStatus.BAD_REQUEST, HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase());
         }
