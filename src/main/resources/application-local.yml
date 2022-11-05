@@ -5,10 +5,7 @@ spring:
   config:
     activate:
       on-profile: local
-  datasource:
-    hikari:
-      maximum-pool-size: 10
-      max-lifetime: 28500000 #DB WAIT_TIMEOUT -> 28800 (28800000)
+
   jpa:
     open-in-view: false
     show-sql: true
@@ -19,6 +16,20 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
+
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url:
+    username:
+    password:
+    hikari:
+      maximum-pool-size: 10
+      max-lifetime: 28500000 #DB WAIT_TIMEOUT -> 28800 (28800000)
+
+  redis:
+    host: localhost
+    port: 6378
+    password:
 
 logging:
   level:
