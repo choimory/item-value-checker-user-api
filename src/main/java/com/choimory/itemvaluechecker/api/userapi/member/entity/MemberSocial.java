@@ -9,9 +9,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 public class MemberSocial extends CommonDateTimeEntity {
     @Id
@@ -23,4 +21,13 @@ public class MemberSocial extends CommonDateTimeEntity {
     @Enumerated(EnumType.STRING)
     private SocialType socialType;
     private String socialId;
+
+    @Builder(toBuilder = true)
+    public MemberSocial(LocalDateTime createdAt, LocalDateTime modifiedAt, LocalDateTime deletedAt, Long id, Member member, SocialType socialType, String socialId) {
+        super(createdAt, modifiedAt, deletedAt);
+        this.id = id;
+        this.member = member;
+        this.socialType = socialType;
+        this.socialId = socialId;
+    }
 }
