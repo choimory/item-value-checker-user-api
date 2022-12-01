@@ -2,14 +2,15 @@ package com.choimory.itemvaluechecker.api.userapi.member.controller;
 
 import com.choimory.itemvaluechecker.api.userapi.common.dto.request.CommonPageRequest;
 import com.choimory.itemvaluechecker.api.userapi.member.code.MemberDefaultSort;
-import com.choimory.itemvaluechecker.api.userapi.member.dto.request.MemberJoinRequest;
-import com.choimory.itemvaluechecker.api.userapi.member.dto.request.MemberListRequest;
+import com.choimory.itemvaluechecker.api.userapi.member.dto.request.RequestMemberBan;
+import com.choimory.itemvaluechecker.api.userapi.member.dto.request.RequestMemberFindAll;
+import com.choimory.itemvaluechecker.api.userapi.member.dto.request.RequestMemberJoin;
+import com.choimory.itemvaluechecker.api.userapi.member.dto.request.RequestMemberLogin;
 import com.choimory.itemvaluechecker.api.userapi.member.dto.response.*;
 import com.choimory.itemvaluechecker.api.userapi.member.service.MemberService;
 import com.choimory.itemvaluechecker.api.userapi.member.valid.MemberValid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,42 +25,50 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/{identity}")
-    public MemberViewResponse view(@PathVariable
-                                       @Valid
-                                       @Size(min = MemberValid.MIN_ID_LENGTH,
-                                               max = MemberValid.MAX_ID_LENGTH)
-                                       final String identity){
-        return memberService.view(identity);
+    public ResponseMemberFind find(@PathVariable
+                                   @Valid
+                                   @Size(min = MemberValid.MIN_ID_LENGTH,
+                                           max = MemberValid.MAX_ID_LENGTH)
+                                   final String identity){
+        return memberService.find(identity);
     }
 
     @GetMapping
-    public MemberListResponse views(final MemberListRequest param,
-                                    final CommonPageRequest commonPageRequest){
-        return memberService.views(param, commonPageRequest.of(MemberDefaultSort.VIEWS.getProperty(), MemberDefaultSort.VIEWS.getDirection()));
+    public ResponseMemberFindAll findAll(final RequestMemberFindAll param,
+                                         final CommonPageRequest commonPageRequest){
+        return memberService.findAll(param, commonPageRequest.of(MemberDefaultSort.VIEWS.getProperty(), MemberDefaultSort.VIEWS.getDirection()));
     }
 
     @PutMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public MemberJoinResponse join(@RequestBody
-                                       @Valid
-                                       final MemberJoinRequest param) throws Exception {
+    public ResponseMemberJoin join(@RequestBody
+                                   @Valid
+                                   final RequestMemberJoin param) {
         return memberService.join(param);
     }
 
     @PostMapping("/login")
-    public MemberLoginResponse login(){
+    public ResponseMemberLogin login(@RequestBody @Valid final RequestMemberLogin param){
+        return memberService.login(param);
+    }
+
+    public ResponseMemberLogout logout(){
         return null;
     }
 
-    public ResponseEntity<MemberLogoutResponse> logout(){
+    public ResponseMemberUpdate update(){
         return null;
     }
 
-    public ResponseEntity<MemberUpdateResponse> update(){
-        return null;
-    }
-
-    public ResponseEntity<MemberBanResponse> ban(){
-        return null;
+    @PatchMapping("/ban/{identity}")
+    public ResponseMemberBan ban(@PathVariable
+                                 @Valid
+                                 @Size(min = MemberValid.MIN_ID_LENGTH,
+                                         max = MemberValid.MAX_ID_LENGTH)
+                                 final String identity,
+                                 @RequestBody
+                                 @Valid
+                                 final RequestMemberBan param){
+        return memberService.ban(identity, param);
     }
 }

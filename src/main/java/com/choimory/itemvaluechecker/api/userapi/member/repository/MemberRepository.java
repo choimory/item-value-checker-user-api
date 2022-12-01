@@ -11,6 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long>, QMemberRepository {
-    Optional<Member> findMemberByIdentityEquals(final String identity);
-    boolean existsByIdentity(final String identity);
+    Optional<Member> findMemberByIdentityEquals(String identity);
+    Optional<Member> findMemberByIdentityEqualsAndDeletedAtIsNull(String identity);
+    boolean existsByIdentity(String identity);
 }

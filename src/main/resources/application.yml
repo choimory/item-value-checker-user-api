@@ -3,7 +3,7 @@ server:
 
 spring:
   profiles:
-    include: datasource
+    include: datasource, jwt
     group:
       dev: dev
       local: local, sql-init

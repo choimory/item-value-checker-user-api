@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
 @Builder
 @RequiredArgsConstructor
 @Getter
-public class MemberJoinRequest {
+public class RequestMemberJoin {
     @NotBlank
     @Size(min = MemberValid.MIN_ID_LENGTH,
             max = MemberValid.MAX_ID_LENGTH)

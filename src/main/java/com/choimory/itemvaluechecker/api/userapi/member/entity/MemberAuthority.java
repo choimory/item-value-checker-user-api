@@ -9,9 +9,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 public class MemberAuthority extends CommonDateTimeEntity {
     @Id
@@ -22,4 +20,12 @@ public class MemberAuthority extends CommonDateTimeEntity {
     private Member member;
     @Enumerated(EnumType.STRING)
     private AuthLevel authLevel;
+
+    @Builder(toBuilder = true)
+    public MemberAuthority(LocalDateTime createdAt, LocalDateTime modifiedAt, LocalDateTime deletedAt, Long id, Member member, AuthLevel authLevel) {
+        super(createdAt, modifiedAt, deletedAt);
+        this.id = id;
+        this.member = member;
+        this.authLevel = authLevel;
+    }
 }

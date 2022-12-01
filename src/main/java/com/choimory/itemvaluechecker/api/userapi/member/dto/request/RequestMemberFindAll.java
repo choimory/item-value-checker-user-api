@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Builder
 @RequiredArgsConstructor
 @Getter
-public class MemberListRequest {
+public class RequestMemberFindAll {
     private final String identity;
     private final String nickname;
     private final String email;

@@ -4,15 +4,13 @@ import com.choimory.itemvaluechecker.api.userapi.member.controller.MemberControl
 import com.choimory.itemvaluechecker.api.userapi.member.dto.dto.MemberDto;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Sort;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 
 import java.util.List;
 
 @Getter
-public class MemberListResponse extends RepresentationModel<MemberListResponse> {
+public class ResponseMemberFindAll extends RepresentationModel<ResponseMemberFindAll> {
     private final int page;
     private final int size;
     private final String sort;
@@ -21,7 +19,7 @@ public class MemberListResponse extends RepresentationModel<MemberListResponse> 
     private final List<MemberDto> members;
 
     @Builder
-    public MemberListResponse(int page, int size, String sort, long totalCount, int totalPage, List<MemberDto> members) {
+    public ResponseMemberFindAll(int page, int size, String sort, long totalCount, int totalPage, List<MemberDto> members) {
         this.page = page;
         this.size = size;
         this.sort = sort;

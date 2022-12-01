@@ -5,7 +5,6 @@ import com.choimory.itemvaluechecker.api.userapi.common.dto.response.CommonRespo
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -44,10 +43,9 @@ public class CommonExceptionAdvice {
     @ExceptionHandler({CommonException.class})
     public ResponseEntity<CommonResponse<String>> commonException(CommonException e) {
         return new ResponseEntity<>(CommonResponse.<String>builder()
-                .status(e.getCode())
+                .status(e.getStatus())
                 .message(e.getMessage())
-                .data(e.getMessage())
-                .build(), e.getStatus());
+                .build(), e.getHttpStatus());
     }
 
     @ExceptionHandler({MethodArgumentNotValidException.class})

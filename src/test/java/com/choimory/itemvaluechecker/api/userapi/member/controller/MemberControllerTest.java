@@ -2,7 +2,7 @@ package com.choimory.itemvaluechecker.api.userapi.member.controller;
 
 import com.choimory.itemvaluechecker.api.userapi.config.SpringRestDocsConfig;
 import com.choimory.itemvaluechecker.api.userapi.member.code.AuthLevel;
-import com.choimory.itemvaluechecker.api.userapi.member.dto.request.MemberJoinRequest;
+import com.choimory.itemvaluechecker.api.userapi.member.dto.request.RequestMemberJoin;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
@@ -66,7 +66,7 @@ class MemberControllerTest {
     void BAD_REQUEST_응답_테스트() throws Exception {
         /*given*/
         final String payload = objectMapper.writeValueAsString(
-                MemberJoinRequest.builder()
+                RequestMemberJoin.builder()
                         .identity("a")
                         .password("a")
                         .email("email")
@@ -269,7 +269,7 @@ class MemberControllerTest {
     @DisplayName("회원가입 성공 테스트")
     void join() throws Exception {
         /*given*/
-        MemberJoinRequest request = MemberJoinRequest.builder()
+        RequestMemberJoin request = RequestMemberJoin.builder()
                 .identity("morychoi")
                 .password("Asdqwe123!@#")
                 .nickname("morychoi")
