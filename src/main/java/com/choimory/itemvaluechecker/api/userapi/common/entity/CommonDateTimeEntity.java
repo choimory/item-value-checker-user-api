@@ -21,8 +21,8 @@ import java.time.LocalDateTime;
 @Getter
 public abstract class CommonDateTimeEntity implements Serializable {
     @CreatedDate
-    private LocalDateTime createdAt;
+    protected LocalDateTime createdAt;
     @LastModifiedDate
-    private LocalDateTime modifiedAt;
-    private LocalDateTime deletedAt;
+    protected LocalDateTime modifiedAt;
+    protected LocalDateTime deletedAt;
 }

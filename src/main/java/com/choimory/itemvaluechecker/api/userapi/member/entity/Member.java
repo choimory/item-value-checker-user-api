@@ -22,10 +22,8 @@ public class Member extends CommonDateTimeEntity {
     private String email;
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private MemberAuthority memberAuthority;
-    @Builder.Default
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<MemberSocial> memberSocials = new ArrayList<>();
-    @Builder.Default
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<MemberSuspension> memberSuspensions = new ArrayList<>();
 
