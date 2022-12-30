@@ -19,9 +19,9 @@ spring:
 
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url:
-    username:
-    password:
+    url: jdbc:mariadb://localhost:3306/item_value_checker_user
+    username: root
+    password: asdqwe123
     hikari:
       maximum-pool-size: 10
       max-lifetime: 28500000 #DB WAIT_TIMEOUT -> 28800 (28800000)
@@ -29,7 +29,7 @@ spring:
   redis:
     host: localhost
     port: 6378
-    password:
+    password: asdqwe123
 
 logging:
   level:

@@ -1,8 +1,8 @@
 package com.choimory.itemvaluechecker.api.userapi.member.controller;
 
 import com.choimory.itemvaluechecker.api.userapi.config.SpringRestDocsConfig;
-import com.choimory.itemvaluechecker.api.userapi.member.code.AuthLevel;
-import com.choimory.itemvaluechecker.api.userapi.member.dto.request.RequestMemberJoin;
+import com.choimory.itemvaluechecker.api.userapi.member.data.request.RequestMemberJoin;
+import com.choimory.itemvaluechecker.api.userapi.member.entity.MemberAuthority;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
@@ -70,7 +70,7 @@ class MemberControllerTest {
                         .identity("a")
                         .password("a")
                         .email("email")
-                        .authLevel(AuthLevel.MEMBER)
+                        .authLevel(MemberAuthority.AuthLevel.MEMBER)
                         .build());
 
         /*when*/
@@ -274,7 +274,7 @@ class MemberControllerTest {
                 .password("Asdqwe123!@#")
                 .nickname("morychoi")
                 .email("morychoi@naver.com")
-                .authLevel(AuthLevel.MEMBER)
+                .authLevel(MemberAuthority.AuthLevel.MEMBER)
                 .build();
 
         /*when*/
