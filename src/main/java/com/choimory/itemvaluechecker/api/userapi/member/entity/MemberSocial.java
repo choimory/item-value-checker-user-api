@@ -1,7 +1,7 @@
 package com.choimory.itemvaluechecker.api.userapi.member.entity;
 
 import com.choimory.itemvaluechecker.api.userapi.common.entity.CommonDateTimeEntity;
-import com.choimory.itemvaluechecker.api.userapi.member.code.SocialType;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,5 +30,13 @@ public class MemberSocial extends CommonDateTimeEntity {
         this.member = member;
         this.socialType = socialType;
         this.socialId = socialId;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public enum SocialType {
+        KAKAO,
+        NAVER,
+        GOOGLE
     }
 }

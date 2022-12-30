@@ -1,6 +1,5 @@
 package com.choimory.itemvaluechecker.api.userapi.member.data.request;
 
-import com.choimory.itemvaluechecker.api.userapi.member.code.AuthLevel;
 import com.choimory.itemvaluechecker.api.userapi.member.entity.Member;
 import com.choimory.itemvaluechecker.api.userapi.member.entity.MemberAuthority;
 import com.choimory.itemvaluechecker.api.userapi.member.valid.MemberValid;
@@ -31,7 +30,7 @@ public class RequestMemberJoin {
     @Email
     private final String email;
     @NotNull
-    private final AuthLevel authLevel;
+    private final MemberAuthority.AuthLevel authLevel;
 
     public Member toEntity(@NotNull PasswordEncoder passwordEncoder){
         Member member = Member.builder()

@@ -1,9 +1,7 @@
 package com.choimory.itemvaluechecker.api.userapi.member.entity;
 
 import com.choimory.itemvaluechecker.api.userapi.common.entity.CommonDateTimeEntity;
-import com.choimory.itemvaluechecker.api.userapi.member.code.AuthLevel;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -27,5 +25,12 @@ public class MemberAuthority extends CommonDateTimeEntity {
         this.id = id;
         this.member = member;
         this.authLevel = authLevel;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public enum AuthLevel {
+        MEMBER,
+        ADMIN
     }
 }

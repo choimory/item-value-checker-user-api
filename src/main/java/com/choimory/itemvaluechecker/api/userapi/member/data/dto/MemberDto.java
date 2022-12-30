@@ -1,7 +1,5 @@
 package com.choimory.itemvaluechecker.api.userapi.member.data.dto;
 
-import com.choimory.itemvaluechecker.api.userapi.member.code.AuthLevel;
-import com.choimory.itemvaluechecker.api.userapi.member.code.SocialType;
 import com.choimory.itemvaluechecker.api.userapi.member.entity.Member;
 import com.choimory.itemvaluechecker.api.userapi.member.entity.MemberAuthority;
 import com.choimory.itemvaluechecker.api.userapi.member.entity.MemberSocial;
@@ -69,7 +67,7 @@ public class MemberDto {
     @Getter
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class MemberSocialDto {
-        private SocialType socialType;
+        private MemberSocial.SocialType socialType;
         private String socialId;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
         private LocalDateTime createdAt;
@@ -97,7 +95,7 @@ public class MemberDto {
     @Getter
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class MemberAuthorityDto{
-        private AuthLevel authLevel;
+        private MemberAuthority.AuthLevel authLevel;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
         private LocalDateTime createdAt;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")

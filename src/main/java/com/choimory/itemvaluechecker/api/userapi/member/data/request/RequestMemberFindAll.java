@@ -1,6 +1,6 @@
 package com.choimory.itemvaluechecker.api.userapi.member.data.request;
 
-import com.choimory.itemvaluechecker.api.userapi.member.code.AuthLevel;
+import com.choimory.itemvaluechecker.api.userapi.member.entity.MemberAuthority;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ public class RequestMemberFindAll {
     private final String identity;
     private final String nickname;
     private final String email;
-    private final AuthLevel authLevel;
+    private final MemberAuthority.AuthLevel authLevel;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private final LocalDateTime createdFrom;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd'T'HH:mm:ss")

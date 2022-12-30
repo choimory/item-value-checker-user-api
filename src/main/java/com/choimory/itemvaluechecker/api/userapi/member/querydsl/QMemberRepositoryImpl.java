@@ -1,9 +1,9 @@
 package com.choimory.itemvaluechecker.api.userapi.member.querydsl;
 
 import com.choimory.itemvaluechecker.api.userapi.common.querydsl.Querydsl4RepositorySupport;
-import com.choimory.itemvaluechecker.api.userapi.member.code.AuthLevel;
 import com.choimory.itemvaluechecker.api.userapi.member.data.dto.MemberDto;
 import com.choimory.itemvaluechecker.api.userapi.member.entity.Member;
+import com.choimory.itemvaluechecker.api.userapi.member.entity.MemberAuthority;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.Projections;
@@ -31,7 +31,7 @@ public class QMemberRepositoryImpl extends Querydsl4RepositorySupport implements
     }
 
     @Override
-    public Page<Member> findAll(Pageable pageable, String identity, String nickname, String email, AuthLevel authLevel, LocalDateTime createdFrom, LocalDateTime createdTo, LocalDateTime modifiedFrom, LocalDateTime modifiedTo, LocalDateTime deletedFrom, LocalDateTime deletedTo) {
+    public Page<Member> findAll(Pageable pageable, String identity, String nickname, String email, MemberAuthority.AuthLevel authLevel, LocalDateTime createdFrom, LocalDateTime createdTo, LocalDateTime modifiedFrom, LocalDateTime modifiedTo, LocalDateTime deletedFrom, LocalDateTime deletedTo) {
         QueryResults<Member> result = getQuerydsl().applyPagination(pageable,
                 query.select(member)
                         .from(member)
@@ -49,7 +49,7 @@ public class QMemberRepositoryImpl extends Querydsl4RepositorySupport implements
     }
 
     @Override
-    public List<MemberDto> findAllNoOffset(int lastId, int size, String identity, String nickname, String email, AuthLevel authLevel, LocalDateTime createdFrom, LocalDateTime createdTo, LocalDateTime modifiedFrom, LocalDateTime modifiedTo, LocalDateTime deletedFrom, LocalDateTime deletedTo) {
+    public List<MemberDto> findAllNoOffset(int lastId, int size, String identity, String nickname, String email, MemberAuthority.AuthLevel authLevel, LocalDateTime createdFrom, LocalDateTime createdTo, LocalDateTime modifiedFrom, LocalDateTime modifiedTo, LocalDateTime deletedFrom, LocalDateTime deletedTo) {
         return query.select(
                     Projections.fields(MemberDto.class,
                             member.id,

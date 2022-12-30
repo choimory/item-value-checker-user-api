@@ -1,18 +1,16 @@
 package com.choimory.itemvaluechecker.api.userapi.config;
 
 import com.choimory.itemvaluechecker.api.userapi.jwt.*;
-import com.choimory.itemvaluechecker.api.userapi.member.code.AuthLevel;
+import com.choimory.itemvaluechecker.api.userapi.member.entity.MemberAuthority;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @RequiredArgsConstructor
@@ -37,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/member").permitAll()
                 .antMatchers(HttpMethod.PUT, "/member").permitAll()
-                .antMatchers(HttpMethod.PATCH, "/member/ban/{\\w+}").hasAuthority(AuthLevel.ADMIN.name())
+                .antMatchers(HttpMethod.PATCH, "/member/ban/{\\w+}").hasAuthority(MemberAuthority.AuthLevel.ADMIN.name())
                 .antMatchers(HttpMethod.GET, "/member/{\\w+}").permitAll()
                 .antMatchers(HttpMethod.POST, "/member/login").permitAll()
                 .anyRequest().authenticated()

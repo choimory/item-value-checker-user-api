@@ -1,6 +1,6 @@
 package com.choimory.itemvaluechecker.api.userapi.member.querydsl.expressions;
 
-import com.choimory.itemvaluechecker.api.userapi.member.code.AuthLevel;
+import com.choimory.itemvaluechecker.api.userapi.member.entity.MemberAuthority;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import org.springframework.util.StringUtils;
 
@@ -32,7 +32,7 @@ public class QMemberExpressions {
                 : null;
     }
 
-    public static BooleanExpression eqAuthLevel(AuthLevel authLevel){
+    public static BooleanExpression eqAuthLevel(MemberAuthority.AuthLevel authLevel){
         return authLevel != null
                 ? member.memberAuthority.authLevel.eq(authLevel)
                 : null;
