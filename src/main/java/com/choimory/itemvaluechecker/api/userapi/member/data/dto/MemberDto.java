@@ -1,4 +1,4 @@
-package com.choimory.itemvaluechecker.api.userapi.member.dto.dto;
+package com.choimory.itemvaluechecker.api.userapi.member.data.dto;
 
 import com.choimory.itemvaluechecker.api.userapi.member.code.AuthLevel;
 import com.choimory.itemvaluechecker.api.userapi.member.code.SocialType;

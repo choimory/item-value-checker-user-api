@@ -2,11 +2,11 @@ package com.choimory.itemvaluechecker.api.userapi.member.controller;
 
 import com.choimory.itemvaluechecker.api.userapi.common.dto.request.CommonPageRequest;
 import com.choimory.itemvaluechecker.api.userapi.member.code.MemberDefaultSort;
-import com.choimory.itemvaluechecker.api.userapi.member.dto.request.RequestMemberBan;
-import com.choimory.itemvaluechecker.api.userapi.member.dto.request.RequestMemberFindAll;
-import com.choimory.itemvaluechecker.api.userapi.member.dto.request.RequestMemberJoin;
-import com.choimory.itemvaluechecker.api.userapi.member.dto.request.RequestMemberLogin;
-import com.choimory.itemvaluechecker.api.userapi.member.dto.response.*;
+import com.choimory.itemvaluechecker.api.userapi.member.data.request.RequestMemberBan;
+import com.choimory.itemvaluechecker.api.userapi.member.data.request.RequestMemberFindAll;
+import com.choimory.itemvaluechecker.api.userapi.member.data.request.RequestMemberJoin;
+import com.choimory.itemvaluechecker.api.userapi.member.data.request.RequestMemberLogin;
+import com.choimory.itemvaluechecker.api.userapi.member.data.response.*;
 import com.choimory.itemvaluechecker.api.userapi.member.service.MemberService;
 import com.choimory.itemvaluechecker.api.userapi.member.valid.MemberValid;
 import lombok.RequiredArgsConstructor;

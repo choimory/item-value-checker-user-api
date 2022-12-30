@@ -1,6 +1,6 @@
 package com.choimory.itemvaluechecker.api.userapi.jwt;
 
-import com.choimory.itemvaluechecker.api.userapi.member.dto.dto.MemberDto;
+import com.choimory.itemvaluechecker.api.userapi.member.data.dto.MemberDto;
 import com.choimory.itemvaluechecker.api.userapi.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

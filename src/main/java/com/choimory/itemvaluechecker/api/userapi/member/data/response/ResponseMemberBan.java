@@ -1,4 +1,4 @@
-package com.choimory.itemvaluechecker.api.userapi.member.dto.response;
+package com.choimory.itemvaluechecker.api.userapi.member.data.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

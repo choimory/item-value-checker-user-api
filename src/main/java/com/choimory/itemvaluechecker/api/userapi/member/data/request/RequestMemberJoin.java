@@ -1,4 +1,4 @@
-package com.choimory.itemvaluechecker.api.userapi.member.dto.request;
+package com.choimory.itemvaluechecker.api.userapi.member.data.request;
 
 import com.choimory.itemvaluechecker.api.userapi.member.code.AuthLevel;
 import com.choimory.itemvaluechecker.api.userapi.member.entity.Member;

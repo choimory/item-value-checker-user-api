@@ -1,7 +1,7 @@
 package com.choimory.itemvaluechecker.api.userapi.member.querydsl;
 
 import com.choimory.itemvaluechecker.api.userapi.member.code.AuthLevel;
-import com.choimory.itemvaluechecker.api.userapi.member.dto.dto.MemberDto;
+import com.choimory.itemvaluechecker.api.userapi.member.data.dto.MemberDto;
 import com.choimory.itemvaluechecker.api.userapi.member.entity.Member;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

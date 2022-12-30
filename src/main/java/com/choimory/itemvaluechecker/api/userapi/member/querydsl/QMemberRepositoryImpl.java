@@ -2,7 +2,7 @@ package com.choimory.itemvaluechecker.api.userapi.member.querydsl;
 
 import com.choimory.itemvaluechecker.api.userapi.common.querydsl.Querydsl4RepositorySupport;
 import com.choimory.itemvaluechecker.api.userapi.member.code.AuthLevel;
-import com.choimory.itemvaluechecker.api.userapi.member.dto.dto.MemberDto;
+import com.choimory.itemvaluechecker.api.userapi.member.data.dto.MemberDto;
 import com.choimory.itemvaluechecker.api.userapi.member.entity.Member;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.group.GroupBy;

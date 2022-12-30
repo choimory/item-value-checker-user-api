@@ -1,4 +1,4 @@
-package com.choimory.itemvaluechecker.api.userapi.member.dto.dto;
+package com.choimory.itemvaluechecker.api.userapi.member.data.dto;
 
 import com.choimory.itemvaluechecker.api.userapi.member.entity.MemberSuspension;
 import com.fasterxml.jackson.annotation.JsonFormat;

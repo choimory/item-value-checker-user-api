@@ -1,6 +1,6 @@
 package com.choimory.itemvaluechecker.api.userapi.jwt;
 
-import com.choimory.itemvaluechecker.api.userapi.member.dto.dto.MemberDto;
+import com.choimory.itemvaluechecker.api.userapi.member.data.dto.MemberDto;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

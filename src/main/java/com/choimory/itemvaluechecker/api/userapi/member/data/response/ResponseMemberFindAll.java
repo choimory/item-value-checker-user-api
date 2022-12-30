@@ -1,7 +1,7 @@
-package com.choimory.itemvaluechecker.api.userapi.member.dto.response;
+package com.choimory.itemvaluechecker.api.userapi.member.data.response;
 
 import com.choimory.itemvaluechecker.api.userapi.member.controller.MemberController;
-import com.choimory.itemvaluechecker.api.userapi.member.dto.dto.MemberDto;
+import com.choimory.itemvaluechecker.api.userapi.member.data.dto.MemberDto;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.hateoas.RepresentationModel;
